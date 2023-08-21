@@ -8,23 +8,24 @@ export default function Features() {
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <h2 className="h2 mb-4">Scan, Analyze, Save</h2>
             <div className="flex flex-col items-center gap-4">
-                <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">Simply snap a photo of your grocery receipt using your smartphone. Our cutting-edge Optical Character Recognition (OCR) technology will accurately read the receipt and extract all the important details in seconds. No manual input, no fuss.
-Analyze</p>
-                <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">Unlock the power of analytics. View real-time summaries, detailed expense categories, and insightful charts that help you understand your spending habits. Our app empowers you to make data-driven decisions that could save you money in the long run. Whether it's about cutting down on snacks or finding out which store gives you the best value, we've got you covered.</p>
-                <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">By knowing exactly where your money is going, you can set achievable budget goals and celebrate when you meet them. Make every grocery trip a winning experience!</p>
-              </div>          
+              <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">Simply snap a photo of your grocery receipt using your smartphone. Our cutting-edge Optical Character Recognition (OCR) technology will accurately read the receipt and extract all the important details in seconds. No manual input, no fuss.
+                Analyze</p>
+              <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">Unlock the power of analytics. View real-time summaries, detailed expense categories, and insightful charts that help you understand your spending habits. Our app empowers you to make data-driven decisions that could save you money in the long run. Whether it's about cutting down on snacks or finding out which store gives you the best value, we've got you covered.</p>
+              <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">By knowing exactly where your money is going, you can set achievable budget goals and celebrate when you meet them. Make every grocery trip a winning experience!</p>
             </div>
+          </div>
 
           {/* Items */}
           <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-16 items-start md:max-w-2xl lg:max-w-none" data-aos-id-blocks>
 
             {/* 1st item */}
             <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-anchor="[data-aos-id-blocks]">
-              <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                <path className="stroke-current text-purple-100" d="M30 39.313l-4.18 2.197L27 34.628l-5-4.874 6.91-1.004L32 22.49l3.09 6.26L42 29.754l-3 2.924" strokeLinecap="square" strokeWidth="2" fill="none" fillRule="evenodd" />
-                <path className="stroke-current text-purple-300" d="M43 42h-9M43 37h-9" strokeLinecap="square" strokeWidth="2" />
+              
+              <svg className="w-16 h-16 mb-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path className="stroke-purple-600"  fill="none" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
               </svg>
+              
+    
               <h4 className="h4 mb-2">Real-Time </h4>
               <p className="text-lg text-gray-400 text-center">Scan and know instantly your expenses</p>
             </div>
