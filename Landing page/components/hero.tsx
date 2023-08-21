@@ -1,6 +1,5 @@
 import VideoThumb from '@/public/images/hero-image-01.jpg'
 import ModalVideo from '@/components/modal-video'
-import GooglePlayBadge from '@/public/images/google-play-badge.png'
 export default function Hero() {
   return (
     <section>
