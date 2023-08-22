@@ -2,13 +2,15 @@
 
 # Scanalyze - Requirement Specification
 
+**Authors**: Anthony David, Jarod Streckeisen, Timothée Van Hove
+
 
 
 ## 1. Introduction
 
 ### 1.1 Purpose
 
-The purpose of this Functional Requirements Specification (FRS) document is to provide comprehensive guidance for the development and deployment of the Scanalyze application. This document aims to outline the functional and non-functional requirements that the system needs to fulfill. It serves as both a blueprint for the implementation phase and a standard for system validation.
+The purpose of this document is to provide comprehensive guidance for the development and deployment of the Scanalyze application. This document aims to outline the user, functional and non-functional requirements that the system needs to fulfill. It serves as both a blueprint for the implementation phase and a standard for system validation.
 
 ### 1.2 Project Scope
 
@@ -33,11 +35,11 @@ By offering these functionalities, Scanalyze aims to become an indispensable too
 
 ## 2. System Overview
 
-Scanalyze is designed as a multi-tiered application involving client-side,  server-side, and database components. Each of these elements has  specialized tasks and together they form a cohesive ecosystem for  effective grocery expense tracking. Below is a breakdown of the system's primary components and their interrelationships:
+Scanalyze is designed as a multi-tiered application involving client-side,  server-side, and database components. Each of these elements has  specialized tasks and together they form a cohesive ecosystem for  effective grocery expense tracking. Below is a breakdown of the system's primary components and their interrelationships.
 
 ### 2.1 Android Mobile Application
 
-The mobile application serves as the user interface and is responsible for capturing grocery receipts through the device's camera. It utilizes Optical Character Recognition (OCR) via ML Kit to extract textual data from these receipts. The app also handles user authentication and data visualization through various graphs and charts.
+The mobile application serves as the user interface and is responsible for capturing grocery receipts through the device's camera. It utilizes Optical Character Recognition (OCR) to extract textual data from these receipts. The app also handles user authentication and data visualization through various graphs and charts.
 
 **Key Features:**
 
@@ -48,7 +50,7 @@ The mobile application serves as the user interface and is responsible for captu
 
 ### 2.2 Web Server
 
-The web server acts as the intermediary between the mobile application and the database. Built using Node.js, Express and swagger the server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the  abbreviated products on the receipt to the existing product in the database. It uses the database user data to generate statistics, then returns this statistics data to the mobile application. The server is also responsible for handling user authentication tokens.
+The web server acts as the intermediary between the mobile application and the database. The server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the  abbreviated products on the receipt to the existing product in the database. It uses the database user data to generate statistics, then returns this statistics data to the mobile application. The server is also responsible for handling user authentication tokens.
 
 **Key Features:**
 
@@ -80,43 +82,45 @@ The database stores detailed information about various grocery products, includi
 
 #### 3.1 User Registration and Account Management
 
-UR1.1: Users must be able to register with an email and password.
+UR1.1: Users shall be able to register with an email and password.
 
-UR1.2: Users must be able to recover forgotten passwords through email.
+UR1.2: Users shall be able to recover forgotten passwords through email.
 
 #### 3.2 Compatibility
 
-UR2.1: At least, the application must scan and recognize edible products
+UR2.1: At least, the application shall scan and recognize edible products.
 
-UR2.2: The application must work with the following grocery stores: Migos, Coop, Aldi, Lidl
+UR2.2: The application shall work with the following grocery stores: Migos, Coop, Aldi, Lidl.
 
 #### 3.3 Receipt Scanning
 
-UR3.1: Users should be able to capture images of grocery receipts using their phone's camera.
+UR3.1: Users shall be able to capture images of grocery receipts using their phone's camera.
 
-UR3.2: OCR should be applied to extract readable text from the receipt images.
+UR3.2: OCR shall be applied to extract readable text from the receipt images.
 
-UR3.3: Receipts data must be sent to the backend server via a REST API
+UR3.3: Receipts data shall  be sent to the backend server via a REST API.
 
-UR3.4: The application must allow users to upload images to be processed
+UR3.4: The application shall allow users to upload images to be processed.
 
 #### 3.4 Data Management and Visualization
 
-UR4.1: Users should be able to see a numeric version of their receipts in the mobile application
+UR4.1: Users should be able to see a numeric version of their receipts in the mobile application.
 
-UR4.2: Users should see a summary of their monthly and yearly expenditures.
+UR4.2: Users shall see a summary of their monthly and yearly expenditures.
 
-UR4.3: Users should be able to view graphical representations of their spending by product category.
+UR4.3: Users shall be able to view graphical representations of their spending by product category.
 
 #### 3.5 Offline Access
 
-UR5.1: Users must be able to scan and store receipts locally on their device without requiring an internet connection.
+UR5.1: Users shall be able to scan and store receipts locally on their device without requiring an internet connection.
 
-UR5.2: Users should be able to visualize charts and graphs event without an internet connection.
+UR5.2: Users shall be able to visualize charts and graphs event without an internet connection.
 
 ### 3.6 Use case diagram
 
 
+
+![](..\figures\use_case.png)
 
 
 
@@ -128,9 +132,9 @@ UR5.2: Users should be able to visualize charts and graphs event without an inte
 
 #### 4.1.1 Technologies
 
-FR1.1: The app must be developed with Kotlin
+FR1.1: The app must be developed with Kotlin.
 
-FR1.2: The app must be developed with Android studio
+FR1.2: The app must be developed with Android studio.
 
 FR1.3: The app must be compatible with Android 8.0 "Oreo" (API 24) and above.
 
@@ -142,9 +146,9 @@ FR2.2: The app should provide a "Forgot Password" option that will send a reset 
 
 FR2.3: The app should offer multi-factor authentication for enhanced security.
 
-FR2.4: The app shall use AWS Cognito for the account creation, log-in
+FR2.4: The app shall use AWS Cognito for the account creation, log-in.
 
-FR2.5: The app shall use a JWT provided by AWS Cognito to interact with the server REST API
+FR2.5: The app shall use a JWT provided by AWS Cognito to interact with the server REST API.
 
 #### 4.1.3 Receipt Scanning
 
@@ -164,7 +168,7 @@ FR4.2: The app should display an expense summary in a dashboard format, includin
 
 FR4.3:Users should be able to view their spending trends over different time frames: weekly, monthly, and annually.
 
-FR4.4: The app should  provide different types of visualizations, such as pie charts for category-wise spending and line graphs for temporal trends.
+FR4.4: The app should provide different types of visualizations, such as pie charts for category-wise spending and line graphs for temporal trends.
 
 FR4.5: The app should provide temporal price visualization for any every product.
 
@@ -182,9 +186,9 @@ FR5.3: The app should have the capability to validate cached data against the mo
 
 #### 4.2.1 Technologies
 
-FR6.1: The web server shall be deployed on AWS Elastic Beanstalk, using S3 and EC2 instances as infrastructure
+FR6.1: The web server shall be deployed on AWS Elastic Beanstalk, using S3 and EC2 instances as infrastructure.
 
-FR6.2: The webserver must be developed using Node.js and Express
+FR6.2: The webserver must be developed using Node.js and Express.
 
 #### 4.2.2 Data Processing
 
@@ -194,11 +198,11 @@ FR7.2: The server shall send a "correction request" to the mobile app if some pr
 
 #### 4.2.3 User Authentication
 
-- FR8.1: The server shall validate JWT (JSON Web Token) provided by the mobile application to authenticate the user's identity.
+FR8.1: The server shall validate JWT (JSON Web Token) provided by the mobile application to authenticate the user's identity.
 
 #### 4.2.4 RESTful API
 
-- FR9.1: The server shall provide RESTful API endpoints to facilitate communication with the mobile app.
+FR9.1: The server shall provide RESTful API endpoints to facilitate communication with the mobile app.
 
 
 
@@ -210,22 +214,73 @@ FR10.1: The database is hosted on an AWS DocumentDB cluster
 
 #### 4.3.4 Data Schema and Indexing
 
-TODO: Définir les schémas
+FR11.1: The documents in the database shall have the following minimal structure:
+
+`Tickets`
+
+```json
+{
+    "_id" : ObjectId,
+    "user_id" : ObjectId,
+    "date" : Date,
+    "shop_name" : String,
+    "shop_branch" : String,
+    "Products" : [
+        {
+            "product_id" : ObjectId,
+            "product_name" : String,
+            "quantity" : Double,
+            "unit_price" : Double,
+            "discount_amount" : Double
+        },
+        {
+           ... 
+        },
+        ...
+    ],
+    "Total" : Double
+    
+}
+```
+
+`Products`
+
+````json
+{
+    "_id" : ObjectId,
+    "product_name" : String,
+    "abbreviated_name" : String,
+    "indicative_price" : Double,
+    "category" : String,
+    "shop_name" : String
+}
+````
 
 
 
 ### 4.4 Architecture diagram
 
+![](..\figures\architecture.png)
 
 
 
+### 4.5 Main scan sequence
+
+
+
+![](..\figures\sequence_scan.png)
 
 
 
 ## 5. Non-Functional Requirements
 
-- NFR1: The system shall be designed to support up to 10 users
-- **NFR2**: All data transmission between the mobile app and the web server shall be encrypted using HTTPS.
-- **NFR3**: The initial release shall support English, with the architecture designed to easily add additional languages in the future.
-- **NFR4**: receipts must be scanned in a maximum of 3 seconds
+NFR1: The system shall be designed to support up to 10 users
+
+NFR2: All data transmission between the mobile app and the web server shall be encrypted using HTTPS.
+
+NFR3: The initial release shall support English, with the architecture designed to easily add additional languages in the future.
+
+NFR4: receipts shall be scanned in a maximum of 3 seconds
+
+NFR5: The system shall implement mechanisms to verify the integrity of the data, ensuring that it is free of corruption during its life cycle.
 
