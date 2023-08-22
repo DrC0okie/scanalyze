@@ -5,7 +5,7 @@ export default function Features() {
         <div className="py-12 md:py-20">
 
           {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20" data-aos="fade-up" data-aos-delay="300">
             <h2 className="h2 mb-4">Scan, Analyze, Save</h2>
             <div className="flex flex-col items-center gap-4">
               <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-400 text-center">Simply snap a photo of your grocery receipt using your smartphone. Our cutting-edge Optical Character Recognition (OCR) technology will accurately read the receipt and extract all the important details in seconds. No manual input, no fuss.
@@ -16,44 +16,33 @@ export default function Features() {
           </div>
 
           {/* Items */}
-          <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-16 items-start md:max-w-2xl lg:max-w-none" data-aos-id-blocks>
+          <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-16 items-start md:max-w-2xl lg:max-w-none">
 
             {/* 1st item */}
-            <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-anchor="[data-aos-id-blocks]">
-              
+            <div className="relative flex flex-col items-center">
+
               <svg className="w-16 h-16 mb-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path className="stroke-purple-600"  fill="none" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                <path className="stroke-purple-600" fill="none" strokeLinejoin="round" strokeWidth="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
-              
-    
               <h4 className="h4 mb-2">Real-Time </h4>
               <p className="text-lg text-gray-400 text-center">Scan and know instantly your expenses</p>
             </div>
 
             {/* 2nd item */}
-            <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="100" data-aos-anchor="[data-aos-id-blocks]">
-              <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle className="fill-current text-purple-600" cx="32" cy="32" r="32" />
-                <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M21 23h22v18H21z" fill="none" fillRule="evenodd" />
-                <path className="stroke-current text-purple-300" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
-              </svg>
-              <h4 className="h4 mb-2">Instant Features</h4>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+            <div className="relative flex flex-col items-center">
+              <svg className="stroke-purple-600 w-16 h-16 mb-4" strokeWidth="2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 9.376v.786l8 3.925 8-3.925v-.786M1.994 14.191v.786l8 3.925 8-3.925v-.786M10 1.422 2 5.347l8 3.925 8-3.925-8-3.925Z" /></svg>
+              <h4 className="h4 mb-2">Multi-Store Compatibility</h4>
+              <p className="text-lg text-gray-400 text-center">Every big Swiss supermarket is handled by our app, Coop, Migros, Aldi and Lidl.</p>
             </div>
 
             {/* 3rd item */}
-            <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="200" data-aos-anchor="[data-aos-id-blocks]">
-              <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                <g transform="translate(21 21)" strokeLinecap="square" strokeWidth="2" fill="none" fillRule="evenodd">
-                  <ellipse className="stroke-current text-purple-300" cx="11" cy="11" rx="5.5" ry="11" />
-                  <path className="stroke-current text-purple-100" d="M11 0v22M0 11h22" />
-                  <circle className="stroke-current text-purple-100" cx="11" cy="11" r="11" />
-                </g>
+            <div className="relative flex flex-col items-center">
+              <svg className="w-16 h-16 mb-4 stroke-purple-600" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1v14h16m0-9-3-2-3 5-3-2-3 4" />
               </svg>
-              <h4 className="h4 mb-2">Instant Features</h4>
+              <h4 className="h4 mb-2">Detailed Analytics</h4>
               <div className="flex flex-col items-center"></div>
-              <p className="text-lg text-gray-400 text-center">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.</p>
+              <p className="text-lg text-gray-400 text-center">Get charts, graphs, and real insights of where your money goes</p>
             </div>
 
             {/* 4th item */}
