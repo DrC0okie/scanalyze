@@ -1,8 +1,6 @@
 version: 0.2
 
-phases:
-  pre_build:
-    commands:
-      - cd backend
 artifacts:
-  files: "**/*"  # Artifact to be used in the next pipeline stage
+  base-directory: 'backend'
+  files: 
+    - '**/*'  # Artifact to be used in the next pipeline stage
