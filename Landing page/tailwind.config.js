@@ -14,7 +14,7 @@ module.exports = {
           300: '#C5D2DC',
           400: '#9BA9B4',
           500: '#707D86',
-          600: '#55595F',
+          600: '#2e2f31',
           700: '#33363A',
           800: '#25282C',
           900: '#151719',
@@ -25,7 +25,7 @@ module.exports = {
           300: '#CBCCFF',
           400: '#ABABFF',
           500: '#8D8DFF',
-          600: '#5D5DFF',
+          600: '#BF00FF',
           700: '#4B4ACF',
           800: '#38379C',
           900: '#262668',
@@ -39,8 +39,8 @@ module.exports = {
       fontFamily: {
         inter: ['var(--font-inter)', 'sans-serif'],
         'architects-daughter': ['var(--font-architects-daughter)', 'sans-serif'],
-        title:["Signika"],
-        text:["Josefin Sans"]
+        'title':["Signika"],
+        'text':['"Josefin Sans"']
       },
       fontSize: {
         xs: '0.75rem',
