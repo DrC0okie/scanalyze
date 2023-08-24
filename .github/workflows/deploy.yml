@@ -37,7 +37,7 @@ jobs:
         ./gradlew assembleRelease
 
     - name: Rename APK
-      run: mv android_app/app/build/outputs/apk/release/app-release-unsigned.apk android_app/app/build/outputs/apk/release/scanalyze.apk
+      run: mv android_app/app/build/outputs/apk/release/app-release.apk android_app/app/build/outputs/apk/release/scanalyze.apk
 
     - name: Deploy APK to S3
       run: aws s3 cp ./android_app/app/build/outputs/apk/release/scanalyze.apk s3://${{secrets.AWS_S3_BUCKET}} --region ${{secrets.AWS_REGION}}
