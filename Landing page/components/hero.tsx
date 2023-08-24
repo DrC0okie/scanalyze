@@ -20,11 +20,10 @@ export default function Hero() {
 
         {/* Hero content */}
         <div className="relative pt-32 pb-10 md:pt-40 md:pb-16">
-
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1 mb-4 font-title" data-aos="fade-up">Where Every Receipt Tells a Story</h1>
-            <p className="text-xl text-gray-200 mb-8 font-text" data-aos="fade-up" data-aos-delay="200">Are you tired of losing track of your grocery expenses or wondering where your money goes every month? Say hello to the future of grocery budgeting! Our app revolutionizes the way you manage your grocery spending, all at your fingertips.</p>
+            <p className="text-xl text-gray-200 mb-8 font-text text-justify" data-aos="fade-up" data-aos-delay="200">Are you tired of losing track of your grocery expenses or wondering where your money goes every month? Say hello to the future of grocery budgeting! Our app revolutionizes the way you manage your grocery spending, all at your fingertips.</p>
             <div className="max-w-xs mx-auto sm:max-w-none flex justify-center">
               {/* Google badge */}
               <a download href='https://scanalyze-apk.s3.amazonaws.com/scanalyze.apk'>
