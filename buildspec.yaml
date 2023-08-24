@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      aws-cli: 2.x
+  pre_build:
+    commands:
+      - echo "Executing pre-build steps"
+  build:
+    commands:
+      - echo "Building deployment artifact..."
+      - zip -r deploy-artifact.zip backend  # Package the specific folder
+  post_build:
+    commands:
+      - echo "Build completed"
+artifacts:
+  files: deploy-artifact.zip  # Artifact to be used in the next pipeline stage
+Adjust the 
