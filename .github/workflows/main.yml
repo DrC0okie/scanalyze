@@ -26,13 +26,10 @@ jobs:
 
     - name: Writing the github secrets to the local.properties file
       run: |
-        echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android_app/local.properties
-        echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android_app/local.properties
+        echo "keyAlias=${{ secrets.RELEASE_KEY_ALIAS }}" >> android_app/local.properties
+        echo "keyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}" >> android_app/local.properties
         echo "storeFile=${{ secrets.RELEASE_STORE_FILEPATH }}" >> android_app/local.properties
-        echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android_app/local.properties
-
-    - name: Debug print local.properties
-      run: cat android_app/local.properties
+        echo "storePassword=${{ secrets.RELEASE_STORE_PASSWORD }}" >> android_app/local.properties
 
     - name: Run Unit Tests
       run: |
