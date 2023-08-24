@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Home - Open PRO',
+  title: 'Scanalyze - Landing page',
   description: 'Page description',
 }
 
@@ -14,6 +14,7 @@ export default function Home() {
     <>
       <Hero />
       <Features />
+      <Testimonials/>
     </>
   )
 }

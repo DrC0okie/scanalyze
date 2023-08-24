@@ -9,80 +9,17 @@ export default function Footer() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
           {/* Top area: Blocks */}
-          <div className="grid md:grid-cols-12 gap-8 lg:gap-20 mb-8 md:mb-12">
+          <div className="flex justify-center sm:flex-row flex-col">
 
             {/* 1st block */}
-            <div className="md:col-span-4 lg:col-span-5">
-              <div className="mb-2">
+            <div className="flex align-middle justify-center">
                 {/* Logo */}
-                <Link href="/" className="inline-block" aria-label="Cruip">
-                  <Image src={Logo} alt="logo" width={300} height={300}></Image>
+                <Link href="/" aria-label="Cruip">
+                  <Image src={Logo} alt="logo" width={300} height={300} className="md:ml-auto md:mr-auto"></Image>
                 </Link>
-              </div>
             </div>
 
-            {/* 2nd, 3rd and 4th blocks */}
-            <div className="md:col-span-8 lg:col-span-7 grid sm:grid-cols-3 gap-8">
-
-              {/* 2nd block */}
-              <div className="text-sm">
-                <h6 className="text-gray-200 font-medium mb-1">Products</h6>
-                <ul>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                </ul>
-              </div>
-
-              {/* 3rd block */}
-              <div className="text-sm">
-                <h6 className="text-gray-200 font-medium mb-1">Resources</h6>
-                <ul>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  
-                </ul>
-              </div>
-
-              {/* 4th block */}
-              <div className="text-sm">
-                <h6 className="text-gray-200 font-medium mb-1">Company</h6>
-                <ul>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                  <li className="mb-1">
-                    <Link href="/" className="text-gray-400 hover:text-gray-100 transition duration-150 ease-in-out">Nothing Yet</Link>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
+            
 
           </div>
 

@@ -51,7 +51,7 @@ export default function Features() {
                 <path strokeWidth="2" d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
               </svg>
               <h4 className="h4 mb-2 font-title">User-friendly interface</h4>
-              <p className="text-lg text-gray-200 text-center font-title">Effortlessly navigate for rapid insights, making informed decisions has never been easier.</p>
+              <p className="text-lg text-gray-200 text-center font-text">Effortlessly navigate for rapid insights, making informed decisions has never been easier.</p>
             </div>
             
 
