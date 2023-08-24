@@ -16,4 +16,3 @@ phases:
       - echo "Build completed"
 artifacts:
   files: deploy-artifact.zip  # Artifact to be used in the next pipeline stage
-Adjust the 
