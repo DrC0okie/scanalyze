@@ -8,8 +8,7 @@ export default function Features() {
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20" data-aos="fade-up" data-aos-delay="300">
             <h2 className="h2 mb-4 font-title">Scan, Analyze, Save</h2>
             <div className="flex flex-col items-center gap-4 font-text">
-              <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-200 text-center">Simply snap a photo of your grocery receipt using your smartphone. Our cutting-edge Optical Character Recognition (OCR) technology will accurately read the receipt and extract all the important details in seconds. No manual input, no fuss.
-                Analyze</p>
+              <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-200 text-center">Simply snap a photo of your grocery receipt using your smartphone. Our cutting-edge Optical Character Recognition (OCR) technology will accurately read the receipt and extract all the important details in seconds. No manual input, no fuss.</p>
               <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-200 text-center">Unlock the power of analytics. View real-time summaries, detailed expense categories, and insightful charts that help you understand your spending habits. Our app empowers you to make data-driven decisions that could save you money in the long run. Whether it's about cutting down on snacks or finding out which store gives you the best value, we've got you covered.</p>
               <p className="text-lg border-purple-600 rounded-lg border-2 p-2 text-gray-200 text-center">By knowing exactly where your money is going, you can set achievable budget goals and celebrate when you meet them. Make every grocery trip a winning experience!</p>
             </div>
