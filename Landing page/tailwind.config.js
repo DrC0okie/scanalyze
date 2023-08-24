@@ -38,7 +38,9 @@ module.exports = {
       },
       fontFamily: {
         inter: ['var(--font-inter)', 'sans-serif'],
-        'architects-daughter': ['var(--font-architects-daughter)', 'sans-serif']
+        'architects-daughter': ['var(--font-architects-daughter)', 'sans-serif'],
+        title:["Signika"],
+        text:["Josefin Sans"]
       },
       fontSize: {
         xs: '0.75rem',
