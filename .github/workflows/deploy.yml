@@ -18,6 +18,17 @@ jobs:
       with:
         java-version: 17
 
+    - name: Decrypt keystore file
+      run: openssl enc -aes-256-cbc -d -in android_app/scanalyze-release-key.jks.enc -out android_app/scanalyze-release-key.jks
+      env:
+        OPENSSL_PASSWORD: ${{ secrets.RELEASE_ENCRYPTED_KEYSTORE_PASSWORD }}
+
+    - name: Writing the github secrets to the local.properties file
+      run: echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android_app/local.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android_app/local.properties
+            echo "storeFile=${{ RELEASE_STORE_FILEPATH }}" >> android_app/local.properties
+            echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android_app/local.properties
+
     - name: Build APK
       run: |
         cd android_app
@@ -33,3 +44,4 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
+  
