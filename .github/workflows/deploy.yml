@@ -23,6 +23,11 @@ jobs:
         cd android_app
         ./gradlew assembleRelease
 
+    - name: List current directory
+      run: |
+        pwd
+        ls
+
     - name: Rename APK
       run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/scanalyze.apk
 
