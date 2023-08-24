@@ -1,8 +1,5 @@
 import Image from 'next/image'
 
-import TestimonialImage01 from '@/public/images/testimonial-01.jpg'
-import TestimonialImage02 from '@/public/images/testimonial-02.jpg'
-import TestimonialImage03 from '@/public/images/testimonial-03.jpg'
 import Tim from '@/public/images/tim.jpg'
 import David from '@/public/images/david.jpg'
 import Jarod from '@/public/images/jarod.jpg'
