@@ -11,4 +11,4 @@ phases:
     commands:
       - echo "Build completed"
 artifacts:
-  files: /backend/*  # Artifact to be used in the next pipeline stage
+  files: ./backend/*  # Artifact to be used in the next pipeline stage
