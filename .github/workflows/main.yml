@@ -25,7 +25,9 @@ jobs:
         java-version: 11
 
     - name: Run Unit Tests
-      run: ./android_app/gradlew test
+      run: |
+        cd android_app
+        ./gradlew test
 
   deploy:
     runs-on: ubuntu-latest
