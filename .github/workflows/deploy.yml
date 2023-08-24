@@ -23,11 +23,8 @@ jobs:
         cd android_app
         ./gradlew assembleRelease
 
-    - name: List current directory
-      run: ls android_app/app/build/outputs
-
     - name: Rename APK
-      run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/scanalyze.apk
+      run: mv android_appapp/build/outputs/apk/release/app-release-unsigned.apk android_app/app/build/outputs/apk/release/scanalyze.apk
 
     - name: Install AWS CLI
       run: |
