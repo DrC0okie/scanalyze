@@ -7,9 +7,8 @@ phases:
   build:
     commands:
       - echo "Building deployment artifact..."
-      - zip -r DeployArtifact.zip backend/ # Package the specific folder
   post_build:
     commands:
       - echo "Build completed"
 artifacts:
-  files: DeployArtifact.zip  # Artifact to be used in the next pipeline stage
+  files: /backend/*  # Artifact to be used in the next pipeline stage
