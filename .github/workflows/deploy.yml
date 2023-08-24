@@ -19,9 +19,10 @@ jobs:
         java-version: 17
 
     - name: Decrypt keystore file
-      run: openssl enc -aes-256-cbc -d -in android_app/scanalyze-release-key.jks.enc -out android_app/scanalyze-release-key.jks
+      run: openssl enc -aes-256-cbc -d -in android_app/scanalyze-release-key.jks.enc -out android_app/scanalyze-release-key.jks -pass env:OPENSSL_PASSWORD
       env:
         OPENSSL_PASSWORD: ${{ secrets.RELEASE_ENCRYPTED_KEYSTORE_PASSWORD }}
+
 
     - name: Writing the github secrets to the local.properties file
       run: |
