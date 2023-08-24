@@ -24,6 +24,12 @@ jobs:
       with:
         java-version: 17
 
+    - name: Writing the github secrets to the local.properties file
+      run: echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android_app/local.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android_app/local.properties
+            echo "storeFile=${{ RELEASE_STORE_FILEPATH }}" >> android_app/local.properties
+            echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android_app/local.properties
+
     - name: Run Unit Tests
       run: |
         cd android_app
