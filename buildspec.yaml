@@ -3,12 +3,6 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo "Executing pre-build steps"
-  build:
-    commands:
-      - echo "Building deployment artifact..."
-  post_build:
-    commands:
-      - echo "Build completed"
+      - cd backend
 artifacts:
-  files: ./backend/**/*  # Artifact to be used in the next pipeline stage
+  files: "**/*"  # Artifact to be used in the next pipeline stage
