@@ -24,7 +24,9 @@
             "boulangerie-patisserie-petit-dej",
             "pates-condiments-conserves",
             "snacks-confiseries",
-            "surgeles"
+            "surgeles",
+            "boissons-cafe-the",
+            "vins-bieres-spiritueux"
         ],
         "worker" : "migros-worker.js"
     },
