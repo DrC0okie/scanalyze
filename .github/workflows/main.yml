@@ -1,0 +1,30 @@
+# .github/workflows/test.yml
+name: Android Test
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x android_app/gradlew
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+
+    - name: Run Unit Tests
+      run: |
+        cd android_app
+        ./gradlew test
