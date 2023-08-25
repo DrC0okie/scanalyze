@@ -247,12 +247,16 @@ FR11.1: The documents in the database shall have the following minimal structure
 
 ````json
 {
-    "_id" : ObjectId,
-    "product_name" : String,
-    "abbreviated_name" : String,
-    "indicative_price" : Double,
-    "category" : String,
-    "shop_name" : String
+    "[shop_name]": [
+        {
+            "_id" : ObjectId,
+            "product_name" : String,
+            "abbreviated_name" : String,
+            "indicative_price" : Double,
+            "category" : String,
+        }
+
+    ]
 }
 ````
 

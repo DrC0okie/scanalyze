@@ -7,7 +7,7 @@ const DISABLE_THREAD_SELECTION = true
 const DEFAULT_NB_THREAD = 1;
 const valid_file_regex = new RegExp(/^[0-9a-zA-Z ... ]+$/);
 const config = JSON.parse(fs.readFileSync("../config.json",{encoding:"utf8"}));
-
+// User input check
 if(DISABLE_THREAD_SELECTION){
     if(!process.argv[2] || !process.argv[3]){
         console.error("Usage : node index.js <shop_name> <output_file>");
