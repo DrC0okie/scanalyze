@@ -17,6 +17,7 @@ val storePasswordProp = localProperties.getProperty("storePassword") ?: ""
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -63,7 +64,9 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.1")
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
