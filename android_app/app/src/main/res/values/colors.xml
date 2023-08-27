@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="scanalyze_purple">#BF00FF</color>
+    <color name="scanalyze_grey">#2E2F31</color>
+    <color name="scanalyze_button_ripple">#BBFFFFFF</color>
+    <color name="scanalyze_card_ripple">#66FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
