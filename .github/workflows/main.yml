@@ -1,0 +1,37 @@
+# .github/workflows/test.yml
+name: Android Test
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x android_app/gradlew
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+
+    - name: Writing the github secrets to the local.properties file
+      run: |
+        echo "keyAlias=${{ secrets.RELEASE_KEY_ALIAS }}" >> android_app/local.properties
+        echo "keyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}" >> android_app/local.properties
+        echo "storeFile=${{ secrets.RELEASE_STORE_FILEPATH }}" >> android_app/local.properties
+        echo "storePassword=${{ secrets.RELEASE_STORE_PASSWORD }}" >> android_app/local.properties
+
+    - name: Run Unit Tests
+      run: |
+        cd android_app
+        ./gradlew test

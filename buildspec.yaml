@@ -1,0 +1,6 @@
+version: 0.2
+
+artifacts:
+  base-directory: 'backend'
+  files: 
+    - '**/*'  # Artifact to be used in the next pipeline stage

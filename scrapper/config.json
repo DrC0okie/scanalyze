@@ -1,0 +1,58 @@
+{
+    "coop" : {
+        "base_url" : "https://www.coop.ch/fr/nourriture/",
+        "categories" : [
+            "fruits-legumes/c/m_0001",
+            "produits-laitiers-oeufs/c/m_0055",
+            "viandes-poissons/c/m_0087",
+            "pains-viennoiseries/c/m_0115",
+            "boissons/c/m_2242",
+            "garde-manger/c/m_0140",
+            "friandises-snacks/c/m_2506",
+            "produits-surgeles/c/m_0202",
+            "plats-cuisines/c/m_9744"
+        ],
+        "worker" : "coop-worker.js"
+
+    },
+    "migros" :{
+        "base_url" : "https://www.migros.ch/fr/category",
+        "categories" : [
+            "fruits-legumes",
+            "viandes-poissons",
+            "produits-laitiers-ufs-plats-prep",
+            "boulangerie-patisserie-petit-dej",
+            "pates-condiments-conserves",
+            "snacks-confiseries",
+            "surgeles",
+            "boissons-cafe-the",
+            "vins-bieres-spiritueux"
+        ],
+        "worker" : "migros-worker.js"
+    },
+    "aldi" :{
+        "base_url" : "https://www.aldi-now.ch/fr",
+        "categories" : [
+            "boissons-non-alcoolisées",
+            "boissons-alcoolisées",
+            "pain-&-produits-boulangers",
+            "viande-&-poisson",
+            "déjeuner",
+            "rayon-frais",
+            "produits-laitiers-et-œufs",
+            "fruits-&-légumes",
+            "sucreries-&-snacks",
+            "produits-surgelés",
+            "provisions"
+        ],
+        "worker" : "aldi-worker.js"
+    },
+    "lidl" : {
+        "base_url" : "https://sortiment.lidl.ch/fr",
+        "categories" : [
+            "alle-kategorien.html"
+        ],
+        "worker" : "lidl-worker.js"
+    }
+    
+}
