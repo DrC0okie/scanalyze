@@ -3,8 +3,21 @@ const dice = require('fast-dice-coefficient');
 const router = express.Router();
 const products = require("../data/coop.json");
 const receipt = require("../data/coop-receipt.json");
-/* GET home page. */
+/* GET all receipts */
 router.get('/',(req, res, next) => {
+  
+  res.status(200).json({
+    route:"Get receipts"
+  });
+});
+/* GET a receipt with products*/
+router.get('/:id',(req,res,next)=>{
+  res.status(200).json({
+    route:"get single receipt with id : " + req.params.id
+  });
+})  
+/* POST a new receipt */
+router.post('/',(req, res, next) => {
   const target = receipt[5];
   const filtered_products = products.filter((el)=>{
     return el.price == target.price
