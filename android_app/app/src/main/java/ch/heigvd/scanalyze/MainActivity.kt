@@ -17,5 +17,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ReceiptActivity::class.java))
         }
 
+        findViewById<Button>(R.id.button_scan).setOnClickListener{
+            startActivity(Intent(this, ScanPreviewActivity::class.java))
+        }
+
     }
 }
