@@ -411,7 +411,27 @@ We will use a feature-branch workflow. Each new feature or bug fix will be devel
 
 **API Server pipeline**
 
-The Api server pipeline is deployed with AWS CodePipeline
+Every time a push is made on the main branch, the API is deployed on AWS Beanstalk. Because it is easier, we decided to use AWS CodePipeline instead of Github actions. CodePipeline is divided in three stages. Sources, Build and Deploy
+
+**Sources** : Connect to the repository and listen to code change
+
+**Build** : Choose the correct folder containing the API
+
+**Deploy** : Deploy the API to AWS Beanstalk
+
+Because we are using a monorepo, we need to tell AWS which folder need to be deployed, this is configured in the **buildspec.yaml file** located in the root directory of the repository 
+
+```yaml
+
+version: 0.2
+
+artifacts:
+  base-directory: 'backend'
+  files: 
+    - '**/*'  # Artifact to be used in the next pipeline stage
+
+```
+
 
 **Mobile app pipelines**
 
