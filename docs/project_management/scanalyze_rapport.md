@@ -12,8 +12,6 @@
 
 
 
-
-
 ## 1. Introduction
 
 ### 1.1 Purpose
@@ -43,7 +41,7 @@ By offering these functionalities, Scanalyze aims to become an indispensable too
 
 ## 2. System Overview
 
-Scanalyze is designed as a multi-tiered application involving client-side,  server-side, and database components. Each of these elements has  specialized tasks and together they form a cohesive ecosystem for  effective grocery expense tracking. Below is a breakdown of the system's primary components and their interrelationships.
+Scanalyze is designed as a multi-tiered application involving client-side, server-side, and database components. Each of these elements has specialized tasks and together they form a cohesive ecosystem for effective grocery expense tracking. Below is a breakdown of the system's primary components and their interrelationships.
 
 ### 2.1 Android Mobile Application
 
@@ -58,7 +56,7 @@ The mobile application serves as the user interface and is responsible for captu
 
 ### 2.2 Web Server
 
-The web server acts as the intermediary between the mobile application and the database. The server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the  abbreviated products on the receipt to the existing product in the database. It uses the database user data to generate statistics, then returns this statistics data to the mobile application. The server is also responsible for handling user authentication tokens.
+The web server acts as the intermediary between the mobile application and the database. The server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the abbreviated products on the receipt to the existing product in the database. It uses the database user data to generate statistics, then returns this statistics data to the mobile application. The server is also responsible for handling user authentication tokens.
 
 **Key Features:**
 
@@ -92,7 +90,7 @@ In the development of the Scanalyze application, a thoughtful selection of techn
 
 **Android Mobile Application**
 
-- Programming Language:  Kotlin, because it's the recommended language for new android application
+- Programming Language: Kotlin, because it's the recommended language for new android application
 - Development Environment: The application is developed using Android Studio
 - Compatibility: The application is designed to be compatible with Android versions 8.0 "Oreo" (API 24) and above.
 
@@ -118,7 +116,7 @@ In the development of the Scanalyze application, a thoughtful selection of techn
 
 -  The database is built using AWS DocumentDB, a fully managed NoSQL database service that is compatible with MongoDB.
 
-### 
+
 
 ## 3. User Requirements
 
@@ -162,7 +160,7 @@ UR5.2: Users shall be able to visualize charts and graphs event without an inter
 
 
 
-![](/home/tim/Documents/HEIG/PDG/scanalyze/docs/project_management/..\figures\use_case.png)
+![](..\figures\use_case.png)
 
 
 
@@ -306,7 +304,7 @@ FR11.1: The documents in the database shall have the following minimal structure
 
 ### 4.4 Architecture diagram
 
-![](/home/tim/Documents/HEIG/PDG/scanalyze/docs/project_management/..\figures\architecture.png)
+![](..\figures\architecture.png)
 
 
 
@@ -314,7 +312,7 @@ FR11.1: The documents in the database shall have the following minimal structure
 
 
 
-![](/home/tim/Documents/HEIG/PDG/scanalyze/docs/project_management/..\figures\sequence_scan.png)
+![](..\figures\sequence_scan.png)
 
 
 
@@ -338,7 +336,7 @@ NFR5: The system shall implement mechanisms to verify the integrity of the data,
 
 
 
-To accommodate our tight 3-week schedule and ensure a high-quality end product, we are adopting a blend of Agile-Scrum and Extreme Programming  (XP) methodologies. Our sprints will span one week each, enabling rapid cycles of development, testing, and feedback.
+To accommodate our tight 3-week schedule and ensure a high-quality end product, we are adopting a blend of Agile-Scrum and Extreme Programming (XP) methodologies. Our sprints will span one week each, enabling rapid cycles of development, testing, and feedback.
 
 ### 6.1 Team Composition
 
@@ -411,7 +409,7 @@ We will use a feature-branch workflow. Each new feature or bug fix will be devel
 
 **API Server pipeline**
 
-Every time a push is made on the main branch, the API is deployed on AWS Beanstalk. Because it is easier, we decided to use AWS CodePipeline instead of Github actions. CodePipeline is divided in three stages. Sources, Build and Deploy
+Every time a push is made on the main branch, the API is deployed on AWS Beanstalk. We decided to use AWS CodePipeline instead of Github actions because it is easier to manage within the same AWS infrastructure. CodePipeline is divided in three stages. Sources, Build and Deploy.
 
 **Sources** : Connect to the repository and listen to code change
 
@@ -419,7 +417,7 @@ Every time a push is made on the main branch, the API is deployed on AWS Beansta
 
 **Deploy** : Deploy the API to AWS Beanstalk
 
-Because we are using a monorepo, we need to tell AWS which folder need to be deployed, this is configured in the **buildspec.yaml file** located in the root directory of the repository 
+Because we are using a monorepo, we need to tell AWS which folder need to be deployed. This is configured in the **buildspec.yaml file** located in the root directory of the repository 
 
 ```yaml
 
@@ -432,10 +430,9 @@ artifacts:
 
 ```
 
-
 **Mobile app pipelines**
 
-Every time that a push is made on the main branch, the pipeline set up the environment, the executes the unit tests of the mobile application
+For the mobile application, we chose to use Github actions. Every time that a push is made on the main branch, the action set up the environment, then executes the unit tests.
 
 ```yaml
 # .github/workflows/test.yml
@@ -477,7 +474,7 @@ jobs:
 
 
 
-Every time a release is created, the APK is built, an deployed to a S3 bucket. This allows the users to download the APK directly from our landing page
+Using this extra GitHub action, when a release is made on GitHub, the APK is built and placed in an S3 bucket. This makes it easy for us to add a direct download link for the APK on our landing page, so users can download the app directly.
 
 ```yaml
 # .github/workflows/deploy.yml
