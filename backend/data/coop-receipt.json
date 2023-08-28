@@ -1,116 +1,139 @@
 [
     {
         "name":"Tomates grappes",
-        "price":"4.50"
+        "price":"4.50",
+        "correct": "d6f0e1a6-5f7c-405a-b08e-969a94ac9bf0"
     },
     {
         "name": "Poivrons rouges",
-        "price":"3.95"
+        "price":"3.95",
+        "correct":"984c5217-a738-453d-8b01-bd78b52243f1"
     },
     {
 
         "name": "Oignons",
-        "price":"2.30"
+        "price":"2.30",
+        "correct":"35b46095-6f4b-45ba-a976-69a85e58bc54"
     },
     {
         "name": "Carottes",
-        "price":"2.20"
+        "price":"2.20",
+        "correct":"339253fc-7296-4dfa-9f3a-6f562d8943d8"
     },
     {
         "name": "Concombre",
-        "price":"1.75"
+        "price":"1.75",
+        "correct":"c0496f65-8e8d-4fdc-aab7-bbe3b3834f48"
     },
     {
         "name": "Pastèque mini",
-        "price": "4.15"
+        "price": "4.15",
+        "correct":"68ba7611-7844-4dbf-aa2b-1ed70e09ac1f"
     },
     {
         "name": "Pommes Jazz",
-        "price": "4.95"
+        "price": "4.95",
+        "correct":"2f445156-09fc-4793-af88-a8d52316c618"
     },
     {
         "name": "Andros pomme/abricots",
-        "price": "3.60"
+        "price": "3.60",
+        "correct":"51367530-8497-4053-be84-f902c50f526c"
     },
     {
         "name": "Raisins Red Globe",
-        "price": "4.30"
+        "price": "4.30",
+        "correct":"af601c87-2656-4787-9e51-bcfd0770facd"
     },
     {
         "name": "Levure fraîche",
-        "price": "0.30"
+        "price": "0.30",
+        "correct":"208a045e-2a70-4d0b-a145-6f02d2d73c0f"
     },
     {
         "name": "MClass olives ail",
-        "price": "2.80"
+        "price": "2.80",
+        "correct":"1d60f4ac-3a70-4068-b1bd-78720325e774"
     },
     {
         "name": "M-Clas olives amandes",
-        "price": "2.95"
+        "price": "2.95",
+        "correct":"8ad15330-fc00-42d3-94d8-da17e75b8173"
     }, 
     {
         "name": "MClass pois chiches",
-        "price": "1.20"
+        "price": "1.20",
+        "correct":"7ba847dc-e85a-46b3-8055-8e8c76960902"
     }, 
     {
         "name": "Alfredo Mozz. Bufala",
-        "price": "4.85"
+        "price": "4.85",
+        "correct":"a347ccd6-a297-439b-8d7a-f7aaa315bab1"
     },
     {
         "name": "Galbani Mozzarella",
-        "price": "2.25"
+        "price": "2.25",
+        "correct":"c9d3e494-5324-4b2d-9f11-70f5b08f8730"
     },
     {
         "name": "Beurre de cuisine",
-        "price": "3.80"
+        "price": "3.80",
+        "correct": "3bfa82d4-e0b2-4262-ab65-e14bdb656528"
     },
     {
         "name": "Agnesi spaghetti 3x",
-        "price": "4.30"
+        "price": "4.30",
+        "correct":"4d312b99-76c3-43b2-98e6-336e975f186a"
     },
     {
         "name": "Mélasse de table",
-        "price": "3.25"
+        "price": "3.25",
+        "correct":"7e3815fb-6b37-4a2e-b602-8e412798d1bc"
     },
     {
         "name": "Blévita tarte flambée",
-        "price": "3.95"
+        "price": "3.95",
+        "correct":"4b8af2f7-39dc-48f7-b4c8-de7279dee509"
     },
     {
         "name": "Crémant 55% 3x100g",
-        "price": "5.55"
+        "price": "5.55",
+        "correct":"436a0363-f84e-40a5-a6db-0aa2987456f8"
     },
     {
         "name": "Giandor noir 100g",
-        "price": "2.20"
+        "price": "2.20",
+        "correct":"a6a9cc15-477d-461e-b857-805d0a485278"
     },
     {
         "name": "Lait extra fin amande",
-        "price": "2.20"
+        "price": "2.20",
+        "correct":"e431932e-2ae9-4bba-bdeb-5b643592ed11"
     },
     {
         "name": "Steak bûcheron mariné",
-        "price": "19.50"
+        "price": "19.50",
+        "correct":"ac854229-2883-47bc-8d4c-e8ec5e63c259"
     },
     {
         "name": "MClass MSC thon eau 9x",
-        "price": "9.95"
+        "price": "9.95",
+        "correct":"05aba96b-4e69-4388-a0e6-d67f63037996"
     },
     {
         "name": "Zweifel nature XXL",
-        "price": "4.60"
+        "price": "4.60",
+        "correct":"f16c4325-9c27-496f-84ec-37d758d86e81"
     },
     {
         "name": "MClass semoule blé dur",
-        "price": "1.50"
+        "price": "1.50",
+        "correct":"bcc4eade-ed81-448e-9f68-a83dfe9cf754"
     },
     {
         "name": "Lait noix de coco",
-        "price": "2.60"
-    },
-    {
-        "name": "M-Plast pour plais",
-        "price": "5.95"
+        "price": "2.60",
+        "correct":"e53356b5-15ce-4e2b-99ff-6c593f454c62"
     }
 
     
