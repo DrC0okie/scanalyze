@@ -36,12 +36,16 @@ const run = async (cat) =>{
             const actual_price = item.getElementsByClassName("actual").length ? item.getElementsByClassName("actual")[0].innerHTML : 0
             const regular_price = item.getElementsByClassName("regular-price").length ? item.getElementsByClassName("regular-price")[0].children[2].innerHTML : 0
             const brand = item.getElementsByClassName("name").length ? item.getElementsByClassName("name")[0].innerHTML : "unknown"
+            let desc = "";
+            for(let j = 0 ; j < item.getElementsByClassName("name").length ; j++){
+                desc = desc.concat(" ",item.getElementsByClassName("desc")[0].children[j].innerHTML || " ");
+            }
             actual_products.push(
                 {
                     actual_price,
                     regular_price,
                     brand,
-                    desc: item.getElementsByClassName("desc")[0].children[0].innerHTML
+                    desc
                 }
             )
         }
