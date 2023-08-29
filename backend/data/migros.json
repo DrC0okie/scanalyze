@@ -321,13 +321,13 @@
         "id": "878fcb09-7003-4a83-9789-9091760227e6",
         "actual_price": 0,
         "regular_price": 0,
-        "name": "Migros Bio  Pêches Jaunes"
+        "name": "Migros Bio Pêches Jaunes"
     },
     {
         "id": "8bb31995-aea5-4f6d-8750-a90b490db318",
         "actual_price": 0,
         "regular_price": 0,
-        "name": "Migros Bio  Kiwi Gold"
+        "name": "Migros Bio Kiwi Gold"
     },
     {
         "id": "e6a29d69-4ef3-4cf1-b6fa-69940f85d5ea",
@@ -17845,7 +17845,7 @@
     },
     {
         "id": "374125bb-fc63-49bb-b5ed-126fe46b3e70",
-        "actual_price": 2.65,
+        "actual_price": 4.20,
         "regular_price": 0,
         "name": "Migros Bio  Le Gruyère AOP  Fromage suisse à pâte dure, gras, au lait cru Doux"
     },
@@ -41205,7 +41205,7 @@
         "id": "7546c79d-82f9-4c81-9c44-4670d4d1fa00",
         "actual_price": 2.5,
         "regular_price": 0,
-        "name": "Longobardi  Coulis de tomates"
+        "name": "Longobardi Passata di pomodoro"
     },
     {
         "id": "18ad103f-c69c-4289-9d8d-24d1af6c2334",
@@ -42408,7 +42408,7 @@
         "name": "Longobardi  Tomates pelées italiennes"
     },
     {
-        "id": "cb7782a0-6ea4-4b72-a43c-9f7a5b89879a",
+        "id": "5a5e2223-7ee2-466d-83a3-8c21e4a48a02",
         "actual_price": 2.2,
         "regular_price": 0,
         "name": "Migros Bio  Penne Blé complet"

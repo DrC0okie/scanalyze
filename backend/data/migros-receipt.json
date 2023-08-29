@@ -42,7 +42,7 @@
     },
     {
         "name": "Raisins Red Globe",
-        "price": "4.30",
+        "price": "4.70",
         "correct":"af601c87-2656-4787-9e51-bcfd0770facd"
     },
     {
@@ -82,7 +82,7 @@
     },
     {
         "name": "Agnesi spaghetti 3x",
-        "price": "4.30",
+        "price": "2.50",
         "correct":"4d312b99-76c3-43b2-98e6-336e975f186a"
     },
     {
@@ -117,13 +117,13 @@
     },
     {
         "name": "MClass MSC thon eau 9x",
-        "price": "9.95",
+        "price": "1.95",
         "correct":"05aba96b-4e69-4388-a0e6-d67f63037996"
     },
     {
         "name": "Zweifel nature XXL",
         "price": "4.60",
-        "correct":"f16c4325-9c27-496f-84ec-37d758d86e81"
+        "correct":"f2578bea-cb8e-42c4-ba12-1fca890c5f39"
     },
     {
         "name": "MClass semoule blé dur",

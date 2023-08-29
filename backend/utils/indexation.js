@@ -96,7 +96,7 @@ const execute = (algo_name,algo_funct,targets,products,isFiltered) => {
     return {
         name:algo_name,
         performance: correct * 1.0 /targets.length * 100,
-        //best_products
+        best_products
     };
 }
 

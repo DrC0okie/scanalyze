@@ -2,7 +2,8 @@ const express = require('express');
 const dice = require('fast-dice-coefficient');
 const router = express.Router();
 const products = require("../data/migros.json");
-const receipt = require("../data/coop-receipt.json");
+const receipt = require("../data/migros-receipt.json");
+const receipt2 = require("../data/migros-receipt-2.json")
 const sc = require('string-comparison')
 const jw = require('jaro-winkler');
 const test = require('../utils/indexation');
@@ -29,11 +30,11 @@ router.get('/',(req, res, next) => {
   //results.push(test.execute("Dice",test.single_dice,receipt,products,false));
   //results.push(test.execute("Dice filtered",test.single_dice,receipt,products,true));
   //results.push(test.execute("Dice price weighted",test.single_dice_price_weighted,receipt,products,false));
-  results.push(test.execute("Dice + Jaro price weighted",test.combo_dice_jaro_price_weighted,receipt,products,false));
+  //results.push(test.execute("Dice + Jaro price weighted",test.combo_dice_jaro_price_weighted,receipt,products,false));
   //results.push(test.execute("Dice + Jaro no price",test.combo_dice_jaro,receipt,products,false));
   //results.push(test.execute("Levenshtein + Jaro price weighted",test.combo_jaro_levenshtei_price,receipt,products,false));
   //results.push(test.execute("Levenshtein + Jaro price weighted",test.combo_jaro_levenshtei_price,receipt,products,false));
-  results.push(test.execute("Levenshtein + Jaro + dice price weighted",test.triple_jaro_levenshtei_dice_price,receipt,products,false));
+  results.push(test.execute("Levenshtein + Jaro + dice price weighted",test.triple_jaro_levenshtei_dice_price,receipt2,products,true));
 
   // results.push(test.execute("Levenshtein",test.single_levenshtein,receipt,products,false));
   // results.push(test.e xecute("Levenshtein filtered",test.single_levenshtein,receipt,products,true));
