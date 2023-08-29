@@ -5,7 +5,7 @@ const products = require("../data/migros.json");
 const receipt = require("../data/coop-receipt.json");
 const sc = require('string-comparison')
 const jw = require('jaro-winkler');
-const test = require('./tests');
+const test = require('../utils/indexation');
 
 /* GET all receipts */
 router.post('/',(req, res, next) => {
