@@ -9,11 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ch.heigvd.scanalyze.GraphicOverlay
-        android:id="@+id/graphic_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <Button
         android:id="@+id/button_capture"
         android:layout_width="wrap_content"

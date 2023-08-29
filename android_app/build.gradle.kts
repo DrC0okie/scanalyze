@@ -6,12 +6,13 @@ plugins {
 
 // In build.gradle.kts
 buildscript {
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.1") // your version here
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0") // your version here
+        classpath("com.android.tools.build:gradle:8.1.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
     }
 }

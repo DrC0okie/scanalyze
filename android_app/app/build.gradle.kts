@@ -20,6 +20,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     namespace = "ch.heigvd.scanalyze"
     compileSdk = 34
@@ -76,9 +77,9 @@ dependencies {
     implementation ("androidx.camera:camera-video:${cameraxVersion}")
     implementation ("androidx.camera:camera-view:${cameraxVersion}")
     implementation ("androidx.camera:camera-extensions:${cameraxVersion}")
+    implementation ("com.quickbirdstudios:opencv-contrib:4.5.3.0")
 
     implementation("com.google.mlkit:text-recognition:16.0.0")
-
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.cardview:cardview:1.0.0")
