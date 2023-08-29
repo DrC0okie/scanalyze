@@ -1,38 +1,37 @@
 package ch.heigvd.scanalyze
 
-import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.util.AttributeSet
-import android.view.View
 
-class TextOverlay : View {
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-
-    private val paint = Paint()
-    private val rectList = mutableListOf<RectF>()
-
-    init {
-        paint.color = Color.RED
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 4.0f
+class TextOverlay(graphicOverlay: GraphicOverlay) : GraphicOverlay.Graphic(graphicOverlay) {
+    private val rectPaint: Paint = Paint().apply {
+        color = RED
+        style = Paint.Style.STROKE
+        strokeWidth = STROKE_WIDTH
     }
 
-    fun updateRects(rectList: List<RectF>) {
-        this.rectList.clear()
-        this.rectList.addAll(rectList)
-        invalidate()
+    private var boundingBoxes: List<RectF> = listOf()
+
+    companion object {
+        private const val STROKE_WIDTH = 10.0f
+        private const val RED = 0xFFFF0000.toInt()
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    fun updateBoundingBoxes(boxes: List<RectF>) {
+        this.boundingBoxes = boxes
+        postInvalidate()
+    }
 
-        for (rect in rectList) {
-            canvas.drawRect(rect, paint)
+    override fun draw(canvas: Canvas) {
+        for (box in boundingBoxes) {
+            val rect = RectF(
+                translateX(box.left),
+                translateY(box.top),
+                translateX(box.right),
+                translateY(box.bottom)
+            )
+            canvas.drawRect(rect, rectPaint)
         }
     }
 }

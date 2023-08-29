@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <ch.heigvd.scanalyze.TextOverlay
-        android:id="@+id/text_overlay"
+    <ch.heigvd.scanalyze.GraphicOverlay
+        android:id="@+id/graphic_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

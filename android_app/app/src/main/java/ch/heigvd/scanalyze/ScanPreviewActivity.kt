@@ -1,10 +1,13 @@
 package ch.heigvd.scanalyze
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
+import android.util.Size
+import android.view.Display
 import android.view.InflateException
 import android.widget.Button
 import android.widget.FrameLayout
@@ -24,7 +27,9 @@ class ScanPreviewActivity : AppCompatActivity() {
 
     private val executor = Executors.newSingleThreadExecutor()
     private lateinit var imageCapture: ImageCapture
+    private lateinit var graphicOverlay: GraphicOverlay
     private lateinit var textOverlay: TextOverlay
+    private lateinit var previewView: PreviewView
 
     // Constants
     private val cameraPermission = Manifest.permission.CAMERA
@@ -34,7 +39,13 @@ class ScanPreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_preview)
 
-        textOverlay = findViewById(R.id.text_overlay)
+        // Initialize graphicOverlay
+        graphicOverlay = findViewById(R.id.graphic_overlay)
+        previewView = findViewById(R.id.previewView)
+
+        // Initialize textOverlay and add it to the graphicOverlay
+        textOverlay = TextOverlay(graphicOverlay)
+        graphicOverlay.add(textOverlay)
 
         setupPermissions()
 
@@ -53,7 +64,9 @@ class ScanPreviewActivity : AppCompatActivity() {
         val permissions = mutableListOf(cameraPermission)
 
         if (allPermissionsGranted(permissions.toTypedArray())) {
-            startCameraPreview()
+            previewView.post{
+                startCameraPreview()
+            }
         } else {
             ActivityCompat.requestPermissions(this, permissions.toTypedArray(), requestCodeCamera)
         }
@@ -83,9 +96,17 @@ class ScanPreviewActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build().apply {
-                setSurfaceProvider(findViewById<PreviewView>(R.id.previewView).surfaceProvider)
-            }
+
+            val rotation = windowManager.defaultDisplay.rotation
+
+
+            val preview = Preview.Builder()
+                .setTargetRotation(rotation)
+                .setTargetResolution(Size(previewView.width, previewView.height))
+                .build()
+                .apply {
+                    setSurfaceProvider(previewView.surfaceProvider)
+                }
 
             imageCapture = ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
@@ -95,7 +116,17 @@ class ScanPreviewActivity : AppCompatActivity() {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
 
+            var hasSetOverlayInfo = false
+
             imageAnalysis.setAnalyzer(executor) { imageProxy ->
+                // Only set overlay info once, assuming the camera resolution doesn't change during the session.
+                if (!hasSetOverlayInfo) {
+                    val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+                    val imageWidth = imageProxy.width
+                    val imageHeight = imageProxy.height
+                    graphicOverlay.setCameraInfo(imageWidth, imageHeight, rotationDegrees)
+                    hasSetOverlayInfo = true
+                }
                 analyzeImage(imageProxy)
             }
 
@@ -107,6 +138,7 @@ class ScanPreviewActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 showToast("Camera initialization failed: ${e.message}")
             }
+
         }, ContextCompat.getMainExecutor(this))
     }
 
@@ -118,15 +150,10 @@ class ScanPreviewActivity : AppCompatActivity() {
 
         recognizer.process(image)
             .addOnSuccessListener { visionText ->
-                val visionTextRects = visionText.textBlocks.flatMap { block ->
-                    block.lines.flatMap { line ->
-                        line.elements.map { element ->
-                            // Convert element's bounding box to RectF or your custom object
-                            RectF(element.boundingBox)
-                        }
-                    }
+                val visionTextRects = visionText.textBlocks.map { block ->
+                    RectF(block.boundingBox)
                 }
-                textOverlay.updateRects(visionTextRects)
+                textOverlay.updateBoundingBoxes(visionTextRects)
                 imageProxy.close()
             }
             .addOnFailureListener { e ->
