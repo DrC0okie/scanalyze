@@ -1,10 +1,15 @@
 const express = require('express');
 const dice = require('fast-dice-coefficient');
 const router = express.Router();
-const products = require("../data/coop.json");
-const receipt = require("../data/coop-receipt.json");
+const products = require("../data/migros.json");
+const receipt = require("../data/migros-receipt.json");
+const receipt2 = require("../data/migros-receipt-2.json")
+const sc = require('string-comparison')
+const jw = require('jaro-winkler');
+const test = require('../utils/indexation');
+
 /* GET all receipts */
-router.get('/',(req, res, next) => {
+router.post('/',(req, res, next) => {
   res.status(200).json({
     route:"Get receipts"
   });
@@ -16,29 +21,13 @@ router.get('/:id',(req,res,next)=>{
   });
 })  
 /* POST a new receipt */
-router.post('/',(req, res, next) => {
-  const target = receipt[5];
-  const filtered_products = products.filter((el)=>{
-    return el.price == target.price
-  })
-  console.log(filtered_products);
-  let compatible_products =[]
-  for(let product of filtered_products){
-      const dice_value = dice(product.name,target.name);
-      // if(dice_value > 0.5){
-          compatible_products.push({...product,dice: dice_value})
-      // }
-  }
-  const sorted = compatible_products.sort((el1,el2)=>{
-    if(el1.dice < el2.dice){
-      return 1
-    }else{
-      return -1
-    }
-  });
-  
-  res.status(200).json(sorted);
-  console.log(sorted[0])
+router.get('/',(req, res, next) => {
+  let results = [];
+
+  results.push(test.execute("Levenshtein + Jaro + dice price weighted",test.triple_jaro_levenshtei_dice_price,receipt2,products,true));
+  //results.push(test.execute("Dice + Jaro price weighted",test.combo_dice_jaro_price_weighted,receipt,products,false));
+
+  res.status(200).json(results);
 });
 
 
