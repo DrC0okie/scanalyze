@@ -46,15 +46,23 @@ const combo_jaro_levenshtei_price = (p1,p2) =>{
     const price_similarity = p1.price == p2.actual_price
     return (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name) + (JARO_WEIGHT * jw(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + JARO_WEIGHT)
 }
+const combo_dice_levenshtein_price = (p1,p2) =>{
+    const PRICE_WEIGHT = 0.5
+    const LEVEN_WEIGHT = 0.7
+    const DICE_WEIGHT = 1.5
+    const price_similarity = p1.price == p2.actual_price
+    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + DICE_WEIGHT)
+}
 const triple_jaro_levenshtei_dice_price = (p1,p2) =>{
     const PRICE_WEIGHT = 0.5
     const LEVEN_WEIGHT = 0.7
-    const JARO_WEIGHT = 0
+    const JARO_WEIGHT = 0.2
     const DICE_WEIGHT = 1.5
     const price_similarity = p1.price == p2.actual_price
     return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name)) + (JARO_WEIGHT * jw(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + JARO_WEIGHT + DICE_WEIGHT)
 }
-const execute = (algo_name,algo_funct,targets,products,isFiltered) => {
+/* This function mesure an algorithm's performance */
+const test = (algo_name,algo_funct,targets,products,isFiltered) => {
     let correct = 0 ;
     let best_products = [];
     for(const target of targets){
@@ -72,19 +80,6 @@ const execute = (algo_name,algo_funct,targets,products,isFiltered) => {
                 best_product_value = rating
             }
         }
-        // if(best_product_value < CORRECT_THRESHOLD){
-        //     let filtered_products = isFiltered?  products.filter((el)=>{
-        //         return el.actual_price == 0
-        //     }) : products
-        //     for(let product of filtered_products){
-        //         const rating = algo_funct(target.name,product.name)
-        //         if(best_product_value < rating){
-        //             best_product = {...product,rating}
-        //             best_product_value = rating
-        //         }
-        //     }
-
-        // }
         if(target.correct == best_product.id){
             correct+= 1;
             best_product.found = true;
@@ -100,6 +95,21 @@ const execute = (algo_name,algo_funct,targets,products,isFiltered) => {
     };
 }
 
+const run = (target,products) =>{
+    
+    let best_product;
+    let best_product_value = 0;
+    
+    for(let product of products){
+        const rating = triple_jaro_levenshtei_dice_price(target,product)
+        if(best_product_value < rating){
+            best_product = {...product,rating}
+            best_product_value = rating
+        }
+    }
+    return best_product
+}
+
 module.exports = {
     single_cosine,
     single_levenshtein,single_dice,
@@ -110,6 +120,8 @@ module.exports = {
     combo_dice_jaro_price_weighted,
     combo_jaro_levenshtein,
     combo_jaro_levenshtei_price,
+    combo_dice_levenshtein_price,
     triple_jaro_levenshtei_dice_price,
-    execute
+    test,
+    run
 }
