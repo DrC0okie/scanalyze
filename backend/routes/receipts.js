@@ -5,7 +5,7 @@ const products = require("../data/migros.json");
 const fake_receipt = require("../data/migros-receipt.json");
 const fake_receipt2 = require("../data/migros-receipt-2.json")
 const index = require('../utils/indexation');
-//const db = require("../utils/dbconn");
+const db = require("../utils/dbconn");
 /* Post new receipts */
 router.post('/',(req, res, next) => {
 
@@ -36,7 +36,7 @@ router.get('/:id',(req,res,next)=>{
     route:"get single receipt with id : " + req.params.id
   });
 })  
-/* POST a new receipt */
+/* Get a new receipt */
 router.get('/',(req, res, next) => {
   let results = [];
 
