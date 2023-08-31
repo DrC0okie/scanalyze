@@ -18,15 +18,24 @@
     "migros" :{
         "base_url" : "https://www.migros.ch/fr/category",
         "categories" : [
-            "fruits-legumes",
-            "viandes-poissons",
-            "produits-laitiers-ufs-plats-prep",
-            "boulangerie-patisserie-petit-dej",
-            "pates-condiments-conserves",
-            "snacks-confiseries",
-            "surgeles",
-            "boissons-cafe-the",
-            "vins-bieres-spiritueux"
+            {"url": "fruits-legumes", "name": "fruits-vegetables"},
+            {"url": "viandes-poissons", "name": "meat-fish"},
+            {"url": "produits-laitiers-ufs-plats-prep/lait-beurre-ufs", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/fromages", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/yogourts-desserts", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "dairies-eggs"},
+            {"url": "vins-bieres-spiritueux", "name": "drinks"},
+            {"url": "boissons-cafe-the", "name": "drinks"},
+            {"url": "boulangerie-patisserie-petit-dej/pains-frais", "name": "bread"},
+            {"url": "/boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/patisseries", "name": "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/cereales-muesli", "name": "breakfast"},
+            {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "breakfast"},
+            {"url": "boulangerie-patisserie-petit-dej/confitures-pates-a-tartiner-miel", "name": "breakfast"},
+            {"url": "surgeles", "name": "frozen"},
+            {"url": "produits-laitiers-ufs-plats-prep/plats-prepares", "name": "convenience"},
+            {"url": "pates-condiments-conserves", "name": "starches"},
+            {"url": "snacks-confiseries", "name": "snacks"}
         ],
         "worker" : "migros-worker.js"
     },
