@@ -1,11 +1,13 @@
-package ch.heigvd.scanalyze
+package ch.heigvd.scanalyze.ocr
 
 import com.google.mlkit.vision.text.Text
+import kotlin.math.abs
 
-    fun Text.resolveLines(deltaHeight: Int):List<String>{
+object OcrLineResolver {
+    fun resolveLines(text: Text,deltaHeight: Int): List<String> {
         val textElements = mutableListOf<TextElement>()
 
-        for (textBlock in this.textBlocks) {
+        for (textBlock in text.textBlocks) {
             for (line in textBlock.lines) {
                 for (element in line.elements) {
                     // Retrieve the element's rectangle bounding box
@@ -35,15 +37,14 @@ import com.google.mlkit.vision.text.Text
         val lines = mutableListOf<MutableList<TextElement>>()
         var currentLine = mutableListOf<TextElement>()
 
-        for (i in 0 until sortedByY.size) {
-            val element = sortedByY[i]
+        for (element in sortedByY) {
 
             if (currentLine.isEmpty()) {
                 currentLine.add(element)
             } else {
                 // Determine whether the current element belongs to the current line
                 val lastElementInLine = currentLine.last()
-                val deltaY = Math.abs(element.y - lastElementInLine.y)
+                val deltaY = abs(element.y - lastElementInLine.y)
 
                 if (deltaY < deltaHeight) {
                     currentLine.add(element)
@@ -68,9 +69,9 @@ import com.google.mlkit.vision.text.Text
             line.joinToString(" ") { it.text }
         }
 
-        reconstructedLines.forEach{ println(it) }
+        reconstructedLines.forEach { println(it) }
 
         return reconstructedLines
     }
+}
 
-    data class TextElement(val text: String, val x: Float, val y: Float)

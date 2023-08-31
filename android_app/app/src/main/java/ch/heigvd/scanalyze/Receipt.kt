@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class Receipt(
     val userId: Int,
-    val date: LocalDate,
-    val scanDate: LocalDate,
+    private val date: LocalDate,
+    private val scanDate: LocalDate,
     val shop: Shop,
     val shopBranch: String,
     val products: ArrayList<Product>?,
