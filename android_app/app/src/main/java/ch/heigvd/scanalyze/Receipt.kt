@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class Receipt(
     val userId: Int,
-    private val date: LocalDate,
-    private val scanDate: LocalDate,
+    private val date: String,
+    private val scanDate: String,
     val shop: Shop,
     val shopBranch: String,
     val products: ArrayList<Product>?,
@@ -18,7 +18,7 @@ class Receipt(
 
     fun getTotal(): Double{
         if(products!= null)
-            return products.sumOf { it.unitPrice }
+            return products.sumOf { it.unitPrice.toDouble() }
 
         return 0.0
     }
