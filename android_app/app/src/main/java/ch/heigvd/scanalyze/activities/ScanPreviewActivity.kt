@@ -145,7 +145,7 @@ class ScanPreviewActivity : AppCompatActivity() {
         recognizer.process(InputImage.fromBitmap(correctedImage, 0))
             .addOnSuccessListener { visionText ->
                 try {
-                    OcrLineResolver.resolveLines(visionText, 10)
+                    OcrLineResolver.resolveLines(visionText)
                 } catch (e: Exception) {
                     Toast.makeText(
                         baseContext,
