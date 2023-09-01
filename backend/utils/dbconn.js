@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const connectionString = process.env.LOCAL_MONGODB_URI || "";
+const connectionString = process.env.ATLAS_URI || "";
 
 const client = new MongoClient(connectionString);
 
@@ -10,7 +10,7 @@ const  connect_db = async () => {
   try {
     await client.connect();
     console.log('Connected to MongoDB');
-    return client.db(process.env.LOCAL_MONGODB_NAME);
+    return client.db(process.env.ATLAS_DB_NAME);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     throw error;

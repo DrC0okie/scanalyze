@@ -24,25 +24,47 @@ router.post('/', async (req, res, next) => {
   receipt.date.setMonth(randomIntFromInterval(1,12))
   receipt.date.setFullYear(randomIntFromInterval(2019,2023))
   const db = await connect_db();
-  const products_collection = db.collection("migros_products");
-
+  const products_collection = db.collection("products_migros");
+  const acronyms_collection = db.collection("acronyms");
 
   let indexed_product = []
   for (let receipt_product of receipt.products) {
-    // if indexed on cherche dans la db sinon
+    console.log(receipt_product);
+    let found_product;
+    // On cherche si le produit à déjà été indexé
+    const indexed_acronym = await acronyms_collection.findOne({
+      acronym:receipt_product.name
+    })
+    //Si on a trouver un produit déjà indexer on cherche ces informations, sinon on indexe le produit
+    if(indexed_acronym != null){
+      found_product = await products_collection.findOne({
+        _id: indexed_acronym.product_id
+      });
+    }else{
+      //On récupère tout les produits du magasin ayant le prix du produit scanné ou pas de prix
+      const products = await products_collection.find({
+        $or: [
+          { actual_price: 0 },
+          { actual_price: receipt_product.price }
+        ]
+      }).toArray();
+      //On cherche le produit qui correspond le mieux
+      found_product = index.run(receipt_product, products);
+      //On enregistre l'indexaction dans le document acronym
+      acronyms_collection.insertOne({
+        acronym:receipt_product.name,
+        product_id: found_product._id
+      })
+    }
+    
+    receipt_product.name = found_product.name;
+    receipt_product.category= found_product.category;
 
-    const products = await products_collection.find({
-      $or: [
-        { actual_price: 0 },
-        { actual_price: parseFloat(receipt_product.price) }
-      ]
-    }).toArray();
 
-
-    indexed_product.push(index.run(receipt_product, products));
+    indexed_product.push(receipt_product);
   }
   receipt.products = indexed_product;
-
+  //On enregistre le ticket
   const receipt_collection = db.collection("receipts");
   receipt_collection.insertOne(receipt);
 
@@ -76,9 +98,7 @@ router.get('/:id', async (req, res, next) => {
 })
 /* Get a all recipes */
 router.get('/', async (req, res, next) => {
-  const from = req.query.from;
-  const to = req.query.to;
-  console.log(new Date(from) + "-" + new Date(to));
+  
   //results.push(index.test("Levenshtein + Jaro + dice price weighted",test.triple_jaro_levenshtei_dice_price,receipt,products,true));
   //results.push(test.execute("Dice + Jaro price weighted",test.combo_dice_jaro_price_weighted,receipt,products,false));
 
