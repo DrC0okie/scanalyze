@@ -26,7 +26,7 @@ The main difference lies in capacity management and ease of use. Instance-based 
 
 FOr this project, we decided to use Elastic Clusters to limit the need for intervention on our database and to provide scalability better suited to our application.
 
-### MongoDB Compass
+### AWS EC2
 MongoDB Comppass is a user-friendly graphical interface for MongoDB databases.
 As AWS DocumentDB is comptabile with MOngoDB, we can use to manage the database filling.
 
@@ -101,3 +101,9 @@ Console sign-in URL : https://496526263747.signin.aws.amazon.com/console
 User name : user1234
 
 Password : arg@UTG-kym7xjw0fqg
+
+### EC2 instance
+Name : scanalyze-databse
+Type : Ubuntu 22.04
+PKI : scalyue-database-pki
+PKI-format : RSA
