@@ -6,7 +6,4 @@ object MigrosRuleset: Ruleset {
     override val minLengthForPrice = 4
     override val maxLengthForPrice = 6
 
-
-
-
 }

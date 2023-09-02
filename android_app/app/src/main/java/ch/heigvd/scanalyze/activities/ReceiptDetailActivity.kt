@@ -1,5 +1,6 @@
 package ch.heigvd.scanalyze.activities
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,14 +24,14 @@ class ReceiptDetailActivity : AppCompatActivity() {
         val receipt: Receipt? = intent.getParcelableExtra("receipt")
 
         if (receipt != null) {
-            binding.textViewDetailDate.text = receipt.getFormattedDate()
+            val bitmap = BitmapFactory.decodeFile(receipt.imgFilePath)
+            binding.textViewDetailDate.text = receipt.getReadableDate(receipt.date)
             binding.textViewDetailShop.text = receipt.shopBranch
-            binding.textViewDetailScannedDate.text = receipt.getFormattedDate()
+            binding.textViewDetailScannedDate.text = receipt.getReadableDate(receipt.scanDate)
             binding.imageViewDetailShopIcon.setImageResource(receipt.shop.resourceImage)
-            binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receipt.products)
-            binding.textViewDetailTotal.text = receipt.totalPrice.toString()
+            binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receipt)
+            binding.textViewDetailTotal.text = String.format("%.2f", receipt.totalPrice)
+            binding.imageViewScannedImage.setImageBitmap(bitmap)
         }
     }
-
-
 }

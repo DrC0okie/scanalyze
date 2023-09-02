@@ -4,18 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import ch.heigvd.scanalyze.R
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
@@ -45,7 +41,6 @@ class ScanPreviewActivity : AppCompatActivity() {
             Log.d("OpenCV", "OpenCV initialization succeeded.")
         }
 
-
         if (allPermissionsGranted()) {
             startCameraPreview()
         } else {
@@ -58,33 +53,17 @@ class ScanPreviewActivity : AppCompatActivity() {
             // Define where the image will be saved
             val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
 
-            val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-
-
-            // Take the photo and save it to the file
+            // Take the photo, save it, and perform analysis
             imageCapture.takePicture(
-                outputFileOptions,
+                ImageCapture.OutputFileOptions.Builder(file).build(),
                 executor,
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                        val savedUri = Uri.fromFile(file)
-                        val message = "Photo capture succeeded: $savedUri"
-                        runOnUiThread {
-                            Toast.makeText(baseContext, message, Toast.LENGTH_SHORT).show()
-                        }
-
-                        // Run your analysis here on the saved image file
                         analyzeImage(file)
                     }
 
                     override fun onError(error: ImageCaptureException) {
-                        runOnUiThread {
-                            Toast.makeText(
-                                baseContext,
-                                "Photo capture failed: ${error.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        runOnUiThread { showToast("Photo capture failed: ${error.message}") }
                     }
                 }
             )
@@ -99,10 +78,13 @@ class ScanPreviewActivity : AppCompatActivity() {
 
     private fun startCameraPreview() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
             val preview = Preview.Builder().build()
                 .also { it.setSurfaceProvider(binding.previewView.surfaceProvider) }
+
             imageCapture = ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build()
@@ -123,45 +105,45 @@ class ScanPreviewActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun analyzeImage(file: File): String {
+    private fun analyzeImage(file: File) {
 
         //Correct the image rotation and perspective of the receipt
-        val correctedImage = ReceiptPreprocessor.correctRotation(file) ?: return ""
+        val correctedImage = ReceiptPreprocessor.correctRotation(file)
 
-        //Save the corrected image
-        val imagePath =
-            File(
-                externalMediaDirs.first(),
-                "${System.currentTimeMillis()}_corrected}.png"
-            )
+        if (correctedImage != null) {
+            //Save the corrected image
+            val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected}.jpg")
 
-        val outputStream = FileOutputStream(imagePath)
-        correctedImage.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
+            FileOutputStream(imagePath).use {
+                correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
+            }
 
-        //Detect the text on the image
-        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-        recognizer.process(InputImage.fromBitmap(correctedImage, 0))
-            .addOnSuccessListener { visionText ->
-                try {
-                    OcrLineResolver.resolveLines(visionText)
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        baseContext,
-                        "Failed to parse text: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            //Detect the text on the image
+            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+            recognizer.process(InputImage.fromBitmap(correctedImage, 0))
+                .addOnSuccessListener { visionText ->
+                    try {
+                        val receipt = visionText.toReceipt()
+                        receipt?.imgFilePath = imagePath.absolutePath
+                        println(receipt)
+                        val intent = Intent(this, ReceiptDetailActivity::class.java)
+                        intent.putExtra("receipt", receipt)
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            baseContext,
+                            "Failed to parse text: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                Log.e("TextRecognition", "Failed to process image: ${e.message}")
-            }
+                .addOnFailureListener { e ->
+                    Log.e("TextRecognition", "Failed to process image: ${e.message}")
+                }
+        }
+    }
 
-        val intent = Intent(this, DisplayCorrectedImageActivity::class.java)
-        intent.putExtra("corrected_image_path", imagePath.absolutePath)
-        startActivity(intent)
-
-        return ""
+    private fun showToast(msg: String) {
+        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
     }
 }

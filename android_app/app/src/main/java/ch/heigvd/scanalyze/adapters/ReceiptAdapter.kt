@@ -25,7 +25,7 @@ class ReceiptAdapter (private val receipts: Array<Receipt>):RecyclerView.Adapter
 
         fun bind(receipt: Receipt){
             binding.imageViewShopIcon.setImageResource(receipt.shop.resourceImage)
-            binding.textViewDate.text = receipt.getFormattedDate()
+            binding.textViewDate.text = receipt.date
             binding.textViewShop.text = receipt.shopBranch
             binding.textViewTotal.text = receipt.totalPrice.toString()
         }

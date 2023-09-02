@@ -1,28 +1,47 @@
 package ch.heigvd.scanalyze
 
 import android.os.Parcelable
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import kotlinx.parcelize.Parcelize
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @Parcelize
-class Receipt(
+data class Receipt(
     val userId: Int,
-    private val date: String,
-    private val scanDate: String,
+    val date: String,
+    val scanDate: String,
     val shop: Shop,
     val shopBranch: String,
     val products: ArrayList<Product>?,
-    val totalPrice: Double): Parcelable {
+    var totalPrice: Double = 0.0,
+    var imgFilePath: String = ""): Parcelable {
 
-    fun getTotal(): Double{
+    init{
+        totalPrice = getTotal()
+    }
+
+    private fun getTotal(): Double{
         if(products!= null)
             return products.sumOf { it.unitPrice.toDouble() }
 
         return 0.0
     }
 
-    fun getFormattedDate(): String = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-    fun getFormattedScanDate(): String = scanDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+    fun getReadableDate(strDate: String): String{
+        val tmpDate = LocalDateTime.parse(strDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return tmpDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+    }
+
+    override fun toString(): String {
+        return """
+            |user id: $userId
+            |shop: $shop
+            |date: $date
+            |scan date: $scanDate
+            |products:
+            |--> $products
+        """.trimMargin()
+    }
+
 }

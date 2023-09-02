@@ -22,6 +22,9 @@ object ReceiptPreprocessor {
         // Load image into Mat object
         val inputMat = Imgcodecs.imread(file.absolutePath)
 
+        //Delete original picture that has been taken
+        file.delete()
+
         if (inputMat.empty()) {
             Log.e("OpenCV", "Failed to load image")
             return null
@@ -89,7 +92,7 @@ object ReceiptPreprocessor {
 
         // Apply a blur for the thresholding to be effective
         val blurMat = Mat()
-        Imgproc.blur(grayMat, blurMat, Size(15.0, 15.0))
+        Imgproc.blur(grayMat, blurMat, Size(25.0, 25.0))
 
         // Thresholding to to separate the foreground from the background
         val threshMat = Mat()

@@ -22,21 +22,21 @@ class ReceiptActivity : AppCompatActivity() {
 
         // Test values
         val products = arrayListOf(
-            Product(1, "Mclass sésame décorti.", 3.0, 2.20),
-            Product(1, "Dlr sel des ales fin", 1.0, 1.50),
-            Product(1, "Sun Queen basilic cit.", 1.0, 5.30),
-            Product(1, "Valflora UHT 12x1l", 1.0, 15.35),
-            Product(1, "Concombre", 1.0, 1.80),
-            Product(1, "Oignons", 1.0, 2.00),
-            Product(1, "Pommes Jazz", 1.0, 4.95),
-            Product(1, "Bananes", 1.0, 2.50),
-            Product(1, "BJ F&W abricots", 1.0, 1.95),
-            Product(1, "St.Albray", 1.0, 5.10),
-            Product(1, "MClass Poitrine dinde", 1.0, 2.95),
-            Product(1, "Mbud Salami volaille", 1.0, 2.85),
+            Product(1, "Mclass sésame décorti.", 3.0f, 2.20f),
+            Product(1, "Dlr sel des ales fin", 1.0f, 1.50f),
+            Product(1, "Sun Queen basilic cit.", 1.0f, 5.30f),
+            Product(1, "Valflora UHT 12x1l", 1.0f, 15.35f),
+            Product(1, "Concombre", 1.0f, 1.80f),
+            Product(1, "Oignons", 1.0f, 2.00f),
+            Product(1, "Pommes Jazz", 1.0f, 4.95f),
+            Product(1, "Bananes", 1.0f, 2.50f),
+            Product(1, "BJ F&W abricots", 1.0f, 1.95f),
+            Product(1, "St.Albray", 1.0f, 5.10f),
+            Product(1, "MClass Poitrine dinde", 1.0f, 2.95f),
+            Product(1, "Mbud Salami volaille", 1.0f, 2.85f),
         )
 
-        val date: LocalDate = LocalDate.now()
+        val date = LocalDate.now().toString()
 
         val receipts = arrayOf(
             Receipt(1, date, date, Shop.MIGROS, "MM Payerne", products, 48.45),
