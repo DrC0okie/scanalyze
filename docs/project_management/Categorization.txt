@@ -13,6 +13,7 @@ Aldi 3 catégorie, Thé,Café,Cacaco dans Déjeuner + PRODUITS LAITIERS ET OEUFS
 Produits-laitier et oeuf : 
 Migros prendre toute les sous catégorie sauf plat préparé.
 Aldi : tout sauf Boissons laitières & Alternatives au lait
+Coop : prendre les boissons lactées + produits laitiers en entier
 
 Pain-patisserie : 
 Migros : prendre Pains frais , pains & biscotte, Patisserie

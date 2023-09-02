@@ -1,17 +1,19 @@
 import { workerData, parentPort } from 'worker_threads';
 import puppeteer from 'puppeteer';
 import { v4 } from 'uuid';
-let products = []
-// console.log("URL : " + workerData.base_url);
-// console.log("CAT : " + workerData.categories.name);
-console.log(workerData.categories.name)
+let products = [];
+console.log("URL : " + workerData.base_url);
+
+for (let i = 0; i < workerData.categories.length; i++){
+    console.log(workerData.categories[i].url + " --> " + workerData.categories[i].name);
+}
 
 
 const run = async (cat) => {
     let has_more_product = true;
     const browser = await puppeteer.launch({
         executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
-        headless: false
+        headless: "new"
     });
     const page = await browser.newPage();
 

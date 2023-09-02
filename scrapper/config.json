@@ -2,9 +2,24 @@
     "coop" : {
         "base_url" : "https://www.coop.ch/fr/nourriture/",
         "categories" : [
-            "fruits-legumes/c/m_0001",
-            "produits-laitiers-oeufs/c/m_0055",
-            "viandes-poissons/c/m_0087",
+            {"url":  "fruits-legumes/c/m_0001", "name":  "fruits-vegetables"},
+            {"url": "viandes-poissons/c/m_0087","name": "meat-fish"},
+            {"url": "boissons/eau-minerale/c/m_0263","name": "drinks" },
+            {"url": "boissons/limonades/c/m_0266","name": "drinks"},
+            {"url": "boissons/jus-de-fruits-legumes/c/m_0614","name": "drinks"},
+            {"url": "boissons/bieres/c/m_0260","name": "drinks"},
+            {"url": "boissons-chaudes/c/m_0273","name": "drinks"},
+            {"url": "boissons/cafes/c/m_0274","name": "drinks"},
+            {"url": "produits-laitiers-oeufs/c/m_0055","name": "dairies-eggs"},
+            {"url": "https://www.coop.ch/fr/nourriture/boissons/boissons-lactees-froides/c/m_0060","name": "dairies-eggs"},
+            {"url": "https://www.coop.ch/fr/nourriture/pains-viennoiseries/c/m_0115","name": "bread"},
+            {"url": ,"name": },
+            {"url": ,"name": },
+            {"url": ,"name": }
+
+
+
+
             "pains-viennoiseries/c/m_0115",
             "boissons/c/m_2242",
             "garde-manger/c/m_0140",

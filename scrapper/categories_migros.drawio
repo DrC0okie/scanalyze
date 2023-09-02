@@ -1,0 +1,114 @@
+<mxfile host="app.diagrams.net" modified="2023-09-02T16:27:26.572Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0" etag="lzZNptjPPyJZ13XvMtc4" version="21.7.1" type="device">
+  <diagram name="Page-1" id="HRxfpeSZ7IIpq3mW4zI_">
+    <mxGraphModel dx="965" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-2" value="&lt;div&gt;Migros&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="685" y="420" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-15" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;endArrow=none;endFill=0;" edge="1" parent="1" source="LYRBKmd6Co4kI3nkz9Wq-3" target="LYRBKmd6Co4kI3nkz9Wq-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-3" value="Fruits and vegetables" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="130" y="530" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=none;endFill=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="LYRBKmd6Co4kI3nkz9Wq-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="535" as="sourcePoint" />
+            <mxPoint x="715" y="455" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="270" y="490" />
+              <mxPoint x="715" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-4" value="&lt;div&gt;Meat and Fish&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="530" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="LYRBKmd6Co4kI3nkz9Wq-5" target="LYRBKmd6Co4kI3nkz9Wq-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="490" />
+              <mxPoint x="715" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-5" value="&lt;div&gt;Dairy, eggs and fresh convenience food&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="335" y="530" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="LYRBKmd6Co4kI3nkz9Wq-8" target="LYRBKmd6Co4kI3nkz9Wq-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="555" y="490" />
+              <mxPoint x="715" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-8" value="&lt;div&gt;Bread, pastries and breakfast&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="535" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="1" source="LYRBKmd6Co4kI3nkz9Wq-10" target="LYRBKmd6Co4kI3nkz9Wq-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-10" value="&lt;div&gt;Pasta, condiments and canned food&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="530" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-11" value="&lt;div&gt;Drinks, coffee and tea&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="530" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-12" value="&lt;div&gt;Fruits and vegetables&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="30" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-13" value="&lt;div&gt;Frozen food&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="990" y="530" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-14" value="Wine, beer and spirit" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="530" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-21" value="&lt;div&gt;Snacks and sweets&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="540" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-23" value="&lt;div&gt;Meat and fish&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="70" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-24" value="&lt;div&gt;Drinks&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="110" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-25" value="Dairies and eggs" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="150" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-26" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#00ff00;" vertex="1" parent="1">
+          <mxGeometry x="260" y="33.12" width="165" height="23.75" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-27" value="Bread and pastries" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="147.5" y="190" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-28" value="&lt;div&gt;Breakfast&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="230" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-29" value="&lt;div&gt;Convenience&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="270" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-30" value="Snacks and sweets" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="310" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-32" value="&lt;div&gt;Pasta, condiments and canned food&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="350" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-33" value="&lt;div&gt;Others&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="390" width="390" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-35" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#ff0000;" vertex="1" parent="1">
+          <mxGeometry x="260" y="73.11999999999999" width="165" height="23.75" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-36" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0000ff;" vertex="1" parent="1">
+          <mxGeometry x="262.5" y="113.11999999999999" width="165" height="23.75" as="geometry" />
+        </mxCell>
+        <mxCell id="LYRBKmd6Co4kI3nkz9Wq-37" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0000ff;" vertex="1" parent="1">
+          <mxGeometry x="262.5" y="153.12" width="165" height="23.75" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
