@@ -3,9 +3,9 @@ package ch.heigvd.scanalyze.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
-import ch.heigvd.scanalyze.Product
-import ch.heigvd.scanalyze.Receipt
-import ch.heigvd.scanalyze.Shop
+import ch.heigvd.scanalyze.receipt.Product
+import ch.heigvd.scanalyze.receipt.Receipt
+import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.adapters.ReceiptAdapter
 import ch.heigvd.scanalyze.databinding.ActivityReceiptBinding
 import java.time.LocalDate
@@ -39,14 +39,14 @@ class ReceiptActivity : AppCompatActivity() {
         val date = LocalDate.now().toString()
 
         val receipts = arrayOf(
-            Receipt(1, date, date, Shop.MIGROS, "MM Payerne", products, 48.45),
-            Receipt(1, date, date, Shop.COOP, "Yverdon-les-Bains", products, 48.45),
-            Receipt(1, date, date, Shop.ALDI, "Vugelles-La Mothe", products, 48.45),
-            Receipt(1, date, date, Shop.ALDI, "Crissier", products, 48.45),
-            Receipt(1, date, date, Shop.LIDL,"Sion", products, 48.45),
-            Receipt(1, date, date, Shop.COOP, "Lausanne", products, 48.45),
-            Receipt(1, date, date, Shop.MIGROS, "MMM Yverdon", products, 48.45),
-            Receipt(1, date, date, Shop.LIDL,"Vevey", products, 48.45)
+            Receipt("1", date, date, Shop.MIGROS, "MM Payerne", products, 48.45),
+            Receipt("1", date, date, Shop.COOP, "Yverdon-les-Bains", products, 48.45),
+            Receipt("1", date, date, Shop.ALDI, "Vugelles-La Mothe", products, 48.45),
+            Receipt("1", date, date, Shop.ALDI, "Crissier", products, 48.45),
+            Receipt("1", date, date, Shop.LIDL,"Sion", products, 48.45),
+            Receipt("1", date, date, Shop.COOP, "Lausanne", products, 48.45),
+            Receipt("1", date, date, Shop.MIGROS, "MMM Yverdon", products, 48.45),
+            Receipt("1", date, date, Shop.LIDL,"Vevey", products, 48.45)
         )
 
         recyclerView.adapter = ReceiptAdapter(receipts)

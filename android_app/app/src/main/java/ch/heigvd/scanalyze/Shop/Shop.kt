@@ -1,4 +1,6 @@
-package ch.heigvd.scanalyze
+package ch.heigvd.scanalyze.Shop
+
+import ch.heigvd.scanalyze.R
 
 private const val MIGROS_NAME = "Migros"
 private const val COOP_NAME = "Coop"

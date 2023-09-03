@@ -1,6 +1,6 @@
 package ch.heigvd.scanalyze.rule_sets
 
-import ch.heigvd.scanalyze.Shop
+import ch.heigvd.scanalyze.Shop.Shop
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

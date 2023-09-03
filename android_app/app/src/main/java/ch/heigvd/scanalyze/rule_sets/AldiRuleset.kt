@@ -1,6 +1,6 @@
 package ch.heigvd.scanalyze.rule_sets
 
-import ch.heigvd.scanalyze.Shop
+import ch.heigvd.scanalyze.Shop.Shop
 
 object AldiRuleset: Ruleset() {
     override val shop = Shop.ALDI

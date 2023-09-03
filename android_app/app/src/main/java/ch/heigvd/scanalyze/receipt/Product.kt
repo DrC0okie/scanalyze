@@ -1,4 +1,4 @@
-package ch.heigvd.scanalyze
+package ch.heigvd.scanalyze.receipt
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

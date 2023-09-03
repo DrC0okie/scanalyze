@@ -1,7 +1,7 @@
 package ch.heigvd.scanalyze.ocr
 
-import ch.heigvd.scanalyze.Product
-import ch.heigvd.scanalyze.Receipt
+import ch.heigvd.scanalyze.receipt.Product
+import ch.heigvd.scanalyze.receipt.Receipt
 import ch.heigvd.scanalyze.rule_sets.RulesetFactory
 import com.google.mlkit.vision.text.Text
 import java.lang.RuntimeException
@@ -123,7 +123,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
         throw RuntimeException("No product found after parsing the receipt")
     }
 
-    return Receipt(0, receiptDate, ruleset.getDateTimeNow(), ruleset.shop, "", ArrayList(products))
+    return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop, "", ArrayList(products))
 }
 
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {
