@@ -5,7 +5,6 @@ import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
 @Parcelize
 data class Receipt(
     val userId: Int,
@@ -15,20 +14,21 @@ data class Receipt(
     val shopBranch: String,
     val products: ArrayList<Product>?,
     var totalPrice: Double = 0.0,
-    var imgFilePath: String = ""): Parcelable {
+    var imgFilePath: String = ""
+) : Parcelable {
 
-    init{
+    init {
         totalPrice = getTotal()
     }
 
-    private fun getTotal(): Double{
-        if(products!= null)
+    private fun getTotal(): Double {
+        if (products != null)
             return products.sumOf { it.unitPrice.toDouble() }
 
         return 0.0
     }
 
-    fun getReadableDate(strDate: String): String{
+    fun getReadableDate(strDate: String): String {
         val tmpDate = LocalDateTime.parse(strDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         return tmpDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
@@ -40,8 +40,7 @@ data class Receipt(
             |date: $date
             |scan date: $scanDate
             |products:
-            |--> $products
+            |$products
         """.trimMargin()
     }
-
 }

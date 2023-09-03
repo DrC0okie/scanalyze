@@ -1,6 +1,7 @@
 package ch.heigvd.scanalyze.activities
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -50,23 +51,31 @@ class ScanPreviewActivity : AppCompatActivity() {
         }
 
         binding.buttonCapture.setOnClickListener {
-            // Define where the image will be saved
-            val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
 
-            // Take the photo, save it, and perform analysis
-            imageCapture.takePicture(
-                ImageCapture.OutputFileOptions.Builder(file).build(),
-                executor,
-                object : ImageCapture.OnImageSavedCallback {
-                    override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                        analyzeImage(file)
-                    }
+           try {
+                // Define where the image will be saved
+                val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
 
-                    override fun onError(error: ImageCaptureException) {
-                        runOnUiThread { showToast("Photo capture failed: ${error.message}") }
+                // Take the photo, save it, and perform analysis
+                imageCapture.takePicture(
+                    ImageCapture.OutputFileOptions.Builder(file).build(),
+                    executor,
+                    object : ImageCapture.OnImageSavedCallback {
+                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                            try {
+                                analyzeImage(file)
+                            } catch (e: Exception) {
+                                runOnUiThread { showErrorDialog(e) }
+                            }
+                        }
+                        override fun onError(error: ImageCaptureException) {
+                            runOnUiThread { showErrorDialog(error) }
+                        }
                     }
-                }
-            )
+                )
+           } catch (e: Exception) {
+               runOnUiThread { showErrorDialog(e) }
+           }
         }
     }
 
@@ -106,44 +115,53 @@ class ScanPreviewActivity : AppCompatActivity() {
     }
 
     private fun analyzeImage(file: File) {
+        try {
+            //Correct the image rotation and perspective of the receipt
+            val correctedImage = ReceiptPreprocessor.correctRotation(file)
 
-        //Correct the image rotation and perspective of the receipt
-        val correctedImage = ReceiptPreprocessor.correctRotation(file)
+            if (correctedImage != null) {
+                //Save the corrected image
+                val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected}.jpg")
 
-        if (correctedImage != null) {
-            //Save the corrected image
-            val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected}.jpg")
+                FileOutputStream(imagePath).use {
+                    correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
+                }
 
-            FileOutputStream(imagePath).use {
-                correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
+                //Detect the text on the image
+                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                recognizer.process(InputImage.fromBitmap(correctedImage, 0))
+                    .addOnSuccessListener { visionText ->
+                        try {
+                            val receipt = visionText.toReceipt()
+                            receipt.imgFilePath = imagePath.absolutePath
+                            val intent = Intent(this, ReceiptDetailActivity::class.java)
+                            intent.putExtra("receipt", receipt)
+                            startActivity(intent)
+                        }catch (e: Exception){
+                            runOnUiThread { showErrorDialog(e) }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        runOnUiThread { showErrorDialog(e) }
+                    }
             }
 
-            //Detect the text on the image
-            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-            recognizer.process(InputImage.fromBitmap(correctedImage, 0))
-                .addOnSuccessListener { visionText ->
-                    try {
-                        val receipt = visionText.toReceipt()
-                        receipt?.imgFilePath = imagePath.absolutePath
-                        println(receipt)
-                        val intent = Intent(this, ReceiptDetailActivity::class.java)
-                        intent.putExtra("receipt", receipt)
-                        startActivity(intent)
-                    } catch (e: Exception) {
-                        Toast.makeText(
-                            baseContext,
-                            "Failed to parse text: ${e.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("TextRecognition", "Failed to process image: ${e.message}")
-                }
+        } catch (e: Exception) {
+            throw Exception(e)
         }
     }
 
     private fun showToast(msg: String) {
         Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+    }
+
+    fun showErrorDialog(e: Exception) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Oops...")
+        builder.setMessage(e.message ?: "An unknown error occurred.")
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 }

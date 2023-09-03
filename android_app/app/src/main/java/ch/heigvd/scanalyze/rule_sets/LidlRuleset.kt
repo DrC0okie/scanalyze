@@ -2,8 +2,8 @@ package ch.heigvd.scanalyze.rule_sets
 
 import ch.heigvd.scanalyze.Shop
 
-object CoopRuleset: Ruleset() {
-    override val shop = Shop.COOP
+object LidlRuleset: Ruleset() {
+    override val shop = Shop.LIDL
     override val minLengthLine: Int
         get() = TODO("Not yet implemented")
     override val pricePattern: Regex

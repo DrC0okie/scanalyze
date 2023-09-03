@@ -1,7 +1,6 @@
 package ch.heigvd.scanalyze.image_processing
 
 import android.graphics.Bitmap
-import android.util.Log
 import org.opencv.android.Utils
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -13,6 +12,7 @@ import org.opencv.core.Size
 import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgproc.Imgproc
 import java.io.File
+import java.lang.RuntimeException
 import kotlin.math.sqrt
 
 object ReceiptPreprocessor {
@@ -25,10 +25,7 @@ object ReceiptPreprocessor {
         //Delete original picture that has been taken
         file.delete()
 
-        if (inputMat.empty()) {
-            Log.e("OpenCV", "Failed to load image")
-            return null
-        }
+        if (inputMat.empty()) throw RuntimeException("OpenCV: Failed to read the image")
 
         // Preprocessing to get a well-defined receipt on the image to work on
         val processedMat = preprocessing(inputMat)
@@ -36,9 +33,10 @@ object ReceiptPreprocessor {
         // Get the corners of the rectangle that has been approximated from the processed mat
         val corners = approximateRectangle(processedMat)
 
-        //TODO: Throw exception with this message: "Photo capture failed: Receipt border not found correctly!"
         if (corners.size != 4) {
-            return inputMat.toBitmap(Bitmap.Config.ARGB_8888)
+            inputMat.release()
+            processedMat.release()
+            throw RuntimeException("Preprocessing failed: Receipt not found correctly!")
         }
 
         // Get mass center of the receipt shape
