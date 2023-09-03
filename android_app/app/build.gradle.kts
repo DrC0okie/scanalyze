@@ -20,9 +20,10 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 android {
     namespace = "ch.heigvd.scanalyze"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ch.heigvd.scanalyze"
@@ -41,6 +42,10 @@ android {
             keyAlias = keyAliasProp
             keyPassword = keyPasswordProp
         }
+    }
+
+    viewBinding {
+        enable = true
     }
 
     buildTypes {
@@ -64,7 +69,18 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.android.material:material:1.9.0")
+
+    val cameraxVersion = "1.2.3"
+    implementation ("androidx.camera:camera-core:${cameraxVersion}")
+    implementation ("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation ("androidx.camera:camera-lifecycle:${cameraxVersion}")
+    implementation ("androidx.camera:camera-video:${cameraxVersion}")
+    implementation ("androidx.camera:camera-view:${cameraxVersion}")
+    implementation ("androidx.camera:camera-extensions:${cameraxVersion}")
+    implementation ("com.quickbirdstudios:opencv-contrib:4.5.3.0")
+
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.core:core-ktx:1.10.1")
