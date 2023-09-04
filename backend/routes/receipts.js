@@ -30,6 +30,15 @@ router.post('/', async (req, res, next) => {
     })
     return;
   }
+
+  if (!req.body.receipt.products.length) {
+    res.status(400).json({
+      error: "No products in receipt"
+    })
+    return;
+  }
+
+
   const receipt = req.body.receipt;
   receipt.date = new Date(Date.now());
   receipt.date.setMonth(randomIntFromInterval(1,12))
