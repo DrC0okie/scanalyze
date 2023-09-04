@@ -60,7 +60,7 @@ data class Receipt(
             shop.shopName.lowercase(),
             "",
             jsonProducts,
-            0.0
+            0.0f
         )
 
         // Create the wrapper map

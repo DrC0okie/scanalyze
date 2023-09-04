@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.buttonStats.setOnClickListener{
+            startActivity(Intent(this, StatsActivity::class.java))
+        }
+
         binding.buttonReceipts.setOnClickListener{
             startActivity(Intent(this, ReceiptActivity::class.java))
         }

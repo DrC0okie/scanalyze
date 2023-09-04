@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32dp"
     android:background="@color/black"
+    android:padding="32dp"
     tools:context=".activities.MainActivity">
 
     <TextView
@@ -13,32 +12,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="32sp"
         android:textColor="@color/scanalyze_purple"
-        tools:text="Welcome, Jean-Eude"/>
+        android:textSize="32sp"
+        tools:text="Welcome, Jean-Eude" />
 
     <Button
         android:id="@+id/button_receipts"
+        style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/text_view_welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="96dp"
-        android:text="Receipts"
-        style="@style/ScanalyzeHomeButton"/>
+        android:text="Receipts" />
 
     <Button
         android:id="@+id/button_stats"
+        style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/button_receipts"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="96dp"
-        android:text="Statistics"
-        style="@style/ScanalyzeHomeButton"/>
+        android:text="Statistics" />
 
     <Button
         android:id="@+id/button_scan"
+        style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/button_stats"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="96dp"
-        android:text="Scan"
-        style="@style/ScanalyzeHomeButton"/>
+        android:text="Scan" />
 
 </RelativeLayout>

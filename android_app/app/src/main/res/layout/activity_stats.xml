@@ -1,0 +1,128 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/black">
+
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_week"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_background_week"
+                android:text="Week"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/scanalyze_purple" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_month"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_background_month"
+                android:text="Month"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/scanalyze_purple" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_year"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button_background_year"
+                android:text="Year"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardView"
+        android:layout_alignStart="@id/cardView"
+        android:layout_alignEnd="@id/cardView">
+
+        <TextView
+            android:id="@+id/text_view_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:padding="8dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            tools:text="7847.25" />
+
+        <TextView
+            android:id="@+id/text_view_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            tools:text="CHF" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_interval"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_background_interval"
+            android:text="Interval"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/scanalyze_grey" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_barchart_spending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout_total"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/scanalyze_grey"
+        app:cardCornerRadius="12dp">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchart_spending"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@+id/cardView"
+            android:layout_marginTop="16dp" />
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
