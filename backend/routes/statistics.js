@@ -37,22 +37,22 @@ router.get('/', async (req, res, next) => {
     statistics.receipts.push({ date: receipt.date, total: receipt.total })
 
     for (const product of receipt.products) {
+      console.log(product)
       if (statistics.total_category[product.category]) {
-        statistics.total_category[product.category] += product.price
+        statistics.total_category[product.category] += product.unit_price
       } else {
-        statistics.total_category[product.category] = product.price
+        statistics.total_category[product.category] = product.unit_price
       }
     }
 
   });
   //Format statistics 
-  for (const year in statistics) {
+  
     statistics.total = parseFloat(statistics.total.toFixed(2));
     for (const category in statistics.total_category) {
       statistics.total_category[category] = parseFloat(statistics.total_category[category].toFixed(2));
     }
 
-  }
   res.status(200).json(statistics);
 });
 
