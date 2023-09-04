@@ -45,8 +45,8 @@ router.get('/', async (req, res, next) => {
     }
 
   });
+  //Format statistics 
   for (const year in statistics) {
-    //Format statistics 
     statistics.total = parseFloat(statistics.total.toFixed(2));
     for (const category in statistics.total_category) {
       statistics.total_category[category] = parseFloat(statistics.total_category[category].toFixed(2));
