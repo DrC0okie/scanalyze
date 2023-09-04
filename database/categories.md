@@ -11,6 +11,7 @@ Les catégories définies :
 - Plats préparés "convenience"
 - Snacks et sucrerie "snacks"
 - Pâtes, condiments et conservers "starches"
+- Autres "others"
 
 ## Coop
 The fruits and vegagt

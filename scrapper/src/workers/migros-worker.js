@@ -38,7 +38,8 @@ const run = async (cat) => {
         for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const actual_price = item.getElementsByClassName("actual").length ? parseFloat(item.getElementsByClassName("actual")[0].innerHTML.trim()) : 0;
-            const regular_price = item.getElementsByClassName("regular-price").length ? item.getElementsByClassName("regular-price")[0].children[2].innerHTML : 0;
+            const regular_price = item.getElementsByClassName("regular-price").length ? parseFloat(item.getElementsByClassName("regular-price")[0].children[2].innerHTML) : 0;
+            const weight_priceUnit = item.getElementsByClassName("weight-priceUnit ng-star-inserted")
             let name = item.getElementsByClassName("name").length ? item.getElementsByClassName("name")[0].innerHTML + " " : "";
             for (let j = 0; j < item.getElementsByClassName("desc")[0].children.length; j++) {
                 name = name.concat(" ", item.getElementsByClassName("desc")[0].children[j].innerHTML || " ");

@@ -42,7 +42,7 @@
             {"url": "vins-bieres-spiritueux", "name": "drinks"},
             {"url": "boissons-cafe-the", "name": "drinks"},
             {"url": "boulangerie-patisserie-petit-dej/pains-frais", "name": "bread"},
-            {"url": "/boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/patisseries", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/cereales-muesli", "name": "breakfast"},
             {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "breakfast"},
