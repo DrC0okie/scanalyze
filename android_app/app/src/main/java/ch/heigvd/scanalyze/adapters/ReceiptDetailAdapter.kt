@@ -17,8 +17,7 @@ class ReceiptDetailAdapter(private val receipt: Receipt?) :
             binding.textViewProductName.text = product.abbreviatedName
             binding.textViewQuantity.text = String.format("%.2f", product.quantity)
             binding.textViewUnitPrice.text = String.format("%.2f", product.unitPrice)
-            binding.textViewProductPrice.text =
-                String.format("%.2f", (product.quantity * product.unitPrice))
+            binding.textViewProductPrice.text = String.format("%.2f", product.total)
         }
     }
 
@@ -35,6 +34,6 @@ class ReceiptDetailAdapter(private val receipt: Receipt?) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         //Binds each projectItem in the Array with the actual position of the recyclerView
-        holder.bind(receipt?.products?.get(position) ?: Product(0, "null", 0.0f, 0.0f, 0.0f))
+        holder.bind(receipt?.products?.get(position) ?: Product("null", 0.0f, 0.0f, 0.0f))
     }
 }

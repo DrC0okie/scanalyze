@@ -22,18 +22,18 @@ class ReceiptActivity : AppCompatActivity() {
 
         // Test values
         val products = arrayListOf(
-            Product(1, "Mclass sésame décorti.", 3.0f, 2.20f),
-            Product(1, "Dlr sel des ales fin", 1.0f, 1.50f),
-            Product(1, "Sun Queen basilic cit.", 1.0f, 5.30f),
-            Product(1, "Valflora UHT 12x1l", 1.0f, 15.35f),
-            Product(1, "Concombre", 1.0f, 1.80f),
-            Product(1, "Oignons", 1.0f, 2.00f),
-            Product(1, "Pommes Jazz", 1.0f, 4.95f),
-            Product(1, "Bananes", 1.0f, 2.50f),
-            Product(1, "BJ F&W abricots", 1.0f, 1.95f),
-            Product(1, "St.Albray", 1.0f, 5.10f),
-            Product(1, "MClass Poitrine dinde", 1.0f, 2.95f),
-            Product(1, "Mbud Salami volaille", 1.0f, 2.85f),
+            Product("Mclass sésame décorti.", 3.0f, 2.20f),
+            Product("Dlr sel des ales fin", 1.0f, 1.50f),
+            Product("Sun Queen basilic cit.", 1.0f, 5.30f),
+            Product("Valflora UHT 12x1l", 1.0f, 15.35f),
+            Product("Concombre", 1.0f, 1.80f),
+            Product("Oignons", 1.0f, 2.00f),
+            Product("Pommes Jazz", 1.0f, 4.95f),
+            Product("Bananes", 1.0f, 2.50f),
+            Product("BJ F&W abricots", 1.0f, 1.95f),
+            Product("St.Albray", 1.0f, 5.10f),
+            Product("MClass Poitrine dinde", 1.0f, 2.95f),
+            Product("Mbud Salami volaille", 1.0f, 2.85f),
         )
 
         val date = LocalDate.now().toString()

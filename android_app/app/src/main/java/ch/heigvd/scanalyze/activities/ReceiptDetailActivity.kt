@@ -20,9 +20,9 @@ class ReceiptDetailActivity : AppCompatActivity() {
 
         if (receipt != null) {
             val bitmap = BitmapFactory.decodeFile(receipt.imgFilePath)
-            binding.textViewDetailDate.text = receipt.getReadableDate(receipt.date)
+            binding.textViewDetailDate.text = receipt.date
             binding.textViewDetailShop.text = receipt.shopBranch
-            binding.textViewDetailScannedDate.text = receipt.getReadableDate(receipt.scanDate)
+            binding.textViewDetailScannedDate.text = receipt.scanDate
             binding.imageViewDetailShopIcon.setImageResource(receipt.shop.resourceImage)
             binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receipt)
             binding.textViewDetailTotal.text = String.format("%.2f", receipt.totalPrice)

@@ -1,7 +1,6 @@
 package ch.heigvd.scanalyze.receipt
 
 class JsonReceipt(
-    val _id: String,
     val user_id: String,
     val date: String,
     val shop_name: String,

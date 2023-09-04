@@ -30,11 +30,6 @@ data class Receipt(
         return 0.0
     }
 
-    fun getReadableDate(strDate: String): String {
-        val tmpDate = LocalDateTime.parse(strDate, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        return tmpDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-    }
-
     override fun toString(): String {
         return """
             |user id: $userId
@@ -46,6 +41,8 @@ data class Receipt(
         """.trimMargin()
     }
 
+
+
     fun toJson(): String {
         // Early exit if products is null or empty
         val productList = products ?: return ""
@@ -53,12 +50,11 @@ data class Receipt(
 
         // Transform the list of Product to JsonProduct
         val jsonProducts = productList.map { p ->
-            JsonProduct(p.id.toString(), p.abbreviatedName, p.quantity, p.unitPrice, p.discount)
+            JsonProduct(p.abbreviatedName, p.quantity, p.unitPrice, p.discount, p.total)
         }.toTypedArray()
 
         // Create the JsonReceipt object
         val receipt = JsonReceipt(
-            "",
             userId,
             date,
             shop.shopName.lowercase(),
@@ -67,8 +63,10 @@ data class Receipt(
             0.0
         )
 
-        // Serialize the JsonReceipt object to JSON
-        return Gson().toJson(receipt)
-    }
+        // Create the wrapper map
+        val wrapper = mapOf("receipt" to receipt)
 
+        // Serialize the JsonWrapper object to JSON
+        return Gson().toJson(wrapper)
+    }
 }

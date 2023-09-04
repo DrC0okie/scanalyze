@@ -30,30 +30,40 @@ abstract class Ruleset {
     fun isDate(text: String) = datePattern.matches(text)
 
     fun getDate(date: String?): String {
-        if(date.isNullOrEmpty()) return ""
-        
+        if (date.isNullOrEmpty()) return ""
+
         return LocalDate.parse(date, dateFormat).atStartOfDay().format(dateIsoFormat)
     }
 
     fun getDateTimeNow(): String = LocalDateTime.now().format(dateIsoFormat)
 
     // This is the standard order in the prices list
-    open fun getQuantity(prices: List<Float>) = prices[0]
-
-    open fun getUnitPrice(prices: List<Float>) = prices[1]
-
-    open fun getDiscount(prices: List<Float>): Float{
-        if(prices.size == 3){
-            return 0.0f
-        }
-        return prices[2]
+    open fun getQuantity(prices: List<Float>): Float {
+        return prices[0]
     }
 
-    open fun getTotalPrice(prices: List<Float>): Float{
-        if(prices.size == 3){
+    open fun getUnitPrice(prices: List<Float>): Float {
+        if (prices.isNotEmpty())
+            return prices[1]
+        return 0.0f
+    }
+
+    open fun getDiscount(prices: List<Float>): Float {
+        if (prices.size == 3) {
+            return 0.0f
+        } else if (prices.size > 3) {
             return prices[2]
         }
-        return prices[3]
+        return 0.0f
+    }
+
+    open fun getTotalPrice(prices: List<Float>): Float {
+        if (prices.size == 3) {
+            return prices[2]
+        } else if (prices.size > 3) {
+            return prices[3]
+        }
+        return 0.0f
     }
 
 }

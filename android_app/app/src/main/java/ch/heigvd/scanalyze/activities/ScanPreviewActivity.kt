@@ -18,11 +18,13 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.Utils.Utils.showErrorDialog
 import ch.heigvd.scanalyze.api.Api
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
+import ch.heigvd.scanalyze.receipt.Product
 import ch.heigvd.scanalyze.receipt.Receipt
 import com.google.android.material.snackbar.Snackbar
 import com.google.mlkit.vision.common.InputImage
@@ -40,6 +42,8 @@ import org.opencv.android.OpenCVLoader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.concurrent.Executors
 
 
@@ -83,6 +87,7 @@ class ScanPreviewActivity : AppCompatActivity() {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                             analyzeImage(file)
                         }
+
                         override fun onError(error: ImageCaptureException) {
                             runOnUiThread { showErrorDialog(error, this@ScanPreviewActivity) }
                         }
@@ -137,6 +142,7 @@ class ScanPreviewActivity : AppCompatActivity() {
             if (correctedImage != null) {
                 //Save the corrected image
                 val imagePath = saveCorrectedImage(correctedImage)
+
                 processImageWithOCR(correctedImage, imagePath)
             }
 
@@ -153,7 +159,7 @@ class ScanPreviewActivity : AppCompatActivity() {
         return imagePath
     }
 
-    private fun processImageWithOCR(image: Bitmap, imagePath: File){
+    private fun processImageWithOCR(image: Bitmap, imagePath: File) {
         //Detect the text on the image
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         recognizer.process(InputImage.fromBitmap(image, 0))
@@ -175,7 +181,7 @@ class ScanPreviewActivity : AppCompatActivity() {
     private fun handleOcrSuccess(receipt: Receipt) {
         try {
 
-//            postReceiptToAPI(receipt, Api.endpoints.postReceipt)
+            //postReceiptToAPI(receipt, Api.endpoints.postReceipt)
             displaySnackBar(receipt)
 
 
@@ -219,11 +225,11 @@ class ScanPreviewActivity : AppCompatActivity() {
         })
     }
 
-    private fun displaySnackBar(receipt: Receipt)
-    {
+    private fun displaySnackBar(receipt: Receipt) {
         // Inflate the custom Snackbar layout
         val inflater = layoutInflater
-        val customSnackbarView = inflater.inflate(ch.heigvd.scanalyze.R.layout.custom_snackbar_layout, null)
+        val customSnackbarView =
+            inflater.inflate(ch.heigvd.scanalyze.R.layout.custom_snackbar_layout, null)
 
         // Get the root view and add the custom Snackbar view to it
         val rootView = findViewById<ViewGroup>(android.R.id.content)

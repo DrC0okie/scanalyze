@@ -84,11 +84,10 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
     var receiptDate = ""
     val ruleset = RulesetFactory.create(lines)
 
-    for (line in lines) {
-        var isEdible = false
+    lines@for (line in lines) {
         val productName = StringBuilder("")
         val prices: MutableList<Float> = ArrayList()
-
+        var isEdible = false
         for (element in line) {
             val text = element.text
             if (ruleset.isMinLineSize(line.size)) {
@@ -97,12 +96,12 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
                     productName.append("$text ")
                 } else if (prices.size == 0 && ruleset.isQuantity(text)) {
                     // The text is the quantity
-                    prices.add(text.toFloat())
-                } else if (prices.size > 0 && ruleset.isPrice(text)) {
-                    // The text is a price
-                    prices.add(text.toFloat())
-                } else if (prices.size > 0 && ruleset.isEdible(text)) {
-                    // The text is the code number indicating an edible product
+                    prices.add(text.replace(",", ".").toFloat())
+                } else if (ruleset.isPrice(text)) { // The text is a price
+                    //The quantity has not been detected by the OCR engine, so we add it
+                    if(prices.size == 0) prices.add(.0f)
+                    prices.add(text.replace(",", ".").toFloat())
+                } else if (prices.size > 1 && ruleset.isEdible(text)) {
                     isEdible = true
                 }
             }
@@ -110,12 +109,12 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
                 receiptDate = ruleset.getDate(text)
             }
         }
-
-        if (isEdible) {
+        if(isEdible){
             val quantity = ruleset.getQuantity(prices)
             val unitPrice = ruleset.getUnitPrice(prices)
             val discount = ruleset.getDiscount(prices)
-            products.add(Product(0, productName.toString(), quantity, unitPrice, discount))
+            val totalPrice = ruleset.getTotalPrice(prices)
+            products.add(Product(productName.toString(), quantity, unitPrice, discount, totalPrice))
         }
     }
 
