@@ -19,20 +19,20 @@ const single_jarowinkler = (p1,p2) =>{
 const single_dice_price_weighted = (p1,p2) =>{
     const PRICE_WEIGHT = 1
     const ALGO_WEIGHT = 2
-    const price_similarity = p1.price == p2.actual_price
-    return (ALGO_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + ALGO_WEIGHT)
+    const price_similarity = p1.unit_price == p2.actual_price
+    return (ALGO_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + ALGO_WEIGHT)
 }
 const combo_dice_jaro_price_weighted = (p1,p2) =>{
     const PRICE_WEIGHT = 0.3
     const DICE_WEIGHT = 1
     const JARO_WEIGHT = 0.2
-    const price_similarity = p1.price == p2.actual_price
-    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (JARO_WEIGHT * jw(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + DICE_WEIGHT + JARO_WEIGHT)
+    const price_similarity = p1.unit_price == p2.actual_price
+    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (JARO_WEIGHT * jw(p1.product_name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + DICE_WEIGHT + JARO_WEIGHT)
 }
 const combo_dice_jaro = (p1,p2) =>{
     const DICE_WEIGHT = 1
     const JARO_WEIGHT = 0.5
-    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (JARO_WEIGHT * jw(p1.name,p2.name))) / (DICE_WEIGHT + JARO_WEIGHT)
+    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (JARO_WEIGHT * jw(p1.product_name,p2.name))) / (DICE_WEIGHT + JARO_WEIGHT)
 }
 const combo_jaro_levenshtein = (p1,p2) =>{
     const LEVEN_WEIGHT = 1
@@ -51,26 +51,27 @@ const combo_dice_levenshtein_price = (p1,p2) =>{
     const LEVEN_WEIGHT = 0.7
     const DICE_WEIGHT = 1.5
     const price_similarity = p1.price == p2.actual_price
-    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + DICE_WEIGHT)
+    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + DICE_WEIGHT)
 }
 const triple_jaro_levenshtei_dice_price = (p1,p2) =>{
     const PRICE_WEIGHT = 0.5
     const LEVEN_WEIGHT = 0.7
     const JARO_WEIGHT = 0.2
     const DICE_WEIGHT = 1.5
-    const price_similarity = p1.price == p2.actual_price
-    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.name,p2.name)) + (JARO_WEIGHT * jw(p1.name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + JARO_WEIGHT + DICE_WEIGHT)
+    const price_similarity = p1.unit_price == p2.actual_price
+    return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.product_name,p2.name)) + (JARO_WEIGHT * jw(p1.product_name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + JARO_WEIGHT + DICE_WEIGHT)
 }
 /* This function mesure an algorithm's performance */
 const test = (algo_name,algo_funct,targets,products,isFiltered) => {
     let correct = 0 ;
     let best_products = [];
     for(const target of targets){
+        console.log(target);
         let best_product;
         let best_product_value = 0;
         //Filter only if parameter is true
         let filtered_products = isFiltered?  products.filter((el)=>{
-            return el.actual_price == target.price || el.actual_price == 0
+            return el.actual_price == target.unit_price || el.actual_price == 0
         }) : products
 
         for(let product of filtered_products){
