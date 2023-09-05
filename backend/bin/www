@@ -6,7 +6,7 @@
 
 const app = require('../app');
 const debug = require('debug')('backend:server');
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 /**
  * Get port from environment and store in Express.
@@ -19,10 +19,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-const server = https.createServer({
-  key: fs.readFileSync("./ssl_privatekey.pem"),
-  cert: fs.readFileSync("./cert.pem")
-},app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
