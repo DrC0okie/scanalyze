@@ -1,0 +1,87 @@
+[
+    {
+        "name":"Courgettes",
+        "price":"3.50",
+        "correct": "95b49e1d-5e1d-4e91-8bf0-d755e39506f7"
+    },
+    {
+        "name": "Oignons",
+        "price":"2.30",
+        "correct":"7838e924-aab4-4dbf-8b1b-b3ab566be149"
+    },
+    {
+        "name": "Sun Queen et ananas",
+        "price":"1.45",
+        "correct":"f37afe91-bb62-44a5-b0f7-ba669dbf566a"
+    },
+    {
+        "name": "MClass MSC thon eau",
+        "price": "1.95",
+        "correct":"05aba96b-4e69-4388-a0e6-d67f63037996"
+    },
+    {
+        "name": "MClass champ. cou.115g",
+        "price": "0.95",
+        "correct":"7b3efbe1-7f80-4dae-b716-677829a05691"
+    },
+    {
+        "name": "MClass Champignons",
+        "price": "1.75",
+        "correct":"5a5e2223-7ee2-466d-83a3-8c21e4a48a02"
+    },
+    {
+        "name": "Bio penne blé complet",
+        "price": "2.20",
+        "correct":"5a5e2223-7ee2-466d-83a3-8c21e4a48a02"
+    },
+    {
+        "name": "Passata di pomodoro",
+        "price": "2.50",
+        "correct":"7546c79d-82f9-4c81-9c44-4670d4d1fa00"
+    },
+    {
+        "name": "Mini Gnocchetti ",
+        "price": "4.60",
+        "correct":"6d9fe770-9a6d-4871-a576-b1efb4c92377"
+    },
+    {
+        "name": "Demi-crème ex lactose",
+        "price": "2.80",
+        "correct":"97a15e89-933a-407f-8c69-f7e7bc4e723c"
+    },
+    {
+        "name": "Maxi fromage râpé",
+        "price": "4.20",
+        "correct":"374125bb-fc63-49bb-b5ed-126fe46b3e70"
+    }, 
+    {
+        "name": "Mozzarella aha! 150g",
+        "price": "2.50",
+        "correct":"a4baf4fb-1e37-4f73-8536-7fe0f48e4c2d"
+    }, 
+    {
+        "name": "Jambon pays vaud",
+        "price": "4.55",
+        "correct":"af6b04b9-63eb-4ea8-ade2-7c3fa976ae37"
+    },
+    {
+        "name": "Alnatura Kokos Nature",
+        "price": "3.55",
+        "correct":"c71ca2e6-9008-43c3-8654-49525d547905"
+    },
+    {
+        "name": "Pâte à pizza fine",
+        "price": "3.55",
+        "correct": "f5dbaa92-a9e8-4695-b0c5-2ca4b24f6ded"
+    },
+    {
+        "name": "Abricots",
+        "price": "5.50",
+        "correct":"64bc3418-a9ac-4b83-8840-0a109fec553a"
+    },
+    {
+        "name": "Bio Kiwis Gold",
+        "price": "2.95",
+        "correct":"8bb31995-aea5-4f6d-8750-a90b490db318"
+    }
+]
