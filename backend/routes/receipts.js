@@ -1,19 +1,13 @@
 const express = require('express');
-const dice = require('fast-dice-coefficient');
 const router = express.Router();
 const fake_receipt = require("../data/migros-receipt.json");
-const fake_receipt2 = require("../data/migros-receipt-2.json")
 const index = require('../utils/indexation');
 const connect_db = require("../utils/dbconn");
 const { ObjectId} = require("mongodb");
 const products = require("../data/migros.json");
-/* Post new receipts */
 
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
+
 /* Test route to test indexaction algorithm */
-
 router.get('/test',async (req,res,next)=>{
   const receipt = fake_receipt;
   const result = []
@@ -22,6 +16,8 @@ router.get('/test',async (req,res,next)=>{
   
   res.status(200).json(result);
 })
+
+/* Post new receipts */
 router.post('/', async (req, res, next) => {
 
   if (!req.body.receipt) {
@@ -38,11 +34,8 @@ router.post('/', async (req, res, next) => {
     return;
   }
 
-
   const receipt = req.body.receipt;
-  receipt.date = new Date(Date.now());
-  receipt.date.setMonth(randomIntFromInterval(1,12))
-  receipt.date.setFullYear(randomIntFromInterval(2019,2023))
+
   const db = await connect_db();
   const products_collection = db.collection("products_"+receipt.shop_name);
   const acronyms_collection = db.collection("acronyms");
@@ -50,7 +43,6 @@ router.post('/', async (req, res, next) => {
   let indexed_product = []
   for (let receipt_product of receipt.products) {
     receipt.total += receipt_product.total_price;
-    console.log(receipt_product);
     let found_product;
     //Searching in the acronym document if the product is already indexed
     const indexed_acronym = await acronyms_collection.findOne({
