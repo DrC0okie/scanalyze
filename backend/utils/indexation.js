@@ -1,6 +1,12 @@
 const sc = require('string-comparison')
 const jw = require('jaro-winkler');
-
+/*  Every function below use a certain string matching algorithm. 
+    All single function use one algorithm
+    All combo function use two algorithm and the functions suffixed with "price"
+    also use the price to determine the best match
+    All combo and triple function use a weighted average as result.
+    The triple function is currently being used in the index action as it is the most efficient option.
+*/
 const single_levenshtein = (p1,p2) =>{
     return sc.levenshtein.similarity(p1.name,p2.name);
 }
@@ -61,12 +67,13 @@ const triple_jaro_levenshtei_dice_price = (p1,p2) =>{
     const price_similarity = p1.unit_price == p2.actual_price
     return (DICE_WEIGHT * sc.diceCoefficient.similarity(p1.product_name,p2.name) + (LEVEN_WEIGHT * sc.levenshtein.similarity(p1.product_name,p2.name)) + (JARO_WEIGHT * jw(p1.product_name,p2.name)) + (price_similarity * PRICE_WEIGHT)) / (PRICE_WEIGHT + LEVEN_WEIGHT + JARO_WEIGHT + DICE_WEIGHT)
 }
-/* This function mesure an algorithm's performance */
+/* This function mesure an algorithm's performance it was used when testing
+   the different algorithms.
+*/
 const test = (algo_name,algo_funct,targets,products,isFiltered) => {
     let correct = 0 ;
     let best_products = [];
     for(const target of targets){
-        console.log(target);
         let best_product;
         let best_product_value = 0;
         //Filter only if parameter is true
@@ -95,7 +102,7 @@ const test = (algo_name,algo_funct,targets,products,isFiltered) => {
         best_products
     };
 }
-
+/* This function  run the indexation algorithm on a target with a set of products */
 const run = (target,products) =>{
     
     let best_product;

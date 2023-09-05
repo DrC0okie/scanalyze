@@ -9,7 +9,6 @@ let conn;
 const  connect_db = async () => {
   try {
     await client.connect();
-    console.log('Connected to MongoDB');
     return client.db(process.env.ATLAS_DB_NAME);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
