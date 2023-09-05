@@ -49,3 +49,67 @@ describe('POST receipts', () => {
         expect(res.body.error).toEqual("No products in receipt");
     })
 })
+
+describe('GET receipts', () => {
+    it('GET receipts should return all receipt',async ()=>{
+        const res = await request(server)
+        .get('/receipts')
+        
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('receipts');
+    })
+
+})
+
+describe('GET receipt with id', () => {
+    it('GET receipts with correct id should return the receipt with his products',async ()=>{
+        const res = await request(server)
+        .get('/receipts/64f1eda16af940a672e01ca1')
+        
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('receipt');
+        expect(res.body.receipt).toHaveProperty('products');
+        expect(res.body.receipt.products.length).not.toEqual(0);
+    })
+    it('GET receipts with werong id should return status code 400',async ()=>{
+        const res = await request(server)
+        .get('/receipts/wrongid')
+        
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error).toEqual('Receipt not found');
+    })
+
+})
+
+
+describe('GET statistics', () => {
+    it('Get statistics with a correct <from> and <to> should return 200',async ()=>{
+        const res = await request(server)
+        .get('/statistics?to=01-01-2022&from=20-12-2019')
+        
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('total');
+        expect(res.body).toHaveProperty('total_category');
+        expect(res.body).toHaveProperty('receipts');
+        expect(res.body.receipts.length).not.toEqual(0)
+    })
+    it('GET statistics with missing <from> and <to> should return 400',async ()=>{
+        const res = await request(server)
+        .get('/statistics')
+        
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error).toEqual('Missing <from> or <to> in query');
+    })
+    it('GET statistics with malformated <from> and <to> should return 400',async ()=>{
+        const res = await request(server)
+        .get('/statistics?to=01.01.2022&from=32-53-2019')
+        
+        expect(res.statusCode).toEqual(400);
+        expect(res.body).toHaveProperty('error');
+        expect(res.body.error).toEqual('query <from> or <to> are malformated, use the following format [day]-[month]-[fullYear]');
+    })
+
+})
+
