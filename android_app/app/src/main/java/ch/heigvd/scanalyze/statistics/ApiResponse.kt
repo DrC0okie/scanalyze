@@ -3,7 +3,7 @@ package ch.heigvd.scanalyze.statistics
 import ch.heigvd.scanalyze.receipt.JsonReceipt
 import com.google.gson.annotations.SerializedName
 
-data class StatisticsApiResponse(
+data class ApiResponse(
     @SerializedName("total") val totalSpent: Float,
     @SerializedName("receipts") val receipts: List<JsonReceipt>,
     @SerializedName("total_category") val totalCategory: Map<String, Float>

@@ -1,14 +1,14 @@
 package ch.heigvd.scanalyze.ocr
 
-import ch.heigvd.scanalyze.receipt.Product
-import ch.heigvd.scanalyze.receipt.Receipt
+import ch.heigvd.scanalyze.receipt.JsonProduct
+import ch.heigvd.scanalyze.receipt.JsonReceipt
 import ch.heigvd.scanalyze.rule_sets.RulesetFactory
 import com.google.mlkit.vision.text.Text
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 
-fun Text.toReceipt(): Receipt {
+fun Text.toReceipt(): JsonReceipt {
     try {
         return generateReceipt(resolveLines(getTextElements(this)))
     } catch (e: Exception) {
@@ -78,9 +78,9 @@ private fun resolveLines(textElements: List<TextElement>): List<List<TextElement
     return lines
 }
 
-private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
+private fun generateReceipt(lines: List<List<TextElement>>): JsonReceipt {
 
-    val products: MutableList<Product> = ArrayList()
+    val products: MutableList<JsonProduct> = ArrayList()
     var receiptDate = ""
     val ruleset = RulesetFactory.create(lines)
 
@@ -114,7 +114,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
             val unitPrice = ruleset.getUnitPrice(prices)
             val discount = ruleset.getDiscount(prices)
             val totalPrice = ruleset.getTotalPrice(prices)
-            products.add(Product(productName.toString(), quantity, unitPrice, discount, totalPrice))
+            products.add(JsonProduct(productName.toString(), quantity, unitPrice, discount, totalPrice))
         }
     }
 
@@ -122,7 +122,10 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
         throw RuntimeException("No product found after parsing the receipt")
     }
 
-    return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop, "", ArrayList(products))
+    //Calculate the total
+    val total = products.sumOf { it.totalPrice.toDouble() }.toFloat()
+
+    return JsonReceipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName, "", products.toTypedArray(), total)
 }
 
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {

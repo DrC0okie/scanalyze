@@ -76,10 +76,10 @@
             android:id="@+id/text_view_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:padding="8dp"
-            android:layout_marginLeft="16dp"
             android:textColor="@color/white"
             android:textSize="32sp"
             tools:text="7847.25" />
@@ -91,17 +91,17 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:padding="8dp"
+            android:text="CHF"
             android:textColor="@color/white"
-            android:textSize="32sp"
-            android:text="CHF" />
+            android:textSize="32sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_interval"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="4"
             android:layout_margin="4dp"
+            android:layout_weight="4"
             android:background="@drawable/button_background_interval"
             android:text="Interval"
             android:textColor="@color/white"
@@ -109,11 +109,49 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linear_layout_time_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:padding="4dp"
+        android:layout_below="@id/linear_layout_total"
+        android:layout_alignStart="@id/linear_layout_total"
+        android:layout_alignEnd="@id/linear_layout_total"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_view_time_interval_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:text="01.01.2023" />
+
+        <TextView
+            android:id="@+id/text_view_time_interval_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" - "
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_view_time_interval_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:text="31.12.2023" />
+
+    </LinearLayout>
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView_barchart_spending"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linear_layout_total"
+        android:layout_below="@id/linear_layout_time_interval"
         android:layout_margin="16dp"
         app:cardBackgroundColor="@color/scanalyze_grey"
         app:cardCornerRadius="12dp">
