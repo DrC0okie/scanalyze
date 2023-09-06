@@ -10,12 +10,14 @@ const swagger = require("swagger-ui-express");
 const yaml = require('yaml');
 const fs = require("fs");
 const app = express();
-
+const cors = require('cors');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
 //app.use(verify_jwt);
 
 const file  = fs.readFileSync('./swagger.yaml', 'utf8')
