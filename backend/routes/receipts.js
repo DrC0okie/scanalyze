@@ -78,6 +78,7 @@ router.post('/', async (req, res, next) => {
   }
   receipt.products = indexed_product;
   receipt.total = parseFloat(receipt.total.toFixed(2));
+  receipt.date = new Date(receipt.date);
 
   //Saving the receipt in the database
   const receipt_collection = db.collection("receipts");
