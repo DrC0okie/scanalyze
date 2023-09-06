@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="64dp"
+    app:contentPadding="1dp"
+    app:cardBackgroundColor="@color/scanalyze_purple">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select a date range: "
+            android:textColor="@color/white"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"/>
+
+        <LinearLayout
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/linear_layout_year_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/button_decrement_year"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_button"
+                android:src="@drawable/left_arrow"/>
+
+            <TextView
+                android:id="@+id/text_view_current_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                tools:text="2023"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="24sp"
+                android:textColor="@color/white" />
+
+            <ImageButton
+                android:id="@+id/button_increment_year"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_button"
+                android:src="@drawable/right_arrow"/>
+
+        </LinearLayout>
+
+        <GridLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="2"
+            android:padding="8dp"
+            android:rowCount="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_jan_mar"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_background_interval"
+                android:text="Jan - Mar"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_apr_jun"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_background_interval"
+                android:text="Apr - Jun"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_jul_sep"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_background_interval"
+                android:text="Jul - Sep"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_oct_dec"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_background_interval"
+                android:text="Oct - Dec"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/scanalyze_grey" />
+
+        </GridLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -24,9 +24,7 @@ import ch.heigvd.scanalyze.api.Api
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
-import ch.heigvd.scanalyze.receipt.Product
-import ch.heigvd.scanalyze.receipt.Receipt
-import com.google.android.material.snackbar.Snackbar
+import ch.heigvd.scanalyze.receipt.JsonReceipt
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -178,7 +176,7 @@ class ScanPreviewActivity : AppCompatActivity() {
             }
     }
 
-    private fun handleOcrSuccess(receipt: Receipt) {
+    private fun handleOcrSuccess(receipt: JsonReceipt) {
         try {
 
             //postReceiptToAPI(receipt, Api.endpoints.postReceipt)
@@ -190,42 +188,42 @@ class ScanPreviewActivity : AppCompatActivity() {
         }
     }
 
-    private fun postReceiptToAPI(receipt: Receipt, endPoint: String) {
+    private fun postReceiptToAPI(receipt: JsonReceipt, endPoint: String) {
 
-        // Get the client
-        val client = OkHttpClient()
-
-        //Create the request body with header
-        val requestBody = receipt.toJson()
-            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-
-        // Build the request
-        val request = Request.Builder().url(endPoint).post(requestBody).build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                showErrorDialog(e, this@ScanPreviewActivity)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                if (!response.isSuccessful) {
-                    showErrorDialog(
-                        IOException("Error in response: ${response.code}"),
-                        this@ScanPreviewActivity
-                    )
-                } else {
-                    val intent = Intent(
-                        this@ScanPreviewActivity,
-                        ReceiptDetailActivity::class.java
-                    )
-                    intent.putExtra("receipt", receipt)
-                    startActivity(intent)
-                }
-            }
-        })
+//        // Get the client
+//        val client = OkHttpClient()
+//
+//        //Create the request body with header
+//        val requestBody = receipt.toJson()
+//            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//
+//        // Build the request
+//        val request = Request.Builder().url(endPoint).post(requestBody).build()
+//
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                showErrorDialog(e, this@ScanPreviewActivity)
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                if (!response.isSuccessful) {
+//                    showErrorDialog(
+//                        IOException("Error in response: ${response.code}"),
+//                        this@ScanPreviewActivity
+//                    )
+//                } else {
+//                    val intent = Intent(
+//                        this@ScanPreviewActivity,
+//                        ReceiptDetailActivity::class.java
+//                    )
+//                    intent.putExtra("receipt", receipt)
+//                    startActivity(intent)
+//                }
+//            }
+//        })
     }
 
-    private fun displaySnackBar(receipt: Receipt) {
+    private fun displaySnackBar(receipt: JsonReceipt) {
         // Inflate the custom Snackbar layout
         val inflater = layoutInflater
         val customSnackbarView =
@@ -261,6 +259,6 @@ class ScanPreviewActivity : AppCompatActivity() {
             )
             intent.putExtra("receipt", receipt)
             startActivity(intent)
-        }, 2000)  // 3 seconds delay
+        }, 2000)  // 2 seconds delay
     }
 }
