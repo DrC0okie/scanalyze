@@ -12,25 +12,12 @@
             {"url": "boissons/cafes/c/m_0274","name": "drinks"},
             {"url": "produits-laitiers-oeufs/c/m_0055","name": "dairies-eggs"},
             {"url": "https://www.coop.ch/fr/nourriture/boissons/boissons-lactees-froides/c/m_0060","name": "dairies-eggs"},
-            {"url": "https://www.coop.ch/fr/nourriture/pains-viennoiseries/c/m_0115","name": "bread"},
-            {"url": ,"name": },
-            {"url": ,"name": },
-            {"url": ,"name": }
-
-
-
-
-            "pains-viennoiseries/c/m_0115",
-            "boissons/c/m_2242",
-            "garde-manger/c/m_0140",
-            "friandises-snacks/c/m_2506",
-            "produits-surgeles/c/m_0202",
-            "plats-cuisines/c/m_9744"
+            {"url": "https://www.coop.ch/fr/nourriture/pains-viennoiseries/c/m_0115","name": "bread"}
         ],
         "worker" : "coop-worker.js"
 
     },
-    "migros" :{
+    "migros" : {
         "base_url" : "https://www.migros.ch/fr/category",
         "categories" : [
             {"url": "fruits-legumes", "name": "fruits-vegetables"},
@@ -44,6 +31,7 @@
             {"url": "boulangerie-patisserie-petit-dej/pains-frais", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/patisseries", "name": "bread"},
+            {"url":  "boulangerie-patisserie-petit-dej/ingredients-pour-la-patisserie", "name":  "bread"},
             {"url": "boulangerie-patisserie-petit-dej/cereales-muesli", "name": "breakfast"},
             {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "breakfast"},
             {"url": "boulangerie-patisserie-petit-dej/confitures-pates-a-tartiner-miel", "name": "breakfast"},
@@ -78,5 +66,5 @@
         ],
         "worker" : "lidl-worker.js"
     }
-    
+
 }
