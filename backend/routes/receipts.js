@@ -120,9 +120,9 @@ router.get('/', async (req, res, next) => {
     {
       projection: {
         _id: 1,
-        user_id: 1,
+        total: 1,
+        date:1,
         shop_name: 1,
-        shop_branch: 1
       }
     }).toArray();
 
