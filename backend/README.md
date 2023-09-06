@@ -36,14 +36,14 @@ you can also run the API with hot reload using : ```npm run watch```
 
 #### POST /receipts
 
-Add a new receipt. Sent data should be as following :
+Add a new receipt.Request body data should be as follows:
 
 ```json
 {
     "receipt": {
         "user_id": "0",
-        "date": "",
-        "shop_branch": "",
+        "date": "2023-11-01T14:56:49.724Z",
+        "shop_branch": "Vaud",
         "shop_name": "migros",
         "total": 0.0,
         "products": [
@@ -65,7 +65,38 @@ Add a new receipt. Sent data should be as following :
         ]
     }
 }
+```
+Response body : 
 
+```json
+{
+	"receipt": {
+		"user_id": "0",
+		"date": "2023-02-15T14:56:49.724Z",
+		"shop_branch": "Vaud",
+		"shop_name": "migros",
+		"total": 6.5,
+		"products": [
+			{
+				"discount_amount": 0,
+				"product_name": "Fresca  Raisins Vittoria",
+				"quantity": 1,
+				"total_price": 3.5,
+				"unit_price": 3.5,
+				"category": "fruits-vegetables"
+			},
+			{
+				"discount_amount": 0,
+				"product_name": "Longobardi  Tomates pelées en  morceaux au jus",
+				"quantity": 2,
+				"total_price": 3,
+				"unit_price": 1.5,
+				"category": "starches"
+			}
+		],
+		"_id": "64f86b5b5aaee0bdd9a31b7d"
+	}
+}
 ```
 
 
