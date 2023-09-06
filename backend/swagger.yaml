@@ -301,6 +301,15 @@ paths:
                       other:
                         type: number
                         format: float
+                      frozen:
+                        type: number
+                        format: float
+                      conveniance:
+                        type: number
+                        format: float
+                      snacks:
+                        type: number
+                        format: float
         '400':    # status code
           description: Query parameters are missing or malformatted
           content:
