@@ -16,7 +16,9 @@
     "jaro-winkler": "^0.2.8",
     "mongodb": "^6.0.0",
     "morgan": "~1.9.1",
-    "string-comparison": "^1.1.0"
+    "string-comparison": "^1.1.0",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.2"
   },
   "devDependencies": {
     "jest": "^29.6.4",
