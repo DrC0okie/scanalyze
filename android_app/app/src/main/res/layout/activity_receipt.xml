@@ -17,15 +17,21 @@
         android:textSize="32sp"
         android:layout_marginTop="32dp"/>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/recycler_view_receipts"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_marginTop="32dp"
-        tools:listitem="@layout/item_receipt" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recycler_view_receipts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginTop="32dp"
+            tools:listitem="@layout/item_receipt" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
 

@@ -26,7 +26,7 @@ class ReceiptActivity : AppCompatActivity() {
         recyclerView = binding.recyclerViewReceipts
         gson = Gson()
 
-        //Get the data from the api
+        //Get the data from the api on creating the page
         getReceiptsOverview(object : ApiCallback {
             override fun onSuccess(response: String) {
                 // parse the received json
@@ -34,7 +34,12 @@ class ReceiptActivity : AppCompatActivity() {
 
                 // Once we have the data, populate the recycleView
                 runOnUiThread {
-                    recyclerView.adapter = ReceiptAdapter(apiResponse.receipts.toTypedArray())
+                    //Sort the receipts
+                    val receipts =
+                        apiResponse.receipts.sortedByDescending { it.date }.toTypedArray()
+
+                    //feed the adapter
+                    recyclerView.adapter = ReceiptAdapter(receipts)
                 }
             }
 
@@ -42,6 +47,38 @@ class ReceiptActivity : AppCompatActivity() {
                 runOnUiThread { Utils.showErrorDialog(errorMessage, this@ReceiptActivity) }
             }
         }, this)
+
+
+        // Get the data from the api on swipe to refresh
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            //Get the data from the api
+            getReceiptsOverview(object : ApiCallback {
+                override fun onSuccess(response: String) {
+                    // parse the received json
+                    apiResponse = gson.fromJson(response, ApiResponse::class.java)
+
+                    // Once we have the data, populate the recycleView
+                    runOnUiThread {
+                        //Sort the receipts
+                        val receipts =
+                            apiResponse.receipts.sortedByDescending { it.date }.toTypedArray()
+
+                        //feed the adapter
+                        recyclerView.adapter = ReceiptAdapter(receipts)
+
+                        //Stops the spinning wheel
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
+                }
+
+                override fun onFailure(errorMessage: String) {
+                    runOnUiThread {
+                        Utils.showErrorDialog(errorMessage, this@ReceiptActivity)
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
+                }
+            }, this)
+        }
     }
 
 }

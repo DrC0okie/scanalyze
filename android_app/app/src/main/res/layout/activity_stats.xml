@@ -205,7 +205,7 @@
                 android:layout_margin="8dp"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="Spending by categories" />
+                android:text="Spending by categories (%)" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart_categories"

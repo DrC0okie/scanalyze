@@ -122,10 +122,8 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
         throw RuntimeException("No product found after parsing the receipt")
     }
 
-    //Calculate the total
-    val total = products.sumOf { it.totalPrice.toDouble() }.toFloat()
-
-    return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), total)
+    //The total is calculated in the API
+    return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), 0f)
 }
 
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {
