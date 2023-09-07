@@ -17,7 +17,7 @@ if(DISABLE_THREAD_SELECTION){
         console.error("Shop " + process.argv[2] + " not found or not implemented yet");
         process.exit(1);
     }
-    if(!valid_file_regex.test(process.argv[3]) || process.argv[3].split('.')[1] != "json"){
+    if(!valid_file_regex.test(process.argv[3]) || process.argv[3].split('.')[1] !== "json"){
         console.error("Filename is invalid or the file isn't a JSON");
         process.exit(1);
     }
@@ -34,7 +34,7 @@ const shop_config = config[process.argv[2]];
 
 const create_worker = async (base_url,categories,worker_name) => {
     return new Promise((resolve, reject) => {
-        let worker = new Worker("./workers/" +worker_name, {
+        let worker = new Worker("./workers/" + worker_name, {
             workerData: {
                 base_url,
                 categories
@@ -43,7 +43,7 @@ const create_worker = async (base_url,categories,worker_name) => {
         worker.on("message", (data) => {
             resolve(data);
         })
-        worker.on("error", (err) => {
+        worker.on("error", () => {
             reject();
         })
     })
@@ -58,7 +58,7 @@ if(DISABLE_THREAD_SELECTION){
         const categories = shop_config.categories.slice(start_index,end_index)
         workers.push(create_worker(shop_config.base_url,categories,shop_config.worker))
         start_index = end_index;
-        if(i+2 == DEFAULT_NB_THREAD){
+        if(i+2 === DEFAULT_NB_THREAD){
             end_index = shop_config.categories.length;
         }else{
             end_index+ min_nb_cat < shop_config.categories.length ? end_index+=min_nb_cat : end_index = shop_config.categories.length
