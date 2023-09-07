@@ -14,12 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="48dp"
-        android:text="Capture" />
+        android:background="@drawable/circle_button"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/scanning"/>
+
 
 </FrameLayout>
