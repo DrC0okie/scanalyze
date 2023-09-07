@@ -36,7 +36,7 @@ The mobile application serves as the user interface and is responsible for captu
 
 ## Web Server
 
-The web server acts as the intermediary between the mobile application and the database. The server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the abbreviated products on the receipt to the existing product in the database. It uses the database user data to generate statistics, then returns this statistics data to the mobile application. The server is also responsible for handling user authentication tokens.
+The web server acts as the intermediary between the mobile application and the database. The server processes the OCR data received from the mobile application and feeds the database. It is the server responsibility to link (index) the abbreviated products on the receipt to the existing product in the database. Additionally, the server leverages user data from the database to  generate statistics, which are made accessible to the mobile application via its API. The server also manages user authentication tokens.
 
 **Key Features:**
 
