@@ -129,4 +129,3 @@ class ReceiptDetailActivity : AppCompatActivity() {
         }, this@ReceiptDetailActivity)
     }
 }
-

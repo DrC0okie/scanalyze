@@ -30,8 +30,9 @@ class ReceiptAdapter(private val receipts: Array<Receipt>) :
 
         fun bind(receipt: Receipt) {
 
-            binding.imageViewShopIcon.setImageResource(Shop.func.fromString(receipt.shopName).resourceImage)
-            binding.textViewShop.text = receipt.shopBranch ?: ""
+            val shop = Shop.func.fromString(receipt.shopName)
+            binding.imageViewShopIcon.setImageResource(shop.resourceImage)
+            binding.textViewShop.text = receipt.shopBranch ?: shop.shopName
             binding.textViewTotal.text = String.format("%.2f", receipt.total?: 0f)
 
             try {

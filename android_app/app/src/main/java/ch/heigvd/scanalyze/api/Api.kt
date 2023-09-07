@@ -90,7 +90,7 @@ private fun sendRequest(request: Request, callback: ApiCallback) {
 
             } else {
                 // Notify the callback of the failure
-                callback.onFailure("API error ${response.code}: ${response.message}")
+                callback.onFailure("API error ${response.code} ${response.message}: ${response.body}")
             }
         }
     })
