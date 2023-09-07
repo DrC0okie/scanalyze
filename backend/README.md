@@ -28,78 +28,24 @@ You can also choose to create a databse locally, to do so refer to the database 
 
 Once installed, and configured you can run the API using : ```npm run start```
 
-you can also run the API with hot reload using : ```npm run watch```
+you can also run the API with hot reloading using : ```npm run watch```
 
 ## API ENDPOINTS
 
-### Receipts
+All API endpoints are documented using a Swagger UI. 
+You can read it at http://localhost:300/api-docs if you run the API on your machine
+or at http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/api-docs/
 
-#### POST /receipts
+## AUTHENTICATION
 
-Add a new receipt.Request body data should be as follows:
+An authentication middleware was implemented but isn't used because the login system wasn't implemented in the Android app.
+you can find it in **middlewares/verify-jwt.js**
 
-```json
-{
-    "receipt": {
-        "user_id": "0",
-        "date": "2023-11-01T14:56:49.724Z",
-        "shop_branch": "Vaud",
-        "shop_name": "migros",
-        "total": 0.0,
-        "products": [
-            {
-                "discount_amount": 0.0,
-                "product_name": "raisins uittoria ",
-                "quantity": 3.5,
-                "total_price": 0.0,
-                "unit_price": 2.15
-            },
-            
-            {
-                "discount_amount": 0.0,
-                "product_name": "tonates 80r ceaux 400g ",
-                "quantity": 2.0,
-                "total_price": 3.0,
-                "unit_price": 1.5
-            }
-        ]
-    }
-}
-```
-Response body : 
+## TESTS
 
-```json
-{
-	"receipt": {
-		"user_id": "0",
-		"date": "2023-02-15T14:56:49.724Z",
-		"shop_branch": "Vaud",
-		"shop_name": "migros",
-		"total": 6.5,
-		"products": [
-			{
-				"discount_amount": 0,
-				"product_name": "Fresca  Raisins Vittoria",
-				"quantity": 1,
-				"total_price": 3.5,
-				"unit_price": 3.5,
-				"category": "fruits-vegetables"
-			},
-			{
-				"discount_amount": 0,
-				"product_name": "Longobardi  Tomates pelées en  morceaux au jus",
-				"quantity": 2,
-				"total_price": 3,
-				"unit_price": 1.5,
-				"category": "starches"
-			}
-		],
-		"_id": "64f86b5b5aaee0bdd9a31b7d"
-	}
-}
-```
+I used [Jest](https://jestjs.io/fr/) and [supertest](https://github.com/ladjs/supertest) to write them.
 
+Test file are located in the **test** folder.
 
-### Statistics
-
+you can run the test with the ```npm run test``` command.
 
