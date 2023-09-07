@@ -1,6 +1,7 @@
-import { workerData, parentPort } from 'worker_threads';
+import {workerData, parentPort} from 'worker_threads';
 import puppeteer from 'puppeteer';
-import { v4 } from 'uuid';
+import {v4} from 'uuid';
+
 let products = []
 console.log("URL : " + workerData.base_url);
 console.log("CAT : " + workerData.categories);
@@ -9,26 +10,29 @@ console.log("CAT : " + workerData.categories);
 const run = async (cat) => {
     let has_more_product = true;
     const browser = await puppeteer.launch({
-        executablePath: "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe",
+        executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
         headless: "new"
     });
     const page = await browser.newPage();
 
-    await page.setViewport({ width: 1500, height: 1000 });
+    await page.setViewport({width: 1500, height: 1000});
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4427.0 Safari/537.36');
     await page.goto(workerData.base_url + "/" + cat)
     page.waitForNavigation();
     await page.exposeFunction("v4", v4);
 
     while (has_more_product) {
-        await page.waitForSelector(".mui-button-leshop:not([disabled])", { timeout: 10000 }).then(async (el) => {
+        await page.waitForSelector(".primary.m-button.mat-mdc-button-base:not([disabled]", {timeout: 10000}).then(async (el) => {
             has_more_product = true;
-            await el.click(".mui-button-leshop");
+            await page.evaluate(async () => {
+                await document.querySelector(".primary.m-button.mat-mdc-button-base").click();
+            })
 
         }).catch((error) => {
             has_more_product = false;
         });
     }
+
     let actual_products = await page.evaluate(async () => {
         const items = document.getElementsByClassName("product-show-details");
         let actual_products = [];
