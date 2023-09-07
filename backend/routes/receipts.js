@@ -45,8 +45,9 @@ router.post('/', async (req, res, next) => {
   const acronyms_collection = db.collection("acronyms");
 
   let indexed_product = []
+  let total = 0;
   for (let receipt_product of receipt.products) {
-    receipt.total += receipt_product.total_price;
+    total += receipt_product.total_price;
     let found_product;
     //Searching in the acronym document if the product is already indexed
     const indexed_acronym = await acronyms_collection.findOne({
@@ -77,6 +78,7 @@ router.post('/', async (req, res, next) => {
     
     receipt_product.product_name = found_product.name;
     receipt_product.category= found_product.category;
+    receipt_product.total = total;
 
     indexed_product.push(receipt_product);
   }
