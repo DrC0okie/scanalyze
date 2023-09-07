@@ -18,12 +18,14 @@ router.get('/', async (req, res, next) => {
     })
     return;
   }
-  //Get from and to from query
+  //Get <from> and <to> from query
   const from = req.query.from.split('-');
   const to = req.query.to.split('-');
-  //Generate a Date object
-  const from_date = new Date(from[2], from[1] - 1, parseInt(from[0]), 1, 0, 0, 0);
-  const to_date = new Date(to[2], to[1] - 1, parseInt(to[0]), 1, 0, 0, 0);
+  //Generate Date objects
+  const from_date = new Date(from[2], from[1] - 1, parseInt(from[0]), 2, 0, 0, 0);
+  const to_date = new Date(to[2], to[1] - 1, parseInt(to[0]), 25, 59, 59, 0);
+  console.log(from_date);
+  console.log(to_date);
 
   //Connect and get receipts in database
   const db = await connect_db();

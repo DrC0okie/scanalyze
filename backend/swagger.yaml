@@ -2,12 +2,12 @@ openapi: 3.0.0
 info:
   title: Scanalyze API
   description: Official Scanalyze API for PDG  module
-  version: 0.1.9
+  version: 1.0.0
 servers:
-  - url: http://api.example.com/v1
-    description: Optional server description, e.g. Main (production) server
-  - url: http://staging-api.example.com
-    description: Optional server description, e.g. Internal staging server for testing
+  - url: http://localhost:3000
+    description: Local URL
+  - url: http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/
+    description: Production API deployed on AWS Beanstalk
 tags:
   - name: receipts
     description: Everything about the receipts
@@ -18,11 +18,11 @@ paths:
     get:
       tags: 
         - receipts
-      summary: Returns a list of receipts.
-      description: Returns all receipts without it's product.
+      summary: Return a list of receipts.
+      description: Return all receipts without it's products.
       responses:
         '200':    # status code
-          description: A JSON array of user names
+          description: A JSON array of receipts
           content:
             application/json:
               schema: 
@@ -103,7 +103,7 @@ paths:
 
       responses:
         '200':    # status code
-          description: A JSON receipt with indexed name
+          description: A JSON receipt with indexed name and category in products
           content:
             application/json:
               schema: 
@@ -159,7 +159,7 @@ paths:
     get:
       tags: 
         - receipts
-      summary: Return a receipt
+      summary: Return a receipt by id
       description: Return a receipt corresponding to the id.
       parameters:
         - in: path
@@ -170,7 +170,7 @@ paths:
           description: ObjectId of the receipt you want to get
       responses:
         '200':    # status code
-          description: A JSON receipt with indexed name
+          description: A JSON receipt with all the details
           content:
             application/json:
               schema: 
@@ -236,8 +236,8 @@ paths:
     get:
       tags: 
         - statistics
-      summary: Returns a list of receipts.
-      description: Returns all receipts without it's product.
+      summary: Return statistics.
+      description: Returns statistics with a date range.
       parameters:
         - in: query
           name: from

@@ -5,6 +5,9 @@ This verify that the request comes from an Authentified user
 */
 module.exports = async (req,res,next) => {
     // Verifier that expects valid access tokens:
+    if (!req.headers.authorization) {
+      return res.status(401).json({ error: 'Missing JWT in headers' });
+    }
     const verifier = CognitoJwtVerifier.create({
       userPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
       tokenUse: "access",
@@ -13,7 +16,7 @@ module.exports = async (req,res,next) => {
     
     try {
       const payload = await verifier.verify(
-        "eyJraWQeyJhdF9oYXNoIjoidk" // the JWT as string
+        req.headers.authorization.split(' ')[1] // the JWT as string
       );
       console.log("Token is valid. Payload:", payload);
       next();
