@@ -12,32 +12,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/scanalyze_purple"
-        android:textSize="32sp"
-        tools:text="Welcome, Jean-Eude" />
+        android:text="Welcome, Jean-Eude"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
 
     <Button
         android:id="@+id/button_receipts"
         style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/text_view_welcome"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
-        android:text="Receipts" />
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/scanalyze_grey"
+        android:text="Receipts"
+        android:textColor="@color/scanalyze_purple" />
 
     <Button
         android:id="@+id/button_stats"
         style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/button_receipts"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
-        android:text="Statistics" />
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/scanalyze_grey"
+        android:text="Statistics"
+        android:textColor="@color/scanalyze_purple" />
 
     <Button
         android:id="@+id/button_scan"
         style="@style/ScanalyzeHomeButton"
         android:layout_below="@id/button_stats"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="80dp"
         android:text="Scan" />
 
 </RelativeLayout>
