@@ -3,9 +3,9 @@ package ch.heigvd.scanalyze.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import ch.heigvd.scanalyze.R
+
 import ch.heigvd.scanalyze.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +27,5 @@ class MainActivity : AppCompatActivity() {
         binding.buttonScan.setOnClickListener{
             startActivity(Intent(this, ScanPreviewActivity::class.java))
         }
-
     }
 }

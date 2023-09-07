@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.Utils.Utils.showErrorDialog
 import ch.heigvd.scanalyze.api.Api
+import ch.heigvd.scanalyze.api.HttpMethod
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
@@ -180,8 +181,14 @@ class ScanPreviewActivity : AppCompatActivity() {
         try {
 
             //postReceiptToAPI(receipt, Api.endpoints.postReceipt)
-            displaySnackBar(receipt)
-
+            //displaySnackBar(receipt)
+            receipt.httpMethod = HttpMethod.POST
+            val intent = Intent(
+                this@ScanPreviewActivity,
+                ReceiptDetailActivity::class.java
+            )
+            intent.putExtra("receipt", receipt)
+            startActivity(intent)
 
         } catch (e: Exception) {
             runOnUiThread { showErrorDialog(e, this) }
@@ -253,12 +260,7 @@ class ScanPreviewActivity : AppCompatActivity() {
         // Hide the Snackbar after a delay
         Handler(Looper.getMainLooper()).postDelayed({
             rootView.removeView(customSnackbarView)
-            val intent = Intent(
-                this@ScanPreviewActivity,
-                ReceiptDetailActivity::class.java
-            )
-            intent.putExtra("receipt", receipt)
-            startActivity(intent)
+
         }, 2000)  // 2 seconds delay
     }
 }

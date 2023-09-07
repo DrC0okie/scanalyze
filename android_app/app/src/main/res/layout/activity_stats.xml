@@ -1,8 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/black">
 
     <androidx.cardview.widget.CardView
@@ -171,7 +175,7 @@
                 tools:text="Spending by month" />
 
             <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart_spending"
+                android:id="@+id/bar_chart_spending"
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:layout_marginTop="8dp" />
@@ -179,4 +183,38 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_pie_chart_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardView_barchart_spending"
+        android:layout_margin="16dp"
+        app:cardBackgroundColor="@color/scanalyze_grey"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_view_pie_chart_descr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:text="Spending by categories" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart_categories"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
+</ScrollView>
+

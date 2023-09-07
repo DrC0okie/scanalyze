@@ -3,7 +3,6 @@ package ch.heigvd.scanalyze.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.heigvd.scanalyze.receipt.Product
 import ch.heigvd.scanalyze.databinding.ItemReceiptDetailBinding
 import ch.heigvd.scanalyze.receipt.JsonProduct
 import ch.heigvd.scanalyze.receipt.JsonReceipt

@@ -5,17 +5,16 @@ import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.scanalyze.Utils.Utils
 import ch.heigvd.scanalyze.adapters.ReceiptAdapter
-import ch.heigvd.scanalyze.api.Api.getReceiptsData
+import ch.heigvd.scanalyze.api.Api.getReceiptsOverview
 import ch.heigvd.scanalyze.api.ApiCallback
 import ch.heigvd.scanalyze.databinding.ActivityReceiptBinding
-import ch.heigvd.scanalyze.statistics.ApiResponse
+import ch.heigvd.scanalyze.api.ApiResponse
 import com.google.gson.Gson
-import java.time.LocalDate
 
 class ReceiptActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReceiptBinding
-    private lateinit var receipts: ApiResponse
+    private lateinit var apiResponse: ApiResponse
     private lateinit var recyclerView: RecyclerView
     private lateinit var gson: Gson
 
@@ -28,14 +27,14 @@ class ReceiptActivity : AppCompatActivity() {
         gson = Gson()
 
         //Get the data from the api
-        getReceiptsData(object : ApiCallback {
+        getReceiptsOverview(object : ApiCallback {
             override fun onSuccess(response: String) {
                 // parse the received json
-                receipts = gson.fromJson(response, ApiResponse::class.java)
+                apiResponse = gson.fromJson(response, ApiResponse::class.java)
 
                 // Once we have the data, populate the recycleView
                 runOnUiThread {
-                    recyclerView.adapter = ReceiptAdapter(receipts.receipts.toTypedArray())
+                    recyclerView.adapter = ReceiptAdapter(apiResponse.receipts.toTypedArray())
                 }
             }
 

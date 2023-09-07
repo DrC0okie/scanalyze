@@ -7,13 +7,15 @@ import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
 
+
 object Api {
 
-    fun getStatData(fromDate: String, toDate: String, callback: ApiCallback, context: Context) {
+    fun getStats(fromDate: String, toDate: String, callback: ApiCallback, context: Context) {
 
         val endpoint =
             "http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/statistics?from=$fromDate&to=$toDate"
@@ -21,16 +23,27 @@ object Api {
         call(endpoint, callback, context, HttpMethod.GET)
     }
 
-    fun getReceiptsData(callback: ApiCallback, context: Context) {
+    fun getReceiptsOverview(callback: ApiCallback, context: Context) {
         val endpoint =
             "http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/receipts"
 
         call(endpoint, callback, context, HttpMethod.GET)
     }
-}
 
-private enum class HttpMethod {
-    GET, POST
+    fun getReceiptDetail(id: String, callback: ApiCallback, context: Context) {
+        val endpoint =
+            "http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/receipts/$id"
+
+        call(endpoint, callback, context, HttpMethod.GET)
+    }
+
+    fun postReceipt(body: String, callback: ApiCallback, context: Context) {
+
+        val endpoint =
+            "http://scanalyze-backend.eba-mjtcbsxb.eu-central-1.elasticbeanstalk.com/receipts"
+
+        call(endpoint, callback, context, HttpMethod.POST, body)
+    }
 }
 
 private fun call(
@@ -47,8 +60,8 @@ private fun call(
         }
 
         HttpMethod.POST -> {
-            val b = body.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-            Request.Builder().url(endPoint).post(b).build()
+            val b = body.toRequestBody("application/json".toMediaTypeOrNull())
+            Request.Builder().url(endPoint).addHeader("Accept", "application/json").post(b).build()
         }
     }
 

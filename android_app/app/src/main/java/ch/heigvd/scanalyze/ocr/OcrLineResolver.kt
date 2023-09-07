@@ -125,7 +125,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): JsonReceipt {
     //Calculate the total
     val total = products.sumOf { it.totalPrice.toDouble() }.toFloat()
 
-    return JsonReceipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName, "", products.toTypedArray(), total)
+    return JsonReceipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), total)
 }
 
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {

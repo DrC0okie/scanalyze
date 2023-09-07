@@ -19,13 +19,18 @@ import ch.heigvd.scanalyze.fragments.OnDateRangeSelectedListener
 import ch.heigvd.scanalyze.fragments.OnYearSelectedListener
 import ch.heigvd.scanalyze.fragments.YearPickerFragment
 import ch.heigvd.scanalyze.receipt.JsonReceipt
-import ch.heigvd.scanalyze.statistics.ApiResponse
+import ch.heigvd.scanalyze.api.ApiResponse
 import ch.heigvd.scanalyze.statistics.TimeUnit
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import java.time.LocalDateTime
@@ -35,6 +40,7 @@ import java.time.temporal.WeekFields
 class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSelectedListener {
     private lateinit var binding: ActivityStatsBinding
     private lateinit var barChart: BarChart
+    private lateinit var pieChart: PieChart
     private lateinit var weekButton: MaterialButton
     private lateinit var monthButton: MaterialButton
     private lateinit var yearButton: MaterialButton
@@ -48,7 +54,9 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     private lateinit var activityTimeUnit: TimeUnit
     private lateinit var statisticsData: ApiResponse
     private lateinit var aggregatedData: Map<String, Float>
+    private lateinit var categoryData: Map<String, Float>
     private lateinit var gson: Gson
+
     private val monthNames = arrayOf(
         "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     )
@@ -124,7 +132,8 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     private fun initialization() {
 
         // Init the layout elements binding
-        barChart = binding.barchartSpending
+        barChart = binding.barChartSpending
+        pieChart = binding.pieChartCategories
         weekButton = binding.buttonWeek
         monthButton = binding.buttonMonth
         yearButton = binding.buttonYear
@@ -177,7 +186,14 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             TimeUnit.MONTH -> aggregateDataForMonth(statisticsData.receipts, begin, end)
             TimeUnit.YEAR -> aggregateDataForYears(statisticsData.receipts)
         }
+
+        categoryData = mutableMapOf()
+        if (statisticsData.totalCategory != null) {
+            categoryData = statisticsData.totalCategory
+        }
+
         formatGraph(aggregatedData)
+        updatePieChart(categoryData)
     }
 
     private fun showDatePicker(timeUnit: TimeUnit) {
@@ -189,8 +205,10 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             }
 
             TimeUnit.MONTH -> {
+                // Get the last 9 years to be displayed on the fragment
+                val availableYears = ArrayList(List(9) { i -> LocalDateTime.now().year - i })
                 val ypf =
-                    YearPickerFragment.newInstance(extractUniqueYears(statisticsData.receipts))
+                    YearPickerFragment.newInstance(availableYears)
                 ypf.mListener = this
                 ypf.show(supportFragmentManager, "YearPickerFragment")
             }
@@ -252,54 +270,25 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             Utils.showErrorDialog(e, this@StatsActivity)
         }
 
-        Api.getStatData(beginApiParam, endApiParam, callback, this)
-
-//        //Test data
-//        val json = """{
-//                "total": 74.6,
-//                "receipts": [
-//                    {"date": "2019-05-01T13:56:51.692Z", "total": 18.65},
-//                    {"date": "2019-01-01T14:56:53.503Z","total": 18.65},
-//                    {"date": "2019-03-01T14:56:57.360Z","total": 18.65},
-//                    {"date": "2021-11-01T14:56:59.730Z","total": 18.65},
-//                    {"date": "2021-09-03T17:25:23.774Z","total": 18.65},
-//                    {"date": "2022-11-03T17:25:23.774Z","total": 18.65},
-//                    {"date": "2023-01-03T17:25:23.774Z","total": 18.65},
-//                    {"date": "2023-01-03T18:25:23.774Z","total": 18.65},
-//                    {"date": "2023-03-02T18:25:23.774Z","total": 18.65},
-//                    {"date": "2023-07-03T17:25:23.774Z","total": 18.65}
-//                ],
-//                "total_category": {"fruits-vegetables": 107.85,"starches": 9.2,"dairies-eggs": 9.6,"meat-fish": 40.25,"bread": 7.75}}"""
+        Api.getStats(beginApiParam, endApiParam, callback, this)
     }
 
-    private fun extractUniqueYears(data: List<JsonReceipt>): ArrayList<Int> {
-        val uniqueYears = HashSet<Int>()
-
-        for (receipt in data) {
-            val receiptDate = LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
-
-            // Adds the year to the set (duplicates are ignored)
-            uniqueYears.add(receiptDate.year)
-        }
-
-        // Convert the set to a sorted list
-        return ArrayList(uniqueYears.toList().sorted())
-    }
-
-    private fun aggregateDataForYears(data: List<JsonReceipt>): Map<String, Float> {
+    private fun aggregateDataForYears(data: List<JsonReceipt>?): Map<String, Float> {
         val aggregatedData = mutableMapOf<String, Float>()
 
-        for (d in data) {
-            val dDate = LocalDateTime.parse(d.date, DateTimeFormatter.ISO_DATE_TIME)
-            val key = dDate.year.toString()
-            val total = d.total ?: 0f
-            aggregatedData[key] = aggregatedData.getOrDefault(key, 0f) + total
+        if (data != null) {
+            for (d in data) {
+                val dDate = LocalDateTime.parse(d.date, DateTimeFormatter.ISO_DATE_TIME)
+                val key = dDate.year.toString()
+                val total = d.total ?: 0f
+                aggregatedData[key] = aggregatedData.getOrDefault(key, 0f) + total
+            }
         }
         return aggregatedData
     }
 
     private fun aggregateDataForMonth(
-        data: List<JsonReceipt>, begin: LocalDateTime, end: LocalDateTime
+        data: List<JsonReceipt>?, begin: LocalDateTime, end: LocalDateTime
     ): Map<String, Float> {
         val aggregatedData = mutableMapOf<String, Float>()
 
@@ -310,13 +299,15 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             aggregatedData[month] = 0.0f
             current = current.plusMonths(1)
         }
-
-        for (receipt in data) {
-            val receiptDate = LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
-            if (receiptDate.isAfter(begin) && receiptDate.isBefore(end)) {
-                val month = monthNames[receiptDate.monthValue - 1]
-                val total = receipt.total ?: 0f
-                aggregatedData[month] = aggregatedData.getOrDefault(month, 0.0f) + total
+        if (data != null) {
+            for (receipt in data) {
+                val receiptDate =
+                    LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
+                if (receiptDate.isAfter(begin) && receiptDate.isBefore(end)) {
+                    val month = monthNames[receiptDate.monthValue - 1]
+                    val total = receipt.total ?: 0f
+                    aggregatedData[month] = aggregatedData.getOrDefault(month, 0.0f) + total
+                }
             }
         }
 
@@ -324,7 +315,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     }
 
     private fun aggregateDataForWeek(
-        data: List<JsonReceipt>,
+        data: List<JsonReceipt>?,
         begin: LocalDateTime,
         end: LocalDateTime
     ): Map<String, Float> {
@@ -343,13 +334,16 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         }
 
         // Aggregate data
-        for (receipt in data) {
-            val receiptDate = LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
-            if (receiptDate.isAfter(begin) && receiptDate.isBefore(end)) {
-                val week = receiptDate.get(WeekFields.ISO.weekOfWeekBasedYear())
-                val key = "$week"
-                val total = receipt.total ?: 0f
-                aggregatedData[key] = aggregatedData.getOrDefault(key, 0.0f) + total
+        if (data != null) {
+            for (receipt in data) {
+                val receiptDate =
+                    LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
+                if (receiptDate.isAfter(begin) && receiptDate.isBefore(end)) {
+                    val week = receiptDate.get(WeekFields.ISO.weekOfWeekBasedYear())
+                    val key = "$week"
+                    val total = receipt.total ?: 0f
+                    aggregatedData[key] = aggregatedData.getOrDefault(key, 0.0f) + total
+                }
             }
         }
         return aggregatedData
@@ -384,7 +378,6 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         barChart.xAxis.setDrawGridLines(false)
         barChart.legend.isEnabled = false
         barChart.description.text = ""
-        barChart.description.textSize = 18f
         barChart.description.textColor = Color.WHITE
         barDataSet.valueTextColor = Color.WHITE
         barDataSet.valueTextSize = 10f
@@ -401,5 +394,41 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
 
         barChart.data = barData
         barChart.invalidate()  // refresh the chart
+    }
+
+    fun updatePieChart(totalCategory: Map<String, Float>) {
+        val pieEntries = ArrayList<PieEntry>()
+
+        for ((key, value) in totalCategory) {
+            pieEntries.add(PieEntry(value, key))
+        }
+
+        val pieDataSet = PieDataSet(pieEntries, "")
+        val pieData = PieData(pieDataSet)
+
+        // Customize your PieDataSet here (e.g., colors)
+        // ...
+        pieDataSet.colors.add(Color.parseColor("#D0005F"))
+        pieDataSet.colors.add(Color.parseColor("#DE4F45"))
+        pieDataSet.colors.add(Color.parseColor("#49C3FB"))
+        pieDataSet.colors.add(Color.parseColor("#65A6FA"))
+        pieDataSet.colors.add(Color.parseColor("#7E80E7"))
+
+        // Making it a ring (donut) chart
+        pieChart.holeRadius = 30f
+        pieChart.setHoleColor(Color.TRANSPARENT)
+        pieChart.transparentCircleRadius = 58f
+        pieChart.legend.isEnabled = true
+        pieChart.holeRadius = 54f
+        pieChart.legend.textColor = Color.WHITE
+        pieChart.setDrawEntryLabels(false)
+        pieChart.legend.textSize = 12f
+        pieChart.setUsePercentValues(true)
+        pieChart.legend.formSize = 12f
+        pieDataSet.valueTextSize = 22f
+        pieDataSet.valueTextColor = Color.BLACK
+        pieChart.description.text = ""
+        pieChart.data = pieData
+        pieChart.invalidate()
     }
 }
