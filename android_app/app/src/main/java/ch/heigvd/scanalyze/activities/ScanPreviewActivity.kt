@@ -1,21 +1,22 @@
 package ch.heigvd.scanalyze.activities
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ch.heigvd.scanalyze.Utils.Utils.showErrorDialog
+import ch.heigvd.scanalyze.api.HttpMethod
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
+import ch.heigvd.scanalyze.receipt.Receipt
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -27,7 +28,7 @@ import java.util.concurrent.Executors
 class ScanPreviewActivity : AppCompatActivity() {
 
     private val executor = Executors.newSingleThreadExecutor()
-    private lateinit var imageCapture: ImageCapture
+    private lateinit var capture: ImageCapture
     private lateinit var binding: ActivityScanPreviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,54 +36,53 @@ class ScanPreviewActivity : AppCompatActivity() {
         binding = ActivityScanPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Initialize OpenCV
-        if (!OpenCVLoader.initDebug()) {
-            Log.e("OpenCV", "OpenCV initialization failed.")
-        } else {
-            Log.d("OpenCV", "OpenCV initialization succeeded.")
-        }
+        initializeOpenCV()
+        initializeCamera()
 
+        binding.buttonCapture.setOnClickListener { tryCaptureImage() }
+    }
+
+    private fun initializeCamera() {
         if (allPermissionsGranted()) {
             startCameraPreview()
         } else {
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.CAMERA), 0
-            )
-        }
-
-        binding.buttonCapture.setOnClickListener {
-
-           try {
-                // Define where the image will be saved
-                val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
-
-                // Take the photo, save it, and perform analysis
-                imageCapture.takePicture(
-                    ImageCapture.OutputFileOptions.Builder(file).build(),
-                    executor,
-                    object : ImageCapture.OnImageSavedCallback {
-                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            try {
-                                analyzeImage(file)
-                            } catch (e: Exception) {
-                                runOnUiThread { showErrorDialog(e) }
-                            }
-                        }
-                        override fun onError(error: ImageCaptureException) {
-                            runOnUiThread { showErrorDialog(error) }
-                        }
-                    }
-                )
-           } catch (e: Exception) {
-               runOnUiThread { showErrorDialog(e) }
-           }
+            requestCameraPermission()
         }
     }
 
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 0)
+    }
+
+    private fun initializeOpenCV() {
+        if (!OpenCVLoader.initDebug()) {
+            Log.e("OpenCV", "OpenCV initialization failed.")
+        }
+    }
+
+    private fun tryCaptureImage() {
+
+        // Define where the image will be saved
+        val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
+
+        // Take the photo, save it, and perform analysis
+        capture.takePicture(
+            ImageCapture.OutputFileOptions.Builder(file).build(),
+            executor,
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    analyzeImage(file)
+                }
+
+                override fun onError(error: ImageCaptureException) {
+                    runOnUiThread { showErrorDialog(error, this@ScanPreviewActivity) }
+                }
+            }
+        )
+    }
+
     private fun allPermissionsGranted() = arrayOf(Manifest.permission.CAMERA).all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it
-        ) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun startCameraPreview() {
@@ -94,9 +94,8 @@ class ScanPreviewActivity : AppCompatActivity() {
             val preview = Preview.Builder().build()
                 .also { it.setSurfaceProvider(binding.previewView.surfaceProvider) }
 
-            imageCapture = ImageCapture.Builder()
-                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                .build()
+            capture = ImageCapture.Builder()
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
 
             cameraProvider.unbindAll()
 
@@ -105,12 +104,11 @@ class ScanPreviewActivity : AppCompatActivity() {
                     this@ScanPreviewActivity,
                     CameraSelector.DEFAULT_BACK_CAMERA,
                     preview,
-                    imageCapture
+                    capture
                 )
             } catch (e: Exception) {
-                // Handle exception (camera is used by another app, the device doesn't have a back camera, etc.)
+                runOnUiThread { showErrorDialog(e, this) }
             }
-
         }, ContextCompat.getMainExecutor(this))
     }
 
@@ -121,47 +119,57 @@ class ScanPreviewActivity : AppCompatActivity() {
 
             if (correctedImage != null) {
                 //Save the corrected image
-                val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected}.jpg")
+                val imagePath = saveCorrectedImage(correctedImage)
 
-                FileOutputStream(imagePath).use {
-                    correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
-                }
-
-                //Detect the text on the image
-                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-                recognizer.process(InputImage.fromBitmap(correctedImage, 0))
-                    .addOnSuccessListener { visionText ->
-                        try {
-                            val receipt = visionText.toReceipt()
-                            receipt.imgFilePath = imagePath.absolutePath
-                            val intent = Intent(this, ReceiptDetailActivity::class.java)
-                            intent.putExtra("receipt", receipt)
-                            startActivity(intent)
-                        }catch (e: Exception){
-                            runOnUiThread { showErrorDialog(e) }
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        runOnUiThread { showErrorDialog(e) }
-                    }
+                processImageWithOCR(correctedImage, imagePath)
             }
 
         } catch (e: Exception) {
-            throw Exception(e)
+            runOnUiThread { showErrorDialog(e, this) }
         }
     }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+    private fun saveCorrectedImage(correctedImage: Bitmap): File {
+        val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected.jpg")
+
+        FileOutputStream(imagePath).use {
+            correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
+        }
+
+        return imagePath
     }
 
-    fun showErrorDialog(e: Exception) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Oops...")
-        builder.setMessage(e.message ?: "An unknown error occurred.")
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
+    private fun processImageWithOCR(image: Bitmap, imagePath: File) {
+        //Detect the text on the image
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(InputImage.fromBitmap(image, 0))
+            .addOnSuccessListener { visionText ->
+
+                try {
+                    // Reconstruct the receipt base on the OCR results
+                    val receipt = visionText.toReceipt()
+
+                    receipt.imgFilePath = imagePath.absolutePath
+
+                    handleOcrSuccess(receipt)
+                } catch (e: Exception) {
+                    runOnUiThread { showErrorDialog(e, this) }
+                }
+
+            }.addOnFailureListener { e -> runOnUiThread { showErrorDialog(e, this) } }
+    }
+
+    private fun handleOcrSuccess(receipt: Receipt) {
+        try {
+            receipt.httpMethod = HttpMethod.POST
+
+            val intent = Intent(this, ReceiptDetailActivity::class.java)
+
+            intent.putExtra("receipt", receipt)
+
+            startActivity(intent)
+        } catch (e: Exception) {
+            runOnUiThread { showErrorDialog(e, this) }
         }
-        builder.show()
     }
 }

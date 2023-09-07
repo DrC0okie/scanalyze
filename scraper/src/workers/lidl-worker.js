@@ -10,7 +10,7 @@ const run = async (cat) => {
   let has_next_page = true;
   let no_page = 1;
   const browser = await puppeteer.launch({
-    executablePath: "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe",
+    executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
     headless: false
   });
   const page = await browser.newPage();

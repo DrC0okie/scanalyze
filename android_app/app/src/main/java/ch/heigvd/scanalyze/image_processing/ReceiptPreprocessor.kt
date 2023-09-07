@@ -2,6 +2,7 @@ package ch.heigvd.scanalyze.image_processing
 
 import android.graphics.Bitmap
 import org.opencv.android.Utils
+import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
 import org.opencv.core.MatOfPoint
@@ -12,15 +13,15 @@ import org.opencv.core.Size
 import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgproc.Imgproc
 import java.io.File
-import java.lang.RuntimeException
 import kotlin.math.sqrt
+
 
 object ReceiptPreprocessor {
 
     fun correctRotation(file: File): Bitmap? {
 
         // Load image into Mat object
-        val inputMat = Imgcodecs.imread(file.absolutePath)
+        val inputMat = Imgcodecs.imread(file.absolutePath, Imgcodecs.IMREAD_GRAYSCALE)
 
         //Delete original picture that has been taken
         file.delete()
@@ -69,8 +70,11 @@ object ReceiptPreprocessor {
         val transformMatrix = Imgproc.getPerspectiveTransform(perspectiveCorners, quadMat)
         Imgproc.warpPerspective(inputMat, outputMat, transformMatrix, outputMat.size())
 
+        // Improve contrast for OCR readability
+        val enhancedOutputMat = enhanceContrast(outputMat)
+
         //Generate a bitmap from the corrected mat
-        val outputImage = outputMat.toBitmap(Bitmap.Config.ARGB_8888)
+        val outputImage = enhancedOutputMat.toBitmap(Bitmap.Config.ARGB_8888)
 
         // Release all the native resources as they are not garbage collected
         inputMat.release()
@@ -84,13 +88,10 @@ object ReceiptPreprocessor {
     }
 
     private fun preprocessing(inputMat: Mat): Mat {
-        // Convert the image to grayscale
-        val grayMat = Mat()
-        Imgproc.cvtColor(inputMat, grayMat, Imgproc.COLOR_BGR2GRAY)
 
         // Apply a blur for the thresholding to be effective
         val blurMat = Mat()
-        Imgproc.blur(grayMat, blurMat, Size(25.0, 25.0))
+        Imgproc.blur(inputMat, blurMat, Size(25.0, 25.0))
 
         // Thresholding to to separate the foreground from the background
         val threshMat = Mat()
@@ -105,7 +106,6 @@ object ReceiptPreprocessor {
         Imgproc.erode(threshMat, threshMat, eElem)
 
         // Release all the native resources as they are not garbage collected
-        grayMat.release()
         blurMat.release()
         dElem.release()
         eElem.release()
@@ -221,6 +221,22 @@ object ReceiptPreprocessor {
 
         //Here we have to convert it back to double as "zeros" takes Double
         return Mat.zeros(Size(maxWidth.toDouble(), maxHeight.toDouble()), CvType.CV_8UC3)
+    }
+
+    private fun enhanceContrast(inputMat: Mat): Mat {
+        val alpha = 2.0// Contrast control (2.0 means enhance contrast by 100%)
+        val beta = -220.0 // Brightness control
+
+        // Create a new Mat with the same size and type as the original, filled with zeros
+        val zeros: Mat = Mat.zeros(inputMat.size(), CvType.CV_8UC1)
+
+        // Compute the contrast-enhanced image
+        val outputMat = Mat()
+        Core.addWeighted(inputMat, alpha, zeros, 1 - alpha, beta, outputMat)
+
+        inputMat.release()
+
+        return outputMat
     }
 
     fun Mat.toBitmap(config: Bitmap.Config): Bitmap {

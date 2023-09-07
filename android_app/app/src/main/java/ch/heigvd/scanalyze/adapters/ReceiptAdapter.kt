@@ -4,14 +4,19 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ch.heigvd.scanalyze.Receipt
+import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.activities.ReceiptDetailActivity
 import ch.heigvd.scanalyze.databinding.ItemReceiptBinding
+import ch.heigvd.scanalyze.receipt.Receipt
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
-class ReceiptAdapter (private val receipts: Array<Receipt>):RecyclerView.Adapter<ReceiptAdapter.ViewHolder>() {
+class ReceiptAdapter(private val receipts: Array<Receipt>) :
+    RecyclerView.Adapter<ReceiptAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemReceiptBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemReceiptBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             itemView.setOnClickListener {
@@ -23,11 +28,19 @@ class ReceiptAdapter (private val receipts: Array<Receipt>):RecyclerView.Adapter
             }
         }
 
-        fun bind(receipt: Receipt){
-            binding.imageViewShopIcon.setImageResource(receipt.shop.resourceImage)
-            binding.textViewDate.text = receipt.date
-            binding.textViewShop.text = receipt.shopBranch
-            binding.textViewTotal.text = receipt.totalPrice.toString()
+        fun bind(receipt: Receipt) {
+
+            binding.imageViewShopIcon.setImageResource(Shop.func.fromString(receipt.shopName).resourceImage)
+            binding.textViewShop.text = receipt.shopBranch ?: ""
+            binding.textViewTotal.text = String.format("%.2f", receipt.total?: 0f)
+
+            try {
+                binding.textViewDate.text = LocalDateTime
+                    .parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
+                    .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            } catch (e: Exception) {
+                binding.textViewDate.text = "Date unknown"
+            }
         }
     }
 

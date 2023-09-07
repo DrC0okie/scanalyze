@@ -3,8 +3,6 @@ package ch.heigvd.scanalyze.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import ch.heigvd.scanalyze.R
 import ch.heigvd.scanalyze.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,13 +14,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonReceipts.setOnClickListener{
+        binding.buttonStats.setOnClickListener {
+            startActivity(Intent(this, StatsActivity::class.java))
+        }
+
+        binding.buttonReceipts.setOnClickListener {
             startActivity(Intent(this, ReceiptActivity::class.java))
         }
 
-        binding.buttonScan.setOnClickListener{
+        binding.buttonScan.setOnClickListener {
             startActivity(Intent(this, ScanPreviewActivity::class.java))
         }
-
     }
 }

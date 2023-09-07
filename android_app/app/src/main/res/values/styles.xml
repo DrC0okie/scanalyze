@@ -10,5 +10,12 @@
         <item name="rippleColor">@color/scanalyze_button_ripple</item>
     </style>
 
+    <style name="ScanalyzeStatButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/scanalyze_grey</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="rippleColor">@color/scanalyze_button_ripple</item>
+    </style>
+
 
 </resources>
