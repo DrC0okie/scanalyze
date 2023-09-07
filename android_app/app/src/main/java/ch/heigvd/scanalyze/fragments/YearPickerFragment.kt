@@ -83,7 +83,7 @@ class YearPickerFragment : DialogFragment() {
             val startDate = LocalDateTime.of(selectedYear, 1, 1, 0, 0, 0)
             val endDate = LocalDateTime.of(
                 selectedYear, 12,
-                LocalDate.of(selectedYear, 12, 1).lengthOfMonth(), 0, 0, 0
+                LocalDate.of(selectedYear, 12, 1).lengthOfMonth(), 23, 59, 59
             )
             it.onYearSelected(Pair(startDate, endDate))
         }

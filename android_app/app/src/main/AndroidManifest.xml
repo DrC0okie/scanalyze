@@ -18,9 +18,9 @@
         android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/scanalyze_two_tone_dark_bg_minimal"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/scanalyze_two_tone_dark_bg_minimal"
         android:supportsRtl="true"
         android:theme="@style/Theme.Scanalyze"
         tools:targetApi="31">
@@ -29,9 +29,6 @@
             android:exported="false"
             android:label="Stats"
             android:parentActivityName=".activities.MainActivity" />
-        <activity
-            android:name=".activities.DisplayCorrectedImageActivity"
-            android:exported="false" />
         <activity
             android:name=".activities.ScanPreviewActivity"
             android:exported="false"
@@ -55,5 +52,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -5,8 +5,6 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import ch.heigvd.scanalyze.R
@@ -18,11 +16,9 @@ import ch.heigvd.scanalyze.fragments.DateRangePickerFragment
 import ch.heigvd.scanalyze.fragments.OnDateRangeSelectedListener
 import ch.heigvd.scanalyze.fragments.OnYearSelectedListener
 import ch.heigvd.scanalyze.fragments.YearPickerFragment
-import ch.heigvd.scanalyze.receipt.JsonReceipt
+import ch.heigvd.scanalyze.receipt.Receipt
 import ch.heigvd.scanalyze.api.ApiResponse
 import ch.heigvd.scanalyze.statistics.TimeUnit
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -30,7 +26,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import java.time.LocalDateTime
@@ -39,16 +34,6 @@ import java.time.temporal.WeekFields
 
 class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSelectedListener {
     private lateinit var binding: ActivityStatsBinding
-    private lateinit var barChart: BarChart
-    private lateinit var pieChart: PieChart
-    private lateinit var weekButton: MaterialButton
-    private lateinit var monthButton: MaterialButton
-    private lateinit var yearButton: MaterialButton
-    private lateinit var intervalButton: Button
-    private lateinit var totalTextView: TextView
-    private lateinit var barChartDescr: TextView
-    private lateinit var beginTextView: TextView
-    private lateinit var endTextView: TextView
     private lateinit var begin: LocalDateTime
     private lateinit var end: LocalDateTime
     private lateinit var activityTimeUnit: TimeUnit
@@ -80,39 +65,11 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     }
 
     override fun onDateRangeSelected(dateRange: Pair<LocalDateTime, LocalDateTime>) {
-        Log.d("Scanalyze", "Selected range: ${dateRange.first} to ${dateRange.second}")
-        begin = dateRange.first
-        end = dateRange.second
-        beginTextView.text = begin.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        endTextView.text = end.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-
-        //Update the graph with the newly fetched API data
-        getStatData(callback)
-
-        // Close the ch.heigvd.scanalyze.fragments.DateRangePickerFragment
-        val fragment = supportFragmentManager.findFragmentByTag("DateRangePicker")
-        if (fragment != null) {
-            val dialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
-        }
+        updateAfterDatePick("DateRangePicker", dateRange)
     }
 
     override fun onYearSelected(yearRange: Pair<LocalDateTime, LocalDateTime>) {
-        Log.d("Scanalyze", "Selected year: ${yearRange.first} to ${yearRange.second}")
-        begin = yearRange.first
-        end = yearRange.second
-        beginTextView.text = begin.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        endTextView.text = end.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-
-        //Update the graph with the newly fetched API data
-        getStatData(callback)
-
-        // Close the fragment
-        val fragment = supportFragmentManager.findFragmentByTag("YearPickerFragment")
-        if (fragment != null) {
-            val dialogFragment = fragment as DialogFragment
-            dialogFragment.dismiss()
-        }
+        updateAfterDatePick("YearPickerFragment", yearRange)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,43 +88,14 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
 
     private fun initialization() {
 
-        // Init the layout elements binding
-        barChart = binding.barChartSpending
-        pieChart = binding.pieChartCategories
-        weekButton = binding.buttonWeek
-        monthButton = binding.buttonMonth
-        yearButton = binding.buttonYear
-        intervalButton = binding.buttonInterval
-        totalTextView = binding.textViewTotal
-        barChartDescr = binding.textViewChartDescr
-        beginTextView = binding.textViewTimeIntervalBegin
-        endTextView = binding.textViewTimeIntervalEnd
         gson = Gson()
 
         // Init the buttons listeners
-        weekButton.setOnClickListener {
-            activityTimeUnit = TimeUnit.WEEK
-            reinitializeDates(activityTimeUnit)
-            updateButtonsBackgnd(activityTimeUnit)
-            getStatData(callback)
-        }
-
-        monthButton.setOnClickListener {
-            activityTimeUnit = TimeUnit.MONTH
-            reinitializeDates(activityTimeUnit)
-            updateButtonsBackgnd(activityTimeUnit)
-            getStatData(callback)
-        }
-
-        yearButton.setOnClickListener {
-            activityTimeUnit = TimeUnit.YEAR
-            reinitializeDates(activityTimeUnit)
-            updateButtonsBackgnd(activityTimeUnit)
-            getStatData(callback)
-        }
-
-        intervalButton.setOnClickListener {
-            showDatePicker(activityTimeUnit)
+        with(binding) {
+            buttonWeek.setOnClickListener { updateDataForTimeUnit(TimeUnit.WEEK) }
+            buttonMonth.setOnClickListener { updateDataForTimeUnit(TimeUnit.MONTH) }
+            buttonYear.setOnClickListener { updateDataForTimeUnit(TimeUnit.YEAR) }
+            buttonInterval.setOnClickListener { showDatePicker(activityTimeUnit) }
         }
 
         //Init the filter to Month
@@ -178,6 +106,13 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
 
         //Select the month button
         updateButtonsBackgnd(activityTimeUnit)
+    }
+
+    private fun updateDataForTimeUnit(timeUnit: TimeUnit) {
+        activityTimeUnit = timeUnit
+        reinitializeDates(activityTimeUnit)
+        updateButtonsBackgnd(activityTimeUnit)
+        getStatData(callback)
     }
 
     private fun updateGraph(timeUnit: TimeUnit) {
@@ -217,16 +152,40 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         }
     }
 
+    private fun updateAfterDatePick(tag: String, yearRange: Pair<LocalDateTime, LocalDateTime>) {
+        Log.d("Scanalyze", "Selected year: ${yearRange.first} to ${yearRange.second}")
+        begin = yearRange.first
+        end = yearRange.second
+
+        //Update the dates on the screen
+        with(binding) {
+            textViewTimeIntervalBegin.text = begin.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            textViewTimeIntervalEnd.text = end.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+        }
+
+        //Fetch the API
+        getStatData(callback)
+
+        //Close the fragment
+        val fragment = supportFragmentManager.findFragmentByTag(tag)
+        if (fragment != null) {
+            val dialogFragment = fragment as DialogFragment
+            dialogFragment.dismiss()
+        }
+    }
+
     private fun updateButtonsBackgnd(timeUnit: TimeUnit) {
 
-        weekButton.setBackgnd(R.color.scanalyze_grey)
-        monthButton.setBackgnd(R.color.scanalyze_grey)
-        yearButton.setBackgnd(R.color.scanalyze_grey)
+        with(binding) {
+            buttonWeek.setBackgnd(R.color.scanalyze_grey)
+            buttonMonth.setBackgnd(R.color.scanalyze_grey)
+            buttonYear.setBackgnd(R.color.scanalyze_grey)
 
-        when (timeUnit) {
-            TimeUnit.WEEK -> weekButton.setBackgnd(R.color.scanalyze_purple)
-            TimeUnit.MONTH -> monthButton.setBackgnd(R.color.scanalyze_purple)
-            TimeUnit.YEAR -> yearButton.setBackgnd(R.color.scanalyze_purple)
+            when (timeUnit) {
+                TimeUnit.WEEK -> buttonWeek.setBackgnd(R.color.scanalyze_purple)
+                TimeUnit.MONTH -> buttonMonth.setBackgnd(R.color.scanalyze_purple)
+                TimeUnit.YEAR -> buttonYear.setBackgnd(R.color.scanalyze_purple)
+            }
         }
     }
 
@@ -239,11 +198,11 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
                 LocalDateTime.of(end.year, end.month, 1, 0, 0, 0).minusMonths(11)
             }
 
-            TimeUnit.YEAR -> end.minusYears(10)
+            TimeUnit.YEAR -> {end.minusYears(10)}
         }
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        beginTextView.text = begin.format(formatter)
-        endTextView.text = end.format(formatter)
+        binding.textViewTimeIntervalBegin.text = begin.format(formatter)
+        binding.textViewTimeIntervalEnd.text = end.format(formatter)
     }
 
     private fun MaterialButton.setBackgnd(backgroundColor: Int) {
@@ -273,7 +232,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         Api.getStats(beginApiParam, endApiParam, callback, this)
     }
 
-    private fun aggregateDataForYears(data: List<JsonReceipt>?): Map<String, Float> {
+    private fun aggregateDataForYears(data: List<Receipt>?): Map<String, Float> {
         val aggregatedData = mutableMapOf<String, Float>()
 
         if (data != null) {
@@ -284,11 +243,11 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
                 aggregatedData[key] = aggregatedData.getOrDefault(key, 0f) + total
             }
         }
-        return aggregatedData
+        return aggregatedData.keys.sortedBy { it.toInt() }.associateWith { aggregatedData[it]!! }
     }
 
     private fun aggregateDataForMonth(
-        data: List<JsonReceipt>?, begin: LocalDateTime, end: LocalDateTime
+        data: List<Receipt>?, begin: LocalDateTime, end: LocalDateTime
     ): Map<String, Float> {
         val aggregatedData = mutableMapOf<String, Float>()
 
@@ -303,7 +262,9 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             for (receipt in data) {
                 val receiptDate =
                     LocalDateTime.parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
-                if (receiptDate.isAfter(begin) && receiptDate.isBefore(end)) {
+                if ((receiptDate.isAfter(begin) || receiptDate.isEqual(begin))
+                    && (receiptDate.isBefore(end) || receiptDate.isEqual(end))) {
+
                     val month = monthNames[receiptDate.monthValue - 1]
                     val total = receipt.total ?: 0f
                     aggregatedData[month] = aggregatedData.getOrDefault(month, 0.0f) + total
@@ -315,7 +276,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     }
 
     private fun aggregateDataForWeek(
-        data: List<JsonReceipt>?,
+        data: List<Receipt>?,
         begin: LocalDateTime,
         end: LocalDateTime
     ): Map<String, Float> {
@@ -362,41 +323,41 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         }
 
         //Display accumulated total
-        totalTextView.text = String.format("%.2f", totalInterval)
 
         val barDataSet = BarDataSet(barEntries, "Spending")
 
-        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-
-        // set bars color
+        // format and set dataset
         barDataSet.color = resources.getColor(R.color.scanalyze_purple)
-
-        barChartDescr.text = "Spending by ${activityTimeUnit.name.lowercase()}"
-
-        // Remove right axis, grid lines and the legend
-        barChart.axisRight.isEnabled = false
-        barChart.xAxis.setDrawGridLines(false)
-        barChart.legend.isEnabled = false
-        barChart.description.text = ""
-        barChart.description.textColor = Color.WHITE
         barDataSet.valueTextColor = Color.WHITE
         barDataSet.valueTextSize = 10f
-
-        // Set label color
-        val xAxis = barChart.xAxis
-        xAxis.textColor = Color.WHITE
-        barChart.axisLeft.textColor = Color.WHITE
-
-        // To display all the labels on the axis
-        xAxis.granularity = 1f
-
         val barData = BarData(barDataSet)
 
-        barChart.data = barData
-        barChart.invalidate()  // refresh the chart
+        with(binding) {
+
+            //Format and set UI
+            textViewTotal.text = String.format("%.2f", totalInterval)
+            barChartSpending.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+            textViewChartDescr.text = "Spending by ${activityTimeUnit.name.lowercase()}"
+            barChartSpending.axisRight.isEnabled = false
+            barChartSpending.xAxis.setDrawGridLines(false)
+            barChartSpending.legend.isEnabled = false
+            barChartSpending.description.text = ""
+            barChartSpending.description.textColor = Color.WHITE
+
+            // Set label color
+            val xAxis = barChartSpending.xAxis
+            xAxis.textColor = Color.WHITE
+            barChartSpending.axisLeft.textColor = Color.WHITE
+
+            // To display all the labels on the axis
+            xAxis.granularity = 1f
+
+            barChartSpending.data = barData
+            barChartSpending.invalidate()  // refresh the chart
+        }
     }
 
-    fun updatePieChart(totalCategory: Map<String, Float>) {
+    private fun updatePieChart(totalCategory: Map<String, Float>) {
         val pieEntries = ArrayList<PieEntry>()
 
         for ((key, value) in totalCategory) {
@@ -406,29 +367,30 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         val pieDataSet = PieDataSet(pieEntries, "")
         val pieData = PieData(pieDataSet)
 
-        // Customize your PieDataSet here (e.g., colors)
-        // ...
+        // format dataset
         pieDataSet.colors.add(Color.parseColor("#D0005F"))
         pieDataSet.colors.add(Color.parseColor("#DE4F45"))
         pieDataSet.colors.add(Color.parseColor("#49C3FB"))
         pieDataSet.colors.add(Color.parseColor("#65A6FA"))
         pieDataSet.colors.add(Color.parseColor("#7E80E7"))
-
-        // Making it a ring (donut) chart
-        pieChart.holeRadius = 30f
-        pieChart.setHoleColor(Color.TRANSPARENT)
-        pieChart.transparentCircleRadius = 58f
-        pieChart.legend.isEnabled = true
-        pieChart.holeRadius = 54f
-        pieChart.legend.textColor = Color.WHITE
-        pieChart.setDrawEntryLabels(false)
-        pieChart.legend.textSize = 12f
-        pieChart.setUsePercentValues(true)
-        pieChart.legend.formSize = 12f
         pieDataSet.valueTextSize = 22f
         pieDataSet.valueTextColor = Color.BLACK
-        pieChart.description.text = ""
-        pieChart.data = pieData
-        pieChart.invalidate()
+
+        // format chart
+        with(binding) {
+            pieChartCategories.holeRadius = 30f
+            pieChartCategories.setHoleColor(Color.TRANSPARENT)
+            pieChartCategories.transparentCircleRadius = 58f
+            pieChartCategories.legend.isEnabled = true
+            pieChartCategories.holeRadius = 54f
+            pieChartCategories.legend.textColor = Color.WHITE
+            pieChartCategories.setDrawEntryLabels(false)
+            pieChartCategories.legend.textSize = 12f
+            pieChartCategories.setUsePercentValues(true)
+            pieChartCategories.legend.formSize = 12f
+            pieChartCategories.description.text = ""
+            pieChartCategories.data = pieData
+            pieChartCategories.invalidate()
+        }
     }
 }

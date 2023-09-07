@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.Utils.Utils
 import ch.heigvd.scanalyze.adapters.ReceiptDetailAdapter
@@ -14,7 +13,7 @@ import ch.heigvd.scanalyze.api.ApiCallback
 import ch.heigvd.scanalyze.api.ApiRequest
 import ch.heigvd.scanalyze.api.HttpMethod
 import ch.heigvd.scanalyze.databinding.ActivityReceiptDetailBinding
-import ch.heigvd.scanalyze.receipt.JsonReceipt
+import ch.heigvd.scanalyze.receipt.Receipt
 import ch.heigvd.scanalyze.api.ApiResponse
 import com.google.gson.Gson
 import java.io.File
@@ -25,7 +24,6 @@ class ReceiptDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReceiptDetailBinding
     private lateinit var apiResponse: ApiResponse
-    private lateinit var recyclerView: RecyclerView
     private lateinit var gson: Gson
     private lateinit var bitmap: Bitmap
     private lateinit var receiptId: String
@@ -35,41 +33,50 @@ class ReceiptDetailActivity : AppCompatActivity() {
         binding = ActivityReceiptDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val receiptOverview: JsonReceipt? = intent.getParcelableExtra("receipt")
+        //Get the receipt from previous activity
+        val receiptOverview: Receipt? = intent.getParcelableExtra("receipt")
 
-        recyclerView = binding.recyclerViewDetailReceipts
+        //Init Gson
         gson = Gson()
-
-        // Get the receipt id
-        receiptId = receiptOverview?.id ?: ""
 
         if (receiptOverview != null) {
 
-            // Display the receipt image if it exists
-            if (!receiptOverview.imgFilePath.isNullOrEmpty()) {
-                bitmap = BitmapFactory.decodeFile(receiptOverview.imgFilePath)
-                bitmapFile = File(receiptOverview.imgFilePath!!)
-                binding.imageViewScannedImage.setImageBitmap(bitmap)
-            }
-
-            try {
-                binding.textViewDetailDate.text = LocalDateTime
-                    .parse(receiptOverview.date, DateTimeFormatter.ISO_DATE_TIME)
-                    .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            } catch (e: Exception) {
-                binding.textViewDetailDate.text = "Date unknown"
-            }
-
-            binding.textViewDetailShop.text = receiptOverview.shopBranch ?: ""
-            binding.imageViewDetailShopIcon.setImageResource(Shop.func.fromString(receiptOverview.shopName).resourceImage)
-            binding.textViewDetailTotal.text = String.format("%.2f", receiptOverview.total)
-            binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receiptOverview)
+            initView(receiptOverview)
 
             if (receiptOverview.httpMethod != null && receiptOverview.httpMethod == HttpMethod.POST) {
                 postData(receiptOverview)
             }else{
                getData()
             }
+        }
+    }
+
+    private fun initView(receipt: Receipt){
+
+        receiptId = receipt.id
+
+        with(binding) {
+            // Display the receipt image if it exists
+            if (!receipt.imgFilePath.isNullOrEmpty()) {
+                bitmap = BitmapFactory.decodeFile(receipt.imgFilePath)
+                bitmapFile = File(receipt.imgFilePath!!)
+                imageViewScannedImage.setImageBitmap(bitmap)
+            }
+
+            try {
+                textViewDetailDate.text = LocalDateTime
+                    .parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
+                    .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            } catch (e: Exception) {
+                textViewDetailDate.text = "Date unknown"
+            }
+
+            textViewDetailShop.text = receipt.shopBranch ?: ""
+            textViewDetailTotal.text = String.format("%.2f", receipt.total)
+            imageViewDetailShopIcon.setImageResource(
+                Shop.func.fromString(receipt.shopName).resourceImage)
+
+            recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receipt)
         }
     }
 
@@ -81,7 +88,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
         bitmapFile?.delete()
     }
 
-    private fun postData(receipt: JsonReceipt){
+    private fun postData(receipt: Receipt){
         val apiRequest = ApiRequest(receipt)
         val json = gson.toJson(apiRequest)
 
@@ -93,7 +100,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
 
                 // Once we have the data, populate the recycleView
                 runOnUiThread {
-                    recyclerView.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
+                    binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
                 }
             }
 
@@ -112,7 +119,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
 
                 // Once we have the data, populate the recycleView
                 runOnUiThread {
-                    recyclerView.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
+                    binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
                 }
             }
 

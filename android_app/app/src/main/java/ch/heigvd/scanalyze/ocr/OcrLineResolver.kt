@@ -1,14 +1,14 @@
 package ch.heigvd.scanalyze.ocr
 
-import ch.heigvd.scanalyze.receipt.JsonProduct
-import ch.heigvd.scanalyze.receipt.JsonReceipt
+import ch.heigvd.scanalyze.receipt.Product
+import ch.heigvd.scanalyze.receipt.Receipt
 import ch.heigvd.scanalyze.rule_sets.RulesetFactory
 import com.google.mlkit.vision.text.Text
 import java.lang.RuntimeException
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 
-fun Text.toReceipt(): JsonReceipt {
+fun Text.toReceipt(): Receipt {
     try {
         return generateReceipt(resolveLines(getTextElements(this)))
     } catch (e: Exception) {
@@ -78,9 +78,9 @@ private fun resolveLines(textElements: List<TextElement>): List<List<TextElement
     return lines
 }
 
-private fun generateReceipt(lines: List<List<TextElement>>): JsonReceipt {
+private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
 
-    val products: MutableList<JsonProduct> = ArrayList()
+    val products: MutableList<Product> = ArrayList()
     var receiptDate = ""
     val ruleset = RulesetFactory.create(lines)
 
@@ -114,7 +114,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): JsonReceipt {
             val unitPrice = ruleset.getUnitPrice(prices)
             val discount = ruleset.getDiscount(prices)
             val totalPrice = ruleset.getTotalPrice(prices)
-            products.add(JsonProduct(productName.toString(), quantity, unitPrice, discount, totalPrice))
+            products.add(Product(productName.toString(), quantity, unitPrice, discount, totalPrice))
         }
     }
 
@@ -125,7 +125,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): JsonReceipt {
     //Calculate the total
     val total = products.sumOf { it.totalPrice.toDouble() }.toFloat()
 
-    return JsonReceipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), total)
+    return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), total)
 }
 
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {

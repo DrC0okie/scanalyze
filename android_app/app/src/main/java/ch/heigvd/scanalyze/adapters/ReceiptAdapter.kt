@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.activities.ReceiptDetailActivity
 import ch.heigvd.scanalyze.databinding.ItemReceiptBinding
-import ch.heigvd.scanalyze.receipt.JsonReceipt
-import java.time.LocalDate
+import ch.heigvd.scanalyze.receipt.Receipt
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class ReceiptAdapter(private val receipts: Array<JsonReceipt>) :
+class ReceiptAdapter(private val receipts: Array<Receipt>) :
     RecyclerView.Adapter<ReceiptAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemReceiptBinding) :
@@ -29,7 +28,7 @@ class ReceiptAdapter(private val receipts: Array<JsonReceipt>) :
             }
         }
 
-        fun bind(receipt: JsonReceipt) {
+        fun bind(receipt: Receipt) {
 
             binding.imageViewShopIcon.setImageResource(Shop.func.fromString(receipt.shopName).resourceImage)
             binding.textViewShop.text = receipt.shopBranch ?: ""

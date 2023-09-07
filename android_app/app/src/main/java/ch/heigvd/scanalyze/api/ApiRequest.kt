@@ -1,6 +1,6 @@
 package ch.heigvd.scanalyze.api
 
-import ch.heigvd.scanalyze.receipt.JsonReceipt
+import ch.heigvd.scanalyze.receipt.Receipt
 import com.google.gson.annotations.SerializedName
 
-data class ApiRequest(@SerializedName("receipt") var receiptDetail: JsonReceipt)
+data class ApiRequest(@SerializedName("receipt") var receiptDetail: Receipt)

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class JsonProduct(
+data class Product(
     @SerializedName("product_name")val name: String,
     @SerializedName("quantity")val quantity: Float,
     @SerializedName("unit_price")val unitPrice: Float,

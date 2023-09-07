@@ -4,16 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.scanalyze.databinding.ItemReceiptDetailBinding
-import ch.heigvd.scanalyze.receipt.JsonProduct
-import ch.heigvd.scanalyze.receipt.JsonReceipt
+import ch.heigvd.scanalyze.receipt.Product
+import ch.heigvd.scanalyze.receipt.Receipt
 
-class ReceiptDetailAdapter(private val receipt: JsonReceipt?) :
+class ReceiptDetailAdapter(private val receipt: Receipt?) :
     RecyclerView.Adapter<ReceiptDetailAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ItemReceiptDetailBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: JsonProduct) {
+        fun bind(product: Product) {
             binding.textViewProductName.text = product.name
             binding.textViewQuantity.text = String.format("%.2f", product.quantity)
             binding.textViewUnitPrice.text = String.format("%.2f", product.unitPrice)
@@ -34,6 +34,6 @@ class ReceiptDetailAdapter(private val receipt: JsonReceipt?) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         //Binds each item in the Array with the actual position of the recyclerView
-        holder.bind(receipt?.products?.get(position) ?: JsonProduct("null", 0f, 0f, 0f, 0f))
+        holder.bind(receipt?.products?.get(position) ?: Product("null", 0f, 0f, 0f, 0f))
     }
 }
