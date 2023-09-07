@@ -78,12 +78,11 @@ router.post('/', async (req, res, next) => {
     
     receipt_product.product_name = found_product.name;
     receipt_product.category= found_product.category;
-    receipt_product.total = total;
 
     indexed_product.push(receipt_product);
   }
   receipt.products = indexed_product;
-  receipt.total = parseFloat(receipt.total.toFixed(2));
+  receipt.total = parseFloat(total.toFixed(2));
   receipt.date = new Date(receipt.date);
 
   //Saving the receipt in the database
