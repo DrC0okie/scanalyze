@@ -1,28 +1,50 @@
 package ch.heigvd.scanalyze.activities
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.widget.Toast
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import ch.heigvd.scanalyze.Shop.Shop
+import ch.heigvd.scanalyze.Utils.Utils.showErrorDialog
+import ch.heigvd.scanalyze.api.Api
+import ch.heigvd.scanalyze.api.HttpMethod
 import ch.heigvd.scanalyze.databinding.ActivityScanPreviewBinding
 import ch.heigvd.scanalyze.image_processing.ReceiptPreprocessor
 import ch.heigvd.scanalyze.ocr.*
+import ch.heigvd.scanalyze.receipt.JsonReceipt
 import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import org.opencv.android.OpenCVLoader
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.concurrent.Executors
+
 
 class ScanPreviewActivity : AppCompatActivity() {
 
@@ -52,7 +74,7 @@ class ScanPreviewActivity : AppCompatActivity() {
 
         binding.buttonCapture.setOnClickListener {
 
-           try {
+            try {
                 // Define where the image will be saved
                 val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
 
@@ -62,20 +84,17 @@ class ScanPreviewActivity : AppCompatActivity() {
                     executor,
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            try {
-                                analyzeImage(file)
-                            } catch (e: Exception) {
-                                runOnUiThread { showErrorDialog(e) }
-                            }
+                            analyzeImage(file)
                         }
+
                         override fun onError(error: ImageCaptureException) {
-                            runOnUiThread { showErrorDialog(error) }
+                            runOnUiThread { showErrorDialog(error, this@ScanPreviewActivity) }
                         }
                     }
                 )
-           } catch (e: Exception) {
-               runOnUiThread { showErrorDialog(e) }
-           }
+            } catch (e: Exception) {
+                runOnUiThread { showErrorDialog(e, this) }
+            }
         }
     }
 
@@ -121,47 +140,127 @@ class ScanPreviewActivity : AppCompatActivity() {
 
             if (correctedImage != null) {
                 //Save the corrected image
-                val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected}.jpg")
+                val imagePath = saveCorrectedImage(correctedImage)
 
-                FileOutputStream(imagePath).use {
-                    correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
-                }
-
-                //Detect the text on the image
-                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
-                recognizer.process(InputImage.fromBitmap(correctedImage, 0))
-                    .addOnSuccessListener { visionText ->
-                        try {
-                            val receipt = visionText.toReceipt()
-                            receipt.imgFilePath = imagePath.absolutePath
-                            val intent = Intent(this, ReceiptDetailActivity::class.java)
-                            intent.putExtra("receipt", receipt)
-                            startActivity(intent)
-                        }catch (e: Exception){
-                            runOnUiThread { showErrorDialog(e) }
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        runOnUiThread { showErrorDialog(e) }
-                    }
+                processImageWithOCR(correctedImage, imagePath)
             }
 
         } catch (e: Exception) {
-            throw Exception(e)
+            runOnUiThread { showErrorDialog(e, this) }
         }
     }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(baseContext, msg, Toast.LENGTH_LONG).show()
+    private fun saveCorrectedImage(correctedImage: Bitmap): File {
+        val imagePath = File(filesDir, "${System.currentTimeMillis()}_corrected.jpg")
+        FileOutputStream(imagePath).use {
+            correctedImage.compress(Bitmap.CompressFormat.JPEG, 50, it)
+        }
+        return imagePath
     }
 
-    fun showErrorDialog(e: Exception) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Oops...")
-        builder.setMessage(e.message ?: "An unknown error occurred.")
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
+    private fun processImageWithOCR(image: Bitmap, imagePath: File) {
+        //Detect the text on the image
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(InputImage.fromBitmap(image, 0))
+            .addOnSuccessListener { visionText ->
+                try {
+                    // Reconstruct the receipt base on the OCR results
+                    val receipt = visionText.toReceipt()
+                    receipt.imgFilePath = imagePath.absolutePath
+                    handleOcrSuccess(receipt)
+                } catch (e: Exception) {
+                    runOnUiThread { showErrorDialog(e, this) }
+                }
+            }
+            .addOnFailureListener { e ->
+                runOnUiThread { showErrorDialog(e, this) }
+            }
+    }
+
+    private fun handleOcrSuccess(receipt: JsonReceipt) {
+        try {
+
+            //postReceiptToAPI(receipt, Api.endpoints.postReceipt)
+            //displaySnackBar(receipt)
+            receipt.httpMethod = HttpMethod.POST
+            val intent = Intent(
+                this@ScanPreviewActivity,
+                ReceiptDetailActivity::class.java
+            )
+            intent.putExtra("receipt", receipt)
+            startActivity(intent)
+
+        } catch (e: Exception) {
+            runOnUiThread { showErrorDialog(e, this) }
         }
-        builder.show()
+    }
+
+    private fun postReceiptToAPI(receipt: JsonReceipt, endPoint: String) {
+
+//        // Get the client
+//        val client = OkHttpClient()
+//
+//        //Create the request body with header
+//        val requestBody = receipt.toJson()
+//            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+//
+//        // Build the request
+//        val request = Request.Builder().url(endPoint).post(requestBody).build()
+//
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                showErrorDialog(e, this@ScanPreviewActivity)
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                if (!response.isSuccessful) {
+//                    showErrorDialog(
+//                        IOException("Error in response: ${response.code}"),
+//                        this@ScanPreviewActivity
+//                    )
+//                } else {
+//                    val intent = Intent(
+//                        this@ScanPreviewActivity,
+//                        ReceiptDetailActivity::class.java
+//                    )
+//                    intent.putExtra("receipt", receipt)
+//                    startActivity(intent)
+//                }
+//            }
+//        })
+    }
+
+    private fun displaySnackBar(receipt: JsonReceipt) {
+        // Inflate the custom Snackbar layout
+        val inflater = layoutInflater
+        val customSnackbarView =
+            inflater.inflate(ch.heigvd.scanalyze.R.layout.custom_snackbar_layout, null)
+
+        // Get the root view and add the custom Snackbar view to it
+        val rootView = findViewById<ViewGroup>(android.R.id.content)
+        val params = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        rootView.addView(customSnackbarView, params)
+
+        // Prepare the animation
+        val slideDown = TranslateAnimation(
+            Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, -1.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f
+        )
+        slideDown.duration = 500
+        slideDown.fillAfter = true
+
+        // Start the animation
+        customSnackbarView.startAnimation(slideDown)
+
+        // Hide the Snackbar after a delay
+        Handler(Looper.getMainLooper()).postDelayed({
+            rootView.removeView(customSnackbarView)
+
+        }, 2000)  // 2 seconds delay
     }
 }

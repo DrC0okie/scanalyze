@@ -7,4 +7,5 @@
     <color name="scanalyze_button_ripple">#BBFFFFFF</color>
     <color name="scanalyze_card_ripple">#66FFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="snackbar_baclground">#669900</color>
 </resources>

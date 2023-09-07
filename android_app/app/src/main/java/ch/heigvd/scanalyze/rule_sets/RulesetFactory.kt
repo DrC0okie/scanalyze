@@ -1,6 +1,6 @@
 package ch.heigvd.scanalyze.rule_sets
 
-import ch.heigvd.scanalyze.Shop
+import ch.heigvd.scanalyze.Shop.Shop
 import ch.heigvd.scanalyze.ocr.TextElement
 import java.lang.RuntimeException
 
