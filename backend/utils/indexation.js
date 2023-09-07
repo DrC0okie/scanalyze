@@ -5,7 +5,7 @@ const jw = require('jaro-winkler');
     All combo function use two algorithm and the functions suffixed with "price"
     also use the price to determine the best match
     All combo and triple function use a weighted average as result.
-    The triple function is currently being used in the index action as it is the most efficient option.
+    The triple function is currently being used in the index action as it is the most efficient function.
 */
 const single_levenshtein = (p1,p2) =>{
     return sc.levenshtein.similarity(p1.name,p2.name);
@@ -80,7 +80,7 @@ const test = (algo_name,algo_funct,targets,products,isFiltered) => {
         let filtered_products = isFiltered?  products.filter((el)=>{
             return el.actual_price == target.unit_price || el.actual_price == 0
         }) : products
-
+        //Loop trough all products and save the product if it has a better rating than current best product
         for(let product of filtered_products){
             const rating = algo_funct(target,product)
             if(best_product_value < rating){
@@ -88,6 +88,7 @@ const test = (algo_name,algo_funct,targets,products,isFiltered) => {
                 best_product_value = rating
             }
         }
+        //If the algorithm found the correct product add 1 to the score
         if(target.correct == best_product.id){
             correct+= 1;
             best_product.found = true;
