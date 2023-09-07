@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Scanalyze API
   description: Official Scanalyze API for PDG  module
-  version: 0.1.9
+  version: 1.0.0
 servers:
   - url: http://localhost:3000
     description: Local URL
@@ -236,8 +236,8 @@ paths:
     get:
       tags: 
         - statistics
-      summary: Returns a list of receipts.
-      description: Returns all receipts without it's product.
+      summary: Return statistics.
+      description: Returns statistics with a date range.
       parameters:
         - in: query
           name: from
