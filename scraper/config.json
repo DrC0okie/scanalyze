@@ -2,7 +2,7 @@
     "coop" : {
         "base_url" : "https://www.coop.ch/fr/nourriture/",
         "categories" : [
-            {"url":  "fruits-legumes/c/m_0001", "name":  "fruits-vegetables"},
+            {"url": "fruits-legumes/c/m_0001", "name":  "fruits-vegetables"},
             {"url": "viandes-poissons/c/m_0087","name": "meat-fish"},
             {"url": "boissons/eau-minerale/c/m_0263","name": "drinks" },
             {"url": "boissons/limonades/c/m_0266","name": "drinks"},
@@ -11,8 +11,22 @@
             {"url": "boissons-chaudes/c/m_0273","name": "drinks"},
             {"url": "boissons/cafes/c/m_0274","name": "drinks"},
             {"url": "produits-laitiers-oeufs/c/m_0055","name": "dairies-eggs"},
-            {"url": "https://www.coop.ch/fr/nourriture/boissons/boissons-lactees-froides/c/m_0060","name": "dairies-eggs"},
-            {"url": "https://www.coop.ch/fr/nourriture/pains-viennoiseries/c/m_0115","name": "bread"}
+            {"url": "boissons/boissons-lactees-froides/c/m_0060","name": "dairies-eggs"},
+            {"url": "pains-viennoiseries/pain-de-la-boulangerie/c/m_0119","name": "bread"},
+            {"url": "pains-viennoiseries/pains-durables/c/m_0116","name": "bread"},
+            {"url": "pains-viennoiseries/crackers-pain-croustillant/c/m_0135","name": "bread"},
+            {"url": "pains-viennoiseries/pate-et-base-pour-gateaux/c/m_9639","name": "bread"},
+            {"url" :"friandises-snacks/biscuits-sucres/c/m_0129", "name" :  "snacks"},
+            {"url" :"friandises-snacks/c/m_2506", "name" :  "snacks"},
+            {"url" :"garde-manger/aliments-de-base/c/m_0141", "name" :  "starches"},
+            {"url" :"garde-manger/ingredients-patisseries/c/m_0146", "name" :  "starches"},
+            {"url" :"garde-manger/vinaigres-huiles/c/m_2368", "name" :  "starches"},
+            {"url" :"garde-manger/bouillons-epices/c/m_0167", "name" :  "starches"},
+            {"url" :"garde-manger/sauces-pates-chaudes/c/m_0164", "name" :  "starches"},
+            {"url" :"garde-manger/sauces-a-salade-froides/c/m_1384", "name" :  "starches"},
+            {"url": "garde-manger/potages/c/m_0160", "name" : "convenience"},
+            {"url": "plats-cuisines/c/m_9744", "name" : "convenience"},
+            {"url":  "produits-surgeles/c/m_0202", "name": "frozen"}
         ],
         "worker" : "coop-worker.js"
 
@@ -31,7 +45,7 @@
             {"url": "boulangerie-patisserie-petit-dej/pains-frais", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
             {"url": "boulangerie-patisserie-petit-dej/patisseries", "name": "bread"},
-            {"url":  "boulangerie-patisserie-petit-dej/ingredients-pour-la-patisserie", "name":  "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/ingredients-pour-la-patisserie", "name":  "bread"},
             {"url": "boulangerie-patisserie-petit-dej/cereales-muesli", "name": "breakfast"},
             {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "breakfast"},
             {"url": "boulangerie-patisserie-petit-dej/confitures-pates-a-tartiner-miel", "name": "breakfast"},
@@ -45,17 +59,15 @@
     "aldi" :{
         "base_url" : "https://www.aldi-now.ch/fr",
         "categories" : [
-            "boissons-non-alcoolisées",
-            "boissons-alcoolisées",
-            "pain-&-produits-boulangers",
-            "viande-&-poisson",
-            "déjeuner",
-            "rayon-frais",
-            "produits-laitiers-et-œufs",
-            "fruits-&-légumes",
-            "sucreries-&-snacks",
-            "produits-surgelés",
-            "provisions"
+            {"url": "boissons-non-alcoolisées", "name": "drinks" },
+            {"url": "boissons-alcoolisées", "name": "drinks" },
+            {"url": "pain-&-produits-boulangers", "name" : "bread"},
+            {"url": "viande-&-poisson", "name": "meat-fish"},
+            {"url": "déjeuner", "name": "breakfast"},
+            {"url": "rayon-frais", "name": "convenience"},
+            {"url": "produits-laitiers-et-œufs", "name": "dairies-eggs" },
+            {"url": "fruits-&-légumes", "name": "fruits-vegetables"},
+            {"url": "produits-surgelés", "name": "frozen"}
         ],
         "worker" : "aldi-worker.js"
     },
