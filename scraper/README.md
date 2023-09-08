@@ -1,15 +1,22 @@
-# shop-scrapping
+# SCANALYZE API
 
-To install dependencies:
+Official scanalyze Scraper.
 
-```bash
-bun install
-```
+## GETTING STARTED
 
-To run:
+### Prerequisites
+- NodeJS  > v18.16.0. Download [here](https://nodejs.org/en/download)
 
-```bash
-bun run index.js
-```
+### Installation
 
-This project was created using `bun init` in bun v0.6.6. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+- Clone repository
+- Go inside root folder
+- Install dependencies by running :    ```npm install ```
+
+### Execution
+
+- Go inside src folder
+- Start scraper by running :    ```node index.js <shop_name> <file_name>.json ```
+
+## Informations
+Much information about how the categories are chosen and how the program functions can be found in [this folder](./SCRAPER.MD).
