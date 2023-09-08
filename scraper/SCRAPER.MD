@@ -10,4 +10,4 @@ It depends on the store. For each store, a list of items to be scanned is define
 
 In addition, we add the product category, which has been defined in advance according to the location on the website.
 
-You can find the list of the categories [here](../docs/project_management/categorization.md)
+You can find the list of the categories [here](../docs/categorization/categorization.md)
