@@ -77,7 +77,8 @@ Documentation :
 
 ### Android app
 
-Simply visit the application on scanalyze.ch and download the apk file directly to your Android phone. To install it, just click on install and you're ready to go.
+Simply visit the application on scanalyze.ch and download the apk file directly to your Android phone. To install it,
+just click on install and you're ready to go.
 
 ### Backend
 
@@ -102,3 +103,12 @@ contributions once it's mature and we are ready to manage it efficiently. If you
 notified when we are accepting external contributions, feel free to contact us.
 
 Thank you for understanding.
+
+Contacts :
+
+Anthony David : anthony.david@heig-vd.ch
+
+Jarod Streckheisen : jarod.streckeisen@heig-vd.ch
+
+Timothée Van Hove : timothee.vanhove@heig-vd.ch
+
