@@ -2,15 +2,17 @@
     "coop" : {
         "base_url" : "https://www.coop.ch/fr/nourriture/",
         "categories" : [
-            "fruits-legumes/c/m_0001",
-            "produits-laitiers-oeufs/c/m_0055",
-            "viandes-poissons/c/m_0087",
-            "pains-viennoiseries/c/m_0115",
-            "boissons/c/m_2242",
-            "garde-manger/c/m_0140",
-            "friandises-snacks/c/m_2506",
-            "produits-surgeles/c/m_0202",
-            "plats-cuisines/c/m_9744"
+            {"url":  "fruits-legumes/c/m_0001", "name":  "fruits-vegetables"},
+            {"url": "viandes-poissons/c/m_0087","name": "meat-fish"},
+            {"url": "boissons/eau-minerale/c/m_0263","name": "drinks" },
+            {"url": "boissons/limonades/c/m_0266","name": "drinks"},
+            {"url": "boissons/jus-de-fruits-legumes/c/m_0614","name": "drinks"},
+            {"url": "boissons/bieres/c/m_0260","name": "drinks"},
+            {"url": "boissons-chaudes/c/m_0273","name": "drinks"},
+            {"url": "boissons/cafes/c/m_0274","name": "drinks"},
+            {"url": "produits-laitiers-oeufs/c/m_0055","name": "dairies-eggs"},
+            {"url": "https://www.coop.ch/fr/nourriture/boissons/boissons-lactees-froides/c/m_0060","name": "dairies-eggs"},
+            {"url": "https://www.coop.ch/fr/nourriture/pains-viennoiseries/c/m_0115","name": "bread"}
         ],
         "worker" : "coop-worker.js"
 
@@ -18,15 +20,25 @@
     "migros" :{
         "base_url" : "https://www.migros.ch/fr/category",
         "categories" : [
-            "fruits-legumes",
-            "viandes-poissons",
-            "produits-laitiers-ufs-plats-prep",
-            "boulangerie-patisserie-petit-dej",
-            "pates-condiments-conserves",
-            "snacks-confiseries",
-            "surgeles",
-            "boissons-cafe-the",
-            "vins-bieres-spiritueux"
+            {"url": "fruits-legumes", "name": "fruits-vegetables"},
+            {"url": "viandes-poissons", "name": "meat-fish"},
+            {"url": "produits-laitiers-ufs-plats-prep/lait-beurre-ufs", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/fromages", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/yogourts-desserts", "name": "dairies-eggs"},
+            {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "dairies-eggs"},
+            {"url": "vins-bieres-spiritueux", "name": "drinks"},
+            {"url": "boissons-cafe-the", "name": "drinks"},
+            {"url": "boulangerie-patisserie-petit-dej/pains-frais", "name": "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/pains-biscottes", "name": "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/patisseries", "name": "bread"},
+            {"url":  "boulangerie-patisserie-petit-dej/ingredients-pour-la-patisserie", "name":  "bread"},
+            {"url": "boulangerie-patisserie-petit-dej/cereales-muesli", "name": "breakfast"},
+            {"url": "produits-laitiers-ufs-plats-prep/alternatives-veganes-aux-produit", "name": "breakfast"},
+            {"url": "boulangerie-patisserie-petit-dej/confitures-pates-a-tartiner-miel", "name": "breakfast"},
+            {"url": "surgeles", "name": "frozen"},
+            {"url": "produits-laitiers-ufs-plats-prep/plats-prepares", "name": "convenience"},
+            {"url": "pates-condiments-conserves", "name": "starches"},
+            {"url": "snacks-confiseries", "name": "snacks"}
         ],
         "worker" : "migros-worker.js"
     },
@@ -54,5 +66,5 @@
         ],
         "worker" : "lidl-worker.js"
     }
-    
+
 }
