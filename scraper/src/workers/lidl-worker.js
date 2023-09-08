@@ -11,7 +11,7 @@ const run = async (cat) => {
   let no_page = 1;
   const browser = await puppeteer.launch({
     executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe",
-    headless: false
+    headless: true
   });
   const page = await browser.newPage();
 

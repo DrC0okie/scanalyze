@@ -3,8 +3,6 @@ import { workerData, parentPort } from 'worker_threads';
 
 let products = []
 console.log("URL : " + workerData.base_url);
-// console.log("CAT : " + workerData.categories.url);
-console.log("length :" + workerData.categories.length);
 
 const run = async (cat) => {
   let cat_products = [];
