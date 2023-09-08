@@ -3,7 +3,7 @@ import { workerData, parentPort } from 'worker_threads';
 
 let products = []
 console.log("URL : " + workerData.base_url);
-console.log("CAT : " + workerData.categories);
+// console.log("CAT : " + workerData.categories);
 
 const run = async (cat) => {
     let cat_products = [];
@@ -18,12 +18,12 @@ const run = async (cat) => {
 
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4427.0 Safari/537.36');
 
-    await page.goto(workerData.base_url + "/" + cat + "?ipp=72");
+    await page.goto(workerData.base_url + "/" + cat.url + "?ipp=72");
 
     //product-item__name
     do {
         await page.waitForSelector('.product-list');
-        const current_products = await page.evaluate(async () => {
+        const current_products = await page.evaluate(async (cat) => {
             let names = document.getElementsByClassName("product-item__name");
             let prices = document.getElementsByClassName("money-price");
             let products = []
@@ -32,12 +32,13 @@ const run = async (cat) => {
                 products.push(
                     {
                         name: names[i] != null ? names[i].innerText : "Placeholder",
-                        price: prices[i] != null ? prices[i].innerText : 0
+                        price: prices[i] != null ? prices[i].innerText : 0,
+                        category: cat.name
                     }
                 );
             }
             return products
-        })
+        }, cat)
         cat_products = cat_products.concat(current_products);
 
         await page.waitForSelector("a.pagination__step--next", { timeout: 8000 }).then(async () => {
@@ -59,7 +60,7 @@ for (let i = 0; i < workerData.categories.length; i++) {
     let prods = await run(workerData.categories[i]).catch(err => {
         console.log(err);
     });
-    console.log("Finished fetching  " + prods.length + " product(s) in " + workerData.categories[i] + " category");
+    console.log("Finished fetching  " + prods.length + " product(s) in " + workerData.categories[i].name + " category");
     products = products.concat(prods);
 }
 
