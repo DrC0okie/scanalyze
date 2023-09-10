@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Click listeners of the 3 main buttons
         binding.buttonStats.setOnClickListener {
             startActivity(Intent(this, StatsActivity::class.java))
         }

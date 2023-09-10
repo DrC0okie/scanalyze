@@ -85,3 +85,9 @@ If you plan to use our deployment pipeline, please [contact](timothee.vanhove@he
 storeFile=..\\scanalyze-release-key.jks
 ```
 
+
+
+# Just want to test the app?
+
+go to [scanalyze.ch](scanalyze.ch), download the APK and test by yourself!
+**Important** The application does not yet support user accounts! All the data sent to and received from our severs is not linked to individual users, so your data will be publicly visible by all users.

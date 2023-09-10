@@ -49,24 +49,22 @@ class ReceiptActivity : AppCompatActivity() {
         }, this)
 
 
-        // Get the data from the api on swipe to refresh
+        // Get the data from the api on "swipe to refresh"
         binding.swipeRefreshLayout.setOnRefreshListener {
-            //Get the data from the api
+
             getReceiptsOverview(object : ApiCallback {
                 override fun onSuccess(response: String) {
-                    // parse the received json
+
                     apiResponse = gson.fromJson(response, ApiResponse::class.java)
 
-                    // Once we have the data, populate the recycleView
                     runOnUiThread {
-                        //Sort the receipts
+
                         val receipts =
                             apiResponse.receipts.sortedByDescending { it.date }.toTypedArray()
 
-                        //feed the adapter
                         recyclerView.adapter = ReceiptAdapter(receipts)
 
-                        //Stops the spinning wheel
+                        //Stop the spinning wheel
                         binding.swipeRefreshLayout.isRefreshing = false
                     }
                 }

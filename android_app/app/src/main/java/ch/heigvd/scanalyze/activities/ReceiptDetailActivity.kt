@@ -36,13 +36,12 @@ class ReceiptDetailActivity : AppCompatActivity() {
         //Get the receipt from previous activity
         val receiptOverview: Receipt? = intent.getParcelableExtra("receipt")
 
-        //Init Gson
         gson = Gson()
 
         if (receiptOverview != null) {
-
             initView(receiptOverview)
 
+            // Depending on the received data, GET or POST the API
             if (receiptOverview.httpMethod != null && receiptOverview.httpMethod == HttpMethod.POST) {
                 postData(receiptOverview)
             }else{
@@ -56,14 +55,14 @@ class ReceiptDetailActivity : AppCompatActivity() {
         receiptId = receipt.id
 
         with(binding) {
+
             // Display the receipt image if it exists
             if (!receipt.imgFilePath.isNullOrEmpty()) {
                 bitmap = BitmapFactory.decodeFile(receipt.imgFilePath)
                 bitmapFile = File(receipt.imgFilePath!!)
                 imageViewScannedImage.setImageBitmap(bitmap)
             }
-
-            try {
+            try {   //Set the view elements
                 textViewDetailDate.text = LocalDateTime
                     .parse(receipt.date, DateTimeFormatter.ISO_DATE_TIME)
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
@@ -76,6 +75,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
             imageViewDetailShopIcon.setImageResource(
                 Shop.func.fromString(receipt.shopName).resourceImage)
 
+            // Feed the adapter
             recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(receipt)
         }
     }
@@ -83,7 +83,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        // Delete the bitmap show after the scan
+        // Delete the bitmap shown after the scan
         Log.e("ReceiptDetail", "Destroying bitmap file")
         bitmapFile?.delete()
     }
@@ -98,7 +98,7 @@ class ReceiptDetailActivity : AppCompatActivity() {
                 // parse the received json
                 apiResponse = gson.fromJson(response, ApiResponse::class.java)
 
-                // Once we have the data, populate the recycleView
+                // Once we have the response, populate the recycleView with data
                 runOnUiThread {
                     binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
                 }
@@ -111,13 +111,12 @@ class ReceiptDetailActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        //Get the data from the api
+
         Api.getReceiptDetail(receiptId, object : ApiCallback {
             override fun onSuccess(response: String) {
                 // parse the received json
                 apiResponse = gson.fromJson(response, ApiResponse::class.java)
 
-                // Once we have the data, populate the recycleView
                 runOnUiThread {
                     binding.recyclerViewDetailReceipts.adapter = ReceiptDetailAdapter(apiResponse.receiptDetail)
                 }

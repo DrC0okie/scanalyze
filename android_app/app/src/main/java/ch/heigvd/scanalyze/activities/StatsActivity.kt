@@ -47,7 +47,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     )
 
-    // define the API callback implementation
+    // API callback implementation
     private val callback = object : ApiCallback {
         override fun onSuccess(response: String) {
             // parse the received json
@@ -99,7 +99,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             buttonInterval.setOnClickListener { showDatePicker(activityTimeUnit) }
         }
 
-        //Init the filter to Month
+        //Init the default date filter
         activityTimeUnit = TimeUnit.MONTH
 
         //Initialize the begin-end variables
@@ -143,8 +143,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             TimeUnit.MONTH -> {
                 // Get the last 9 years to be displayed on the fragment
                 val availableYears = ArrayList(List(9) { i -> LocalDateTime.now().year - i })
-                val ypf =
-                    YearPickerFragment.newInstance(availableYears)
+                val ypf = YearPickerFragment.newInstance(availableYears)
                 ypf.mListener = this
                 ypf.show(supportFragmentManager, "YearPickerFragment")
             }
@@ -193,13 +192,13 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
     private fun reinitializeDates(timeUnit: TimeUnit) {
         end = LocalDateTime.now()
         begin = when (timeUnit) {
-            TimeUnit.WEEK -> end.minusWeeks(12)
+            TimeUnit.WEEK -> end.minusWeeks(12) // Take the last 12 weeks
             TimeUnit.MONTH -> {
-                // we subtract 1 year from now
+                // Take the last year
                 LocalDateTime.of(end.year, end.month, 1, 0, 0, 0).minusMonths(11)
             }
 
-            TimeUnit.YEAR -> {end.minusYears(10)}
+            TimeUnit.YEAR -> {end.minusYears(10)} // Take the last 10 years
         }
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         binding.textViewTimeIntervalBegin.text = begin.format(formatter)
@@ -284,7 +283,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
         val aggregatedData = mutableMapOf<String, Float>()
 
         // Initialize weeks with 0.0 based on the range between startWeek and endWeek
-        // This way we handle the year transition
+        // Handle the year transition
         var current = begin
         while (!current.isAfter(end)) {
             val week = current.get(WeekFields.ISO.weekOfWeekBasedYear())
@@ -323,11 +322,10 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             totalInterval += entry.second
         }
 
-        //Display accumulated total
-
+        //Init data set
         val barDataSet = BarDataSet(barEntries, "Spending")
 
-        // format and set dataset
+        // format the dataset
         barDataSet.color = resources.getColor(R.color.scanalyze_purple)
         barDataSet.valueTextColor = Color.WHITE
         barDataSet.valueTextSize = 10f
@@ -335,7 +333,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
 
         with(binding) {
 
-            //Format and set UI
+            //Format the UI
             textViewTotal.text = String.format("%.2f", totalInterval)
             barChartSpending.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
             textViewChartDescr.text = "Spending by ${activityTimeUnit.name.lowercase()}"
@@ -365,6 +363,7 @@ class StatsActivity : AppCompatActivity(), OnDateRangeSelectedListener, OnYearSe
             pieEntries.add(PieEntry(value, key))
         }
 
+        // Init the dataset
         val pieDataSet = PieDataSet(pieEntries, "")
         val pieData = PieData(pieDataSet)
 

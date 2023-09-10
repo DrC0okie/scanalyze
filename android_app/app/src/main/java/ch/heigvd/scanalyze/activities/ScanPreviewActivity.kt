@@ -36,10 +36,10 @@ class ScanPreviewActivity : AppCompatActivity() {
         binding = ActivityScanPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.buttonCapture.setOnClickListener { tryCaptureImage() }
+
         initializeOpenCV()
         initializeCamera()
-
-        binding.buttonCapture.setOnClickListener { tryCaptureImage() }
     }
 
     private fun initializeCamera() {
@@ -68,8 +68,7 @@ class ScanPreviewActivity : AppCompatActivity() {
         // Take the photo, save it, and perform analysis
         capture.takePicture(
             ImageCapture.OutputFileOptions.Builder(file).build(),
-            executor,
-            object : ImageCapture.OnImageSavedCallback {
+            executor, object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     analyzeImage(file)
                 }
@@ -150,23 +149,19 @@ class ScanPreviewActivity : AppCompatActivity() {
                     val receipt = visionText.toReceipt()
 
                     receipt.imgFilePath = imagePath.absolutePath
-
                     handleOcrSuccess(receipt)
                 } catch (e: Exception) {
                     runOnUiThread { showErrorDialog(e, this) }
                 }
-
             }.addOnFailureListener { e -> runOnUiThread { showErrorDialog(e, this) } }
     }
 
     private fun handleOcrSuccess(receipt: Receipt) {
         try {
             receipt.httpMethod = HttpMethod.POST
-
+            // Start the receipt detail activity on OCR success
             val intent = Intent(this, ReceiptDetailActivity::class.java)
-
             intent.putExtra("receipt", receipt)
-
             startActivity(intent)
         } catch (e: Exception) {
             runOnUiThread { showErrorDialog(e, this) }

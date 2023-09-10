@@ -84,6 +84,7 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
     var receiptDate = ""
     val ruleset = RulesetFactory.create(lines)
 
+    // Parse each text line and retrieve the important data (date, products prices)
     lines@for (line in lines) {
         val productName = StringBuilder("")
         val prices: MutableList<Float> = ArrayList()
@@ -126,10 +127,16 @@ private fun generateReceipt(lines: List<List<TextElement>>): Receipt {
     return Receipt("0", receiptDate, ruleset.getDateTimeNow(), ruleset.shop.shopName.lowercase(), "", products.toTypedArray(), 0f)
 }
 
+/**
+ * determines if a range overlaps another range
+ */
 private fun isOverlap(r1: IntRange, r2: IntRange): Boolean {
     return r1.first <= r2.last && r1.last >= r2.first
 }
 
+/**
+ * Reduce a range by a given rate
+ */
 private fun IntRange.reduceY(percent: Int): IntRange {
     val centerY = (first + last) / 2
     val halfHeight = abs(last - first) * (percent / 200.0)

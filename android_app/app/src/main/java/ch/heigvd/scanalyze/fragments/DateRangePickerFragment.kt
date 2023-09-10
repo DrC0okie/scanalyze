@@ -45,6 +45,7 @@ class DateRangePickerFragment : DialogFragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_date_range_picker, container, false)
 
+        //TODO: Implement a binding
         currentYearTextView = rootView.findViewById(R.id.text_view_current_year)
         decrementButton = rootView.findViewById(R.id.button_decrement_year)
         incrementButton = rootView.findViewById(R.id.button_increment_year)
@@ -92,7 +93,6 @@ class DateRangePickerFragment : DialogFragment() {
             selectedMonthRange = 10..12
             notifyDateSelected()
         }
-
         return rootView
     }
 
@@ -105,7 +105,6 @@ class DateRangePickerFragment : DialogFragment() {
             in 10..12 -> 10..12
             else -> 1..3
         }
-
         updateView(currentMonth, currentYear)
     }
 
@@ -126,8 +125,8 @@ class DateRangePickerFragment : DialogFragment() {
     }
 
     private fun updateButtonBorders(currentMonth: Int, selectedYear: Int, currentYear: Int) {
-        // Disable future intervals
 
+        // Disable future intervals
         janMarButton.isVisible = currentYear > selectedYear
         aprJunButton.isVisible = currentYear > selectedYear
         julSepButton.isVisible = currentYear > selectedYear

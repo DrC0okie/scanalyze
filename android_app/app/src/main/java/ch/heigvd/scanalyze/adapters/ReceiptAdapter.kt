@@ -11,7 +11,9 @@ import ch.heigvd.scanalyze.receipt.Receipt
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
+/**
+ * Provide a binding from an array of Receipt to views that are displayed within the RecyclerView.
+ */
 class ReceiptAdapter(private val receipts: Array<Receipt>) :
     RecyclerView.Adapter<ReceiptAdapter.ViewHolder>() {
 
@@ -19,6 +21,7 @@ class ReceiptAdapter(private val receipts: Array<Receipt>) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
+            // Set the click listener of each element of the list
             itemView.setOnClickListener {
                 val context = itemView.context
                 val receipt = receipts[bindingAdapterPosition]

@@ -16,6 +16,4 @@ class Receipt(
     @SerializedName("total") val total: Float?,
     @Transient var imgFilePath: String? = "",
     @Transient var httpMethod: HttpMethod? = HttpMethod.GET
-) : Parcelable {
-
-}
+) : Parcelable

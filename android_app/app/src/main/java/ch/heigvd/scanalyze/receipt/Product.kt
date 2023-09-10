@@ -11,5 +11,4 @@ data class Product(
     @SerializedName("unit_price")val unitPrice: Float,
     @SerializedName("discount_amount")val discount: Float,
     @SerializedName("total_price")val totalPrice: Float
-): Parcelable {
-}
+): Parcelable

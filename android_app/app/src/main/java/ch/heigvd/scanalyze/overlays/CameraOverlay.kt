@@ -9,6 +9,10 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 
+/**
+ * Used to draw visual guide on the camera preview
+ * Not used yet
+ */
 class CameraOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paintLines = Paint()

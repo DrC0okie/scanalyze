@@ -7,6 +7,9 @@ import ch.heigvd.scanalyze.databinding.ItemReceiptDetailBinding
 import ch.heigvd.scanalyze.receipt.Product
 import ch.heigvd.scanalyze.receipt.Receipt
 
+/**
+ * Provide a binding from a Receipt to views that are displayed within the RecyclerView.
+ */
 class ReceiptDetailAdapter(private val receipt: Receipt?) :
     RecyclerView.Adapter<ReceiptDetailAdapter.ViewHolder>() {
 
