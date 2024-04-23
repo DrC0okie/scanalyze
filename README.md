@@ -1,7 +1,14 @@
 # scanalyze
 
+[](docs/design/logo/scanalyze_two-tone_light-bg.png)
+
+
 Scanalyze is a group project developed as part of the PDG module at the HEIG-VD Engineering school. The project was
 initiated by Anthony David, Jarod Streckeisen and Timothée Van Hove.
+
+> [!IMPORTANT]  
+> This project is no longer maintained. All services have been shut down and all data associed to them have been erased.
+> The website and API are no longer working, in consequence, the Android app is no longer functionnal as it relies on the API.
 
 ## Description
 
